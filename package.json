@@ -1,0 +1,48 @@
+{
+  "name": "material-ui-confirm",
+  "version": "1.0.0",
+  "description": "Simple confirmation dialog for @material-ui/core.",
+  "keywords": [
+    "Material UI",
+    "confirmation"
+  ],
+  "author": "Jonatan Kłosko",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonatanklosko/material-ui-confirm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jonatanklosko/material-ui-confirm/issues"
+  },
+  "homepage": "https://github.com/jonatanklosko/material-ui-confirm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonatanklosko/material-ui-confirm.git"
+  },
+  "main": "dist/material-ui-confirm.cjs.js",
+  "module": "dist/material-ui-confirm.esm.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "postversion": "git push && git push --tags",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "@material-ui/core": "^3.9.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "rollup": "^1.11.3",
+    "rollup-plugin-babel": "^4.3.2"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "@material-ui/core": "^3.0.0"
+  }
+}
