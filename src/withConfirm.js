@@ -6,33 +6,66 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+const defaultOptions = {
+  title: 'Are you sure?',
+  message: '',
+  confirmationText: 'Ok',
+  cancelationText: 'Cancel',
+  dialogProps: {},
+  onClose: () => {},
+  onCancel: () => {},
+};
+
 const withConfirm = WrappedComponent => props => {
   const [onConfirm, setOnConfirm] = useState(null);
-  const [message, setMessage] = useState('');
-  const closeDialog = useCallback(() => setOnConfirm(null), []);
-  const confirmAndCloseDialog = useCallback((...args) => {
+  const [options, setOptions] = useState(defaultOptions);
+  const {
+    title,
+    message,
+    confirmationText,
+    cancelationText,
+    dialogProps,
+    onClose,
+    onCancel
+  } = options;
+
+  const handleClose = useCallback(() => {
+    onClose();
+    setOnConfirm(null);
+  }, [onClose]);
+  const handleCancel = useCallback(() => {
+    onCancel();
+    handleClose();
+  }, [onCancel, handleClose]);
+  const handleConfirm = useCallback((...args) => {
     onConfirm(...args);
-    closeDialog();
-  }, [onConfirm]);
-  const confirm = useCallback((onConfirm, message) => () => {
+    handleClose();
+  }, [onConfirm, handleClose]);
+
+  /* Function opening the dialog, passed to the wrapped component. */
+  const confirm = useCallback((onConfirm, options = {}) => () => {
     setOnConfirm(() => onConfirm);
-    setMessage(message);
+    setOptions({ ...defaultOptions, ...options });
   }, []);
 
   return (
     <Fragment>
       <WrappedComponent {...props} confirm={confirm} />
-      <Dialog open={!!onConfirm} onClose={closeDialog} fullWidth>
-        <DialogTitle>Are you sure?</DialogTitle>
-        <DialogContent>
-          <DialogContentText>{message}</DialogContentText>
-        </DialogContent>
+      <Dialog fullWidth {...dialogProps} open={!!onConfirm} onClose={handleCancel}>
+        {title && (
+          <DialogTitle>{title}</DialogTitle>
+        )}
+        {message && (
+          <DialogContent>
+            <DialogContentText>{message}</DialogContentText>
+          </DialogContent>
+        )}
         <DialogActions>
-          <Button onClick={closeDialog}>
-            No
+          <Button onClick={handleCancel}>
+            {cancelationText}
           </Button>
-          <Button onClick={confirmAndCloseDialog} color="primary">
-            Yes
+          <Button onClick={handleConfirm} color="primary">
+            {confirmationText}
           </Button>
         </DialogActions>
       </Dialog>

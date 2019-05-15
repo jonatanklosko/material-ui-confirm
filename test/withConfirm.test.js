@@ -7,7 +7,7 @@ describe('withConfirm', () => {
   const handleClick = jest.fn();
   const TestComponent = ({ confirm }) => {
     return (
-      <button onClick={confirm(handleClick, 'This will permanently remove the item.')}>
+      <button onClick={confirm(handleClick, { message: 'This will permanently remove the item.' })}>
         Delete
       </button>
     );
