@@ -42,7 +42,7 @@ describe('withConfirm', () => {
         <TestComponentWithConfirm confirmOptions={{
           title: 'Remove this item?',
           description: 'This will permanently remove the item.',
-          cancelationText: 'No way',
+          cancellationText: 'No way',
           confirmationText: 'Yessir',
         }} />
       );

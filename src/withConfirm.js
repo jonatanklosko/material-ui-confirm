@@ -10,7 +10,7 @@ const defaultOptions = {
   title: 'Are you sure?',
   description: '',
   confirmationText: 'Ok',
-  cancelationText: 'Cancel',
+  cancellationText: 'Cancel',
   dialogProps: {},
   onClose: () => {},
   onCancel: () => {},
@@ -23,7 +23,7 @@ const withConfirm = WrappedComponent => props => {
     title,
     description,
     confirmationText,
-    cancelationText,
+    cancellationText,
     dialogProps,
     onClose,
     onCancel
@@ -62,7 +62,7 @@ const withConfirm = WrappedComponent => props => {
         )}
         <DialogActions>
           <Button onClick={handleCancel}>
-            {cancelationText}
+            {cancellationText}
           </Button>
           <Button onClick={handleConfirm} color="primary">
             {confirmationText}

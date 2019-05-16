@@ -23,7 +23,7 @@ const WithCustomText = withConfirm(({ confirm }) => (
     title: 'Reset setting?',
     description: 'This will reset your device to its default factory settings.',
     confirmationText: 'Accept',
-    cancelationText: 'Cancel',
+    cancellationText: 'Cancel',
   })}>
     Click
   </Button>

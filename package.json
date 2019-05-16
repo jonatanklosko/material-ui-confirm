@@ -1,10 +1,11 @@
 {
   "name": "material-ui-confirm",
   "version": "1.0.0",
-  "description": "Simple confirmation dialog for @material-ui/core.",
+  "description": "Higher order component for straightforward use of @material-ui/core confirmation dialogs.",
   "keywords": [
     "Material UI",
-    "confirmation"
+    "confirmation",
+    "dialog"
   ],
   "author": "Jonatan Kłosko",
   "license": "MIT",
