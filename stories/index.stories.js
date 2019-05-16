@@ -12,8 +12,8 @@ const Basic = withConfirm(({ confirm }) => (
   </Button>
 ));
 
-const WithMessage = withConfirm(({ confirm }) => (
-  <Button onClick={confirm(confirmedAction, { message: 'This action is permanent!' })}>
+const WithDescription = withConfirm(({ confirm }) => (
+  <Button onClick={confirm(confirmedAction, { description: 'This action is permanent!' })}>
     Click
   </Button>
 ));
@@ -21,7 +21,7 @@ const WithMessage = withConfirm(({ confirm }) => (
 const WithCustomText = withConfirm(({ confirm }) => (
   <Button onClick={confirm(confirmedAction, {
     title: 'Reset setting?',
-    message: 'This will reset your device to its default factory settings.',
+    description: 'This will reset your device to its default factory settings.',
     confirmationText: 'Accept',
     cancelationText: 'Cancel',
   })}>
@@ -48,7 +48,7 @@ const WithDialogProps = withConfirm(({ confirm }) => (
 
 storiesOf('withConfirm', module)
   .add('basic', () => <Basic />)
-  .add('with message', () => <WithMessage />)
+  .add('with description', () => <WithDescription />)
   .add('with custom text', () => <WithCustomText />)
   .add('with custom dialog props', () => <WithDialogProps />)
   .add('with custom callbacks', () => <WithCustomCallbacks />);

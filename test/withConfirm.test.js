@@ -41,7 +41,7 @@ describe('withConfirm', () => {
       const wrapper = mount(
         <TestComponentWithConfirm confirmOptions={{
           title: 'Remove this item?',
-          message: 'This will permanently remove the item.',
+          description: 'This will permanently remove the item.',
           cancelationText: 'No way',
           confirmationText: 'Yessir',
         }} />

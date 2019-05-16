@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const defaultOptions = {
   title: 'Are you sure?',
-  message: '',
+  description: '',
   confirmationText: 'Ok',
   cancelationText: 'Cancel',
   dialogProps: {},
@@ -21,7 +21,7 @@ const withConfirm = WrappedComponent => props => {
   const [options, setOptions] = useState(defaultOptions);
   const {
     title,
-    message,
+    description,
     confirmationText,
     cancelationText,
     dialogProps,
@@ -55,9 +55,9 @@ const withConfirm = WrappedComponent => props => {
         {title && (
           <DialogTitle>{title}</DialogTitle>
         )}
-        {message && (
+        {description && (
           <DialogContent>
-            <DialogContentText>{message}</DialogContentText>
+            <DialogContentText>{description}</DialogContentText>
           </DialogContent>
         )}
         <DialogActions>
