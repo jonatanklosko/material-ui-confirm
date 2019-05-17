@@ -42,7 +42,7 @@ const withConfirm = WrappedComponent => props => {
     handleClose();
   }, [onConfirm, handleClose]);
 
-  /* Function opening the dialog, passed to the wrapped component. */
+  /* Returns function opening the dialog, passed to the wrapped component. */
   const confirm = useCallback((onConfirm, options = {}) => () => {
     setOnConfirm(() => onConfirm);
     setOptions({ ...defaultOptions, ...options });
