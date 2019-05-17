@@ -1,6 +1,6 @@
 {
   "name": "material-ui-confirm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Higher order component for straightforward use of @material-ui/core confirmation dialogs.",
   "keywords": [
     "Material UI",
