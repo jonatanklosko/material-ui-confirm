@@ -8,6 +8,10 @@ Higher order component for straightforward use of [@material-ui/core](https://ma
 npm install --save material-ui-confirm
 ```
 
+## Demo
+
+[![Edit material-ui-confirm demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/materialuiconfirm-demo-hzzdr?fontsize=14)
+
 ## Usage
 
 ```js
@@ -31,7 +35,7 @@ export default withConfirm(Item);
 ## API
 
 #### `withConfirm(Component)`
-Returns Component adding `confirm` to its props.
+Returns Component adding the `confirm` function to its props.
 
 #### `confirm(onConfirm, options)`
 Returns a function that opens the confirmation dialog once called.
