@@ -81,4 +81,28 @@ describe('withConfirm', () => {
       expect(onClose).toHaveBeenCalled();
     });
   });
+
+  test('properly passes arguments to the confirmation callback', () => {
+    const handleClick = jest.fn();
+    const CustomButton = ({ onClick, ...props }) => {
+      return (
+        <button {...props} onClick={_event => onClick('arg1', 'arg2')} />
+      );
+    };
+    const TestComponent = ({ confirmOptions, confirm }) => {
+      return (
+        <CustomButton onClick={confirm(handleClick, confirmOptions)}>
+          Delete
+        </CustomButton>
+      );
+    };
+    const TestComponentWithConfirm = withConfirm(TestComponent);
+    const wrapper = mount(<TestComponentWithConfirm />);
+    expect(wrapper.find('Dialog').props().open).toBe(false);
+    wrapper.find('button[children="Delete"]').simulate('click');
+    expect(wrapper.find('Dialog').props().open).toBe(true);
+    wrapper.find('Button[children="Ok"]').simulate('click');
+    expect(handleClick).toHaveBeenCalledWith('arg1', 'arg2');
+    expect(wrapper.find('Dialog').props().open).toBe(false);
+  });
 });

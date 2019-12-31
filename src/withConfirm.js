@@ -19,6 +19,7 @@ const defaultOptions = {
 const withConfirm = WrappedComponent => props => {
   const [onConfirm, setOnConfirm] = useState(null);
   const [options, setOptions] = useState(defaultOptions);
+  const [args, setArgs] = useState([]);
   const {
     title,
     description,
@@ -37,15 +38,16 @@ const withConfirm = WrappedComponent => props => {
     onCancel();
     handleClose();
   }, [onCancel, handleClose]);
-  const handleConfirm = useCallback((...args) => {
+  const handleConfirm = useCallback(() => {
     onConfirm(...args);
     handleClose();
-  }, [onConfirm, handleClose]);
+  }, [onConfirm, args, handleClose]);
 
   /* Returns function opening the dialog, passed to the wrapped component. */
-  const confirm = useCallback((onConfirm, options = {}) => () => {
+  const confirm = useCallback((onConfirm, options = {}) => (...args) => {
     setOnConfirm(() => onConfirm);
     setOptions({ ...defaultOptions, ...options });
+    setArgs(args);
   }, []);
 
   return (
