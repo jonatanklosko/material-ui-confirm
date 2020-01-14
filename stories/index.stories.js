@@ -1,52 +1,81 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import Button from '@material-ui/core/Button';
-import { storiesOf } from '@storybook/react';
-import withConfirm from '../src/withConfirm';
+import { storiesOf, addDecorator } from '@storybook/react';
+import { ConfirmProvider, useConfirm } from '../src/index';
 
-const confirmedAction = action('confirmed');
+const confirmationAction = action('confirmed');
 
-const Basic = withConfirm(({ confirm }) => (
-  <Button onClick={confirm(confirmedAction)}>
-    Click
-  </Button>
-));
+const Basic = () => {
+  const confirm = useConfirm();
+  return (
+    <Button onClick={() => confirm().then(confirmationAction)}>
+      Click
+    </Button>
+  );
+};
 
-const WithDescription = withConfirm(({ confirm }) => (
-  <Button onClick={confirm(confirmedAction, { description: 'This action is permanent!' })}>
-    Click
-  </Button>
-));
+const WithDescription = () => {
+  const confirm = useConfirm();
+  return (
+    <Button onClick={() =>
+      confirm({ description: 'This action is permanent!' })
+        .then(confirmationAction)
+    }>
+      Click
+    </Button>
+  );
+};
 
-const WithCustomText = withConfirm(({ confirm }) => (
-  <Button onClick={confirm(confirmedAction, {
-    title: 'Reset setting?',
-    description: 'This will reset your device to its default factory settings.',
-    confirmationText: 'Accept',
-    cancellationText: 'Cancel',
-  })}>
-    Click
-  </Button>
-));
+const WithCustomText = () => {
+  const confirm = useConfirm();
+  return (
+    <Button onClick={() =>
+      confirm({
+        title: 'Reset setting?',
+        description: 'This will reset your device to its factory settings.',
+        confirmationText: 'Accept',
+        cancellationText: 'Cancel',
+      })
+      .then(confirmationAction)
+    }>
+      Click
+    </Button>
+  );
+};
 
-const WithCustomCallbacks = withConfirm(({ confirm }) => (
-  <Button onClick={confirm(confirmedAction, {
-    onClose: action('closed'),
-    onCancel: action('canceled'),
-  })}>
-    Click
-  </Button>
-));
+const WithDialogProps = () => {
+  const confirm = useConfirm();
+  return (
+    <Button onClick={() =>
+      confirm({
+        dialogProps: { fullWidth: false, disableEscapeKeyDown: true },
+      })
+      .then(confirmationAction)
+    }>
+      Click
+    </Button>
+  );
+};
 
-const WithDialogProps = withConfirm(({ confirm }) => (
-  <Button onClick={confirm(confirmedAction, {
-    dialogProps: { fullWidth: false, disableEscapeKeyDown: true },
-  })}>
-    Click
-  </Button>
-));
+const WithCustomCallbacks = () => {
+  const confirm = useConfirm();
+  return (
+    <Button onClick={() =>
+      confirm()
+        .then(confirmationAction)
+        .catch(action('cancelled'))
+        .finally(action('closed'))
+    }>
+      Click
+    </Button>
+  );
+};
 
 storiesOf('withConfirm', module)
+  .addDecorator(getStory => (
+    <ConfirmProvider>{getStory()}</ConfirmProvider>
+  ))
   .add('basic', () => <Basic />)
   .add('with description', () => <WithDescription />)
   .add('with custom text', () => <WithCustomText />)
