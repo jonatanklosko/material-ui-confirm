@@ -7,7 +7,7 @@ export default {
     { file: pkg.main, format: 'cjs' },
     { file: pkg.module, format: 'esm' },
   ],
-  external: id => !id.startsWith('.'),
+  external: ['react', '@material-ui/core'],
   plugins: [
     babel({ exclude: 'node_modules/**' })
   ]
