@@ -1,6 +1,9 @@
 # Material-UI confirm [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jonatanklosko/material-ui-confirm/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/material-ui-confirm.svg)](https://www.npmjs.com/package/material-ui-confirm) [![Build Status](https://travis-ci.org/jonatanklosko/material-ui-confirm.svg?branch=master)](https://travis-ci.org/jonatanklosko/material-ui-confirm) [![Coverage Status](https://coveralls.io/repos/github/jonatanklosko/material-ui-confirm/badge.svg?branch=master)](https://coveralls.io/github/jonatanklosko/material-ui-confirm?branch=master)
 
-Straightforward use of [@material-ui/core](https://material-ui.com/) confirmation dialogs with React Hooks.
+> Confirming user choice is a good thing to do, it should also be easy to do.
+
+This package provides simple confirmation dialogs built on top of [@material-ui/core](https://material-ui.com/)
+and straightforward to use thanks to React Hooks.
 
 ## Installation
 
@@ -32,7 +35,7 @@ const App = () => {
 export default App;
 ```
 
-Call the `useConfirm` hook to get the `confirm` function.
+Call the `useConfirm` hook wherever you need the `confirm` function.
 
 ```js
 import React from 'react';
@@ -61,15 +64,16 @@ export default Item;
 
 #### `ConfirmProvider`
 
-A component required to render a dialog in the component tree.
+This component is required in order to render a dialog in the component tree.
 
 #### `useConfirm() => confirm`
 
-A hook returning the `confirm` function.
+This hook returns the `confirm` function.
 
 #### `confirm([options]) => Promise`
 
-Opens a confirmation dialog and returns a promise representing the user choice (resolved on confirmation and rejected otherwise).
+Thi function opens a confirmation dialog and returns a promise
+representing the user choice (resolved on confirmation and rejected otherwise).
 
 ##### Options:
 
