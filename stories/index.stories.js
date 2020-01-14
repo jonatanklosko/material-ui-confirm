@@ -18,10 +18,10 @@ const Basic = () => {
 const WithDescription = () => {
   const confirm = useConfirm();
   return (
-    <Button onClick={() =>
+    <Button onClick={() => {
       confirm({ description: 'This action is permanent!' })
-        .then(confirmationAction)
-    }>
+        .then(confirmationAction);
+    }}>
       Click
     </Button>
   );
@@ -30,15 +30,15 @@ const WithDescription = () => {
 const WithCustomText = () => {
   const confirm = useConfirm();
   return (
-    <Button onClick={() =>
+    <Button onClick={() => {
       confirm({
         title: 'Reset setting?',
         description: 'This will reset your device to its factory settings.',
         confirmationText: 'Accept',
         cancellationText: 'Cancel',
       })
-      .then(confirmationAction)
-    }>
+      .then(confirmationAction);
+    }}>
       Click
     </Button>
   );
@@ -47,12 +47,12 @@ const WithCustomText = () => {
 const WithDialogProps = () => {
   const confirm = useConfirm();
   return (
-    <Button onClick={() =>
+    <Button onClick={() => {
       confirm({
         dialogProps: { fullWidth: false, disableEscapeKeyDown: true },
       })
-      .then(confirmationAction)
-    }>
+      .then(confirmationAction);
+    }}>
       Click
     </Button>
   );
@@ -61,18 +61,18 @@ const WithDialogProps = () => {
 const WithCustomCallbacks = () => {
   const confirm = useConfirm();
   return (
-    <Button onClick={() =>
+    <Button onClick={() => {
       confirm()
         .then(confirmationAction)
         .catch(action('cancelled'))
-        .finally(action('closed'))
-    }>
+        .finally(action('closed'));
+    }}>
       Click
     </Button>
   );
 };
 
-storiesOf('withConfirm', module)
+storiesOf('Confirmation dialog', module)
   .addDecorator(getStory => (
     <ConfirmProvider>{getStory()}</ConfirmProvider>
   ))
