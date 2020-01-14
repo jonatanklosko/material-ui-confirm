@@ -1,120 +1,67 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { createMount } from '@material-ui/core/test-utils';
+import { render, fireEvent, waitForElementToBeRemoved } from '@testing-library/react'
 
 import { ConfirmProvider, useConfirm } from '../src/index';
 
 describe('useConfirm', () => {
-  const handleClick = jest.fn();
+  const deleteConfirmed = jest.fn();
+  const deleteCancelled = jest.fn();
 
-  const TestComponent = ({ confirmOptions }) => {
+  beforeEach(() => jest.clearAllMocks());
+
+  const DeleteButton = ({ confirmOptions }) => {
     const confirm = useConfirm();
 
     return (
-      <button onClick={() => confirm(confirmOptions).then(handleClick).catch(() => {})}>
+      <button onClick={() => confirm(confirmOptions).then(deleteConfirmed).catch(deleteCancelled)}>
         Delete
       </button>
     );
   };
 
-  const TestComponentWrapper = ({ confirmOptions }) => (
-    <div>
-      <ConfirmProvider>
-        <TestComponent confirmOptions={confirmOptions} />
-      </ConfirmProvider>
-    </div>
+  const TestComponent = ({ confirmOptions }) => (
+    <ConfirmProvider>
+      <DeleteButton confirmOptions={confirmOptions} />
+    </ConfirmProvider>
   );
 
-  beforeEach(() => handleClick.mockReset());
-
-  test('calls confirmation callback on confirm', () => {
-    const wrapper = mount(<TestComponentWrapper />);
-    expect(wrapper.find('Dialog').props().open).toBe(false);
-    wrapper.find('button[children="Delete"]').simulate('click');
-    expect(wrapper.find('Dialog').props().open).toBe(true);
-    wrapper.find('Button[children="Ok"]').simulate('click');
-    expect(handleClick).toHaveBeenCalled();
-    expect(wrapper.find('Dialog').props().open).toBe(false);
+  test('resolves promise on confirm', async () => {
+    const { getByText, queryByText } = render(<TestComponent />);
+    expect(queryByText('Are you sure?')).toBeFalsy();
+    fireEvent.click(getByText('Delete'));
+    expect(queryByText('Are you sure?')).toBeTruthy();
+    fireEvent.click(getByText('Ok'));
+    await waitForElementToBeRemoved(() => queryByText('Are you sure?'));
+    expect(deleteConfirmed).toHaveBeenCalled();
+    expect(deleteCancelled).not.toHaveBeenCalled();
   });
 
-  test('does not call confirmation callback on cancel', () => {
-    const wrapper = mount(<TestComponentWrapper />);
-    expect(wrapper.find('Dialog').props().open).toBe(false);
-    wrapper.find('button[children="Delete"]').simulate('click');
-    expect(wrapper.find('Dialog').props().open).toBe(true);
-    wrapper.find('Button[children="Cancel"]').simulate('click');
-    expect(handleClick).not.toHaveBeenCalled();
-    expect(wrapper.find('Dialog').props().open).toBe(false);
+  test('rejects promise on cancel', async () => {
+    const { getByText, queryByText } = render(<TestComponent />);
+    expect(queryByText('Are you sure?')).toBeFalsy();
+    fireEvent.click(getByText('Delete'));
+    expect(queryByText('Are you sure?')).toBeTruthy();
+    fireEvent.click(getByText('Cancel'));
+    await waitForElementToBeRemoved(() => queryByText('Are you sure?'));
+    expect(deleteConfirmed).not.toHaveBeenCalled();
+    expect(deleteCancelled).toHaveBeenCalled();
   });
 
   describe('options', () => {
     test('accepts custom text', () => {
-      const wrapper = mount(
-        <TestComponentWrapper confirmOptions={{
+      const { getByText, queryByText } = render(
+        <TestComponent confirmOptions={{
           title: 'Remove this item?',
           description: 'This will permanently remove the item.',
           cancellationText: 'No way',
           confirmationText: 'Yessir',
         }} />
       );
-      console.log(wrapper.html())
-      wrapper.find('button[children="Delete"]').simulate('click');
-      expect(wrapper.text()).toMatch('Remove this item?');
-      expect(wrapper.text()).toMatch('This will permanently remove the item.');
-      expect(wrapper.find('Button[children="No way"]')).toHaveLength(1);
-      expect(wrapper.find('Button[children="Yessir"]')).toHaveLength(1);
+      fireEvent.click(getByText('Delete'));
+      expect(queryByText('Remove this item?')).toBeTruthy();
+      expect(queryByText('This will permanently remove the item.')).toBeTruthy();
+      expect(queryByText('No way')).toBeTruthy();
+      expect(queryByText('Yessir')).toBeTruthy();
     });
-
-  //   test('calls onCancel when cancaled', () => {
-  //     const onCancel = jest.fn();
-  //     const wrapper = mount(
-  //       <TestComponentWrapper confirmOptions={{ onCancel }} />
-  //     );
-  //     wrapper.find('button[children="Delete"]').simulate('click');
-  //     wrapper.find('Button[children="Cancel"]').simulate('click');
-  //     expect(onCancel).toHaveBeenCalled();
-  //     onCancel.mockReset();
-  //     wrapper.find('button[children="Delete"]').simulate('click');
-  //     wrapper.find('Button[children="Ok"]').simulate('click');
-  //     expect(onCancel).not.toHaveBeenCalled();
-  //   });
-  //
-  //   test('calls onClose whenever dialog is closed', () => {
-  //     const onClose = jest.fn();
-  //     const wrapper = mount(
-  //       <TestComponentWrapper confirmOptions={{ onClose }} />
-  //     );
-  //     wrapper.find('button[children="Delete"]').simulate('click');
-  //     wrapper.find('Button[children="Cancel"]').simulate('click');
-  //     expect(onClose).toHaveBeenCalled();
-  //     onClose.mockReset();
-  //     wrapper.find('button[children="Delete"]').simulate('click');
-  //     wrapper.find('Button[children="Ok"]').simulate('click');
-  //     expect(onClose).toHaveBeenCalled();
-  //   });
   });
-
-  // test('properly passes arguments to the confirmation callback', () => {
-  //   const handleClick = jest.fn();
-  //   const CustomButton = ({ onClick, ...props }) => {
-  //     return (
-  //       <button {...props} onClick={_event => onClick('arg1', 'arg2')} />
-  //     );
-  //   };
-  //   const TestComponent = ({ confirmOptions, confirm }) => {
-  //     return (
-  //       <CustomButton onClick={confirm(handleClick, confirmOptions)}>
-  //         Delete
-  //       </CustomButton>
-  //     );
-  //   };
-  //   const TestComponentWrapper = withConfirm(TestComponent);
-  //   const wrapper = mount(<TestComponentWrapper />);
-  //   expect(wrapper.find('Dialog').props().open).toBe(false);
-  //   wrapper.find('button[children="Delete"]').simulate('click');
-  //   expect(wrapper.find('Dialog').props().open).toBe(true);
-  //   wrapper.find('Button[children="Ok"]').simulate('click');
-  //   expect(handleClick).toHaveBeenCalledWith('arg1', 'arg2');
-  //   expect(wrapper.find('Dialog').props().open).toBe(false);
-  // });
 });
