@@ -2,7 +2,7 @@ import React, { useState, useCallback, Fragment } from 'react';
 import ConfirmContext from './ConfirmContext';
 import ConfirmationDialog from './ConfirmationDialog';
 
-const defaultOptions = {
+const _defaultOptions = {
   title: 'Are you sure?',
   description: '',
   confirmationText: 'Ok',
@@ -10,14 +10,14 @@ const defaultOptions = {
   dialogProps: {},
 };
 
-const ConfirmProvider = ({ children }) => {
-  const [options, setOptions] = useState(defaultOptions);
+const ConfirmProvider = ({ children, defaultOptions = {} }) => {
+  const [options, setOptions] = useState({ ..._defaultOptions, ...defaultOptions });
   const [resolveReject, setResolveReject] = useState([]);
   const [resolve, reject] = resolveReject;
 
   const confirm = useCallback((options = {}) => {
     return new Promise((resolve, reject) => {
-      setOptions({ ...defaultOptions, ...options });
+      setOptions({ ..._defaultOptions, ...defaultOptions, ...options });
       setResolveReject([resolve, reject]);
     });
   }, []);

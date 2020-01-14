@@ -25,7 +25,7 @@ describe('useConfirm', () => {
     </ConfirmProvider>
   );
 
-  test('resolves promise on confirm', async () => {
+  test('resolves the promise on confirm', async () => {
     const { getByText, queryByText } = render(<TestComponent />);
     expect(queryByText('Are you sure?')).toBeFalsy();
     fireEvent.click(getByText('Delete'));
@@ -36,7 +36,7 @@ describe('useConfirm', () => {
     expect(deleteCancelled).not.toHaveBeenCalled();
   });
 
-  test('rejects promise on cancel', async () => {
+  test('rejects the promise on cancel', async () => {
     const { getByText, queryByText } = render(<TestComponent />);
     expect(queryByText('Are you sure?')).toBeFalsy();
     fireEvent.click(getByText('Delete'));
@@ -63,5 +63,18 @@ describe('useConfirm', () => {
       expect(queryByText('No way')).toBeTruthy();
       expect(queryByText('Yessir')).toBeTruthy();
     });
+  });
+
+  test('honours default options passed to the provider', () => {
+    const { getByText, queryByText } = render(
+      <ConfirmProvider
+        defaultOptions={{ confirmationText: 'Yessir', cancellationText: 'No way' }}
+      >
+        <DeleteButton confirmOptions={{ cancellationText: 'Nope' }} />
+      </ConfirmProvider>
+    );
+    fireEvent.click(getByText('Delete'));
+    expect(queryByText('Yessir')).toBeTruthy();
+    expect(queryByText('Nope')).toBeTruthy();
   });
 });

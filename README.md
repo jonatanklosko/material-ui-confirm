@@ -66,6 +66,12 @@ export default Item;
 
 This component is required in order to render a dialog in the component tree.
 
+##### Props:
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| **`defaultOptions`** | `object` | `{}` | Overrides the default options used by [`confirm`](#useconfirm-confirm). |
+
 #### `useConfirm() => confirm`
 
 This hook returns the `confirm` function.
