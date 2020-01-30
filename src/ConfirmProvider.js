@@ -8,6 +8,8 @@ const _defaultOptions = {
   confirmationText: 'Ok',
   cancellationText: 'Cancel',
   dialogProps: {},
+  confirmationButtonProps: {},
+  cancellationButtonProps: {},
 };
 
 const ConfirmProvider = ({ children, defaultOptions = {} }) => {

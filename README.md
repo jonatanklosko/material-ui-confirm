@@ -90,3 +90,5 @@ representing the user choice (resolved on confirmation and rejected otherwise).
 | **`confirmationText`** | `string` | `'Ok'` | Confirmation button caption. |
 | **`cancellationText`** | `string` | `'Cancel'` | Cancellation button caption. |
 | **`dialogProps`** | `object` | `{}` | Material-UI [Dialog](https://material-ui.com/api/dialog/#props) props. |
+| **`confirmationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/button/#props) props for the confirmation button. |
+| **`cancellationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/dialog/#props) props for the cancellation button. |

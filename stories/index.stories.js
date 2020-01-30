@@ -58,6 +58,21 @@ const WithDialogProps = () => {
   );
 };
 
+const WithCustomButtonProps = () => {
+  const confirm = useConfirm();
+  return (
+    <Button onClick={() => {
+      confirm({
+        confirmationButtonProps: { color: 'secondary', variant: 'outlined' },
+        cancellationButtonProps: { variant: 'outlined' },
+      })
+      .then(confirmationAction);
+    }}>
+      Click
+    </Button>
+  );
+};
+
 const WithCustomCallbacks = () => {
   const confirm = useConfirm();
   return (
@@ -80,4 +95,5 @@ storiesOf('Confirmation dialog', module)
   .add('with description', () => <WithDescription />)
   .add('with custom text', () => <WithCustomText />)
   .add('with custom dialog props', () => <WithDialogProps />)
+  .add('with custom button props', () => <WithCustomButtonProps />)
   .add('with custom callbacks', () => <WithCustomCallbacks />);

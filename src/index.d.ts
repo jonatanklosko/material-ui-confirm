@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { DialogProps } from '@material-ui/core/Dialog';
+import { ButtonProps } from '@material-ui/core/Button';
 
 export interface ConfirmOptions {
   title?: string;
@@ -7,6 +8,8 @@ export interface ConfirmOptions {
   confirmationText?: string;
   cancellationText?: string;
   dialogProps?: DialogProps;
+  confirmationButtonProps?: ButtonProps;
+  cancellationButtonProps?: ButtonProps;
 }
 
 export interface ConfirmProviderProps {

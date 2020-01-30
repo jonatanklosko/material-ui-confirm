@@ -13,6 +13,8 @@ const ConfirmationDialog = ({ open, options, onCancel, onConfirm }) => {
     confirmationText,
     cancellationText,
     dialogProps,
+    confirmationButtonProps,
+    cancellationButtonProps,
   } = options;
 
   return (
@@ -26,10 +28,10 @@ const ConfirmationDialog = ({ open, options, onCancel, onConfirm }) => {
         </DialogContent>
       )}
       <DialogActions>
-        <Button onClick={onCancel}>
+        <Button {...cancellationButtonProps} onClick={onCancel}>
           {cancellationText}
         </Button>
-        <Button onClick={onConfirm} color="primary">
+        <Button color="primary" {...confirmationButtonProps} onClick={onConfirm}>
           {confirmationText}
         </Button>
       </DialogActions>
