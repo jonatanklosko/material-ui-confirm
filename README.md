@@ -85,10 +85,10 @@ representing the user choice (resolved on confirmation and rejected otherwise).
 
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| **`title`** | `string` | `'Are you sure?'` | Dialog title. |
-| **`description`** | `string` | `''` | Dialog content. |
-| **`confirmationText`** | `string` | `'Ok'` | Confirmation button caption. |
-| **`cancellationText`** | `string` | `'Cancel'` | Cancellation button caption. |
+| **`title`** | `ReactNode` | `'Are you sure?'` | Dialog title. |
+| **`description`** | `ReactNode` | `''` | Dialog content. |
+| **`confirmationText`** | `ReactNode` | `'Ok'` | Confirmation button caption. |
+| **`cancellationText`** | `ReactNode` | `'Cancel'` | Cancellation button caption. |
 | **`dialogProps`** | `object` | `{}` | Material-UI [Dialog](https://material-ui.com/api/dialog/#props) props. |
 | **`confirmationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/button/#props) props for the confirmation button. |
 | **`cancellationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/dialog/#props) props for the cancellation button. |
