@@ -47,7 +47,8 @@ const Item = () => {
 
   const handleClick = () => {
     confirm({ description: 'This action is permanent!' })
-      .then(() => { /* ... */ });
+      .then(() => { /* ... */ })
+      .catch(() => { /* ... */ });
   };
 
   return (
