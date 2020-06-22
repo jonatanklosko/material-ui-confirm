@@ -77,4 +77,18 @@ describe('useConfirm', () => {
     expect(queryByText('Yessir')).toBeTruthy();
     expect(queryByText('Nope')).toBeTruthy();
   });
+
+  test('merges default options with local options in a deep manner', () => {
+    const { getByText } = render(
+      <ConfirmProvider
+        defaultOptions={{ confirmationButtonProps: { 'aria-label': 'Confirm' } }}
+      >
+        <DeleteButton confirmOptions={{ confirmationText: 'Yes', confirmationButtonProps: { disabled: true } }} />
+      </ConfirmProvider>
+    );
+    fireEvent.click(getByText('Delete'));
+    const button = getByText('Yes').parentElement;
+    expect(button.disabled).toBe(true);
+    expect(button.getAttribute('aria-label')).toEqual('Confirm');
+  });
 });

@@ -2,7 +2,7 @@ import React, { useState, useCallback, Fragment } from 'react';
 import ConfirmContext from './ConfirmContext';
 import ConfirmationDialog from './ConfirmationDialog';
 
-const _defaultOptions = {
+const DEFAULT_OPTIONS = {
   title: 'Are you sure?',
   description: '',
   confirmationText: 'Ok',
@@ -12,14 +12,38 @@ const _defaultOptions = {
   cancellationButtonProps: {},
 };
 
+const buildOptions = (defaultOptions, options) => {
+  const dialogProps = {
+    ...(defaultOptions.dialogProps || DEFAULT_OPTIONS.dialogProps),
+    ...(options.dialogProps || {}),
+  };
+  const confirmationButtonProps = {
+    ...(defaultOptions.confirmationButtonProps || DEFAULT_OPTIONS.confirmationButtonProps),
+    ...(options.confirmationButtonProps || {}),
+  };
+  const cancellationButtonProps = {
+    ...(defaultOptions.cancellationButtonProps || DEFAULT_OPTIONS.cancellationButtonProps),
+    ...(options.cancellationButtonProps || {}),
+  };
+
+  return {
+    ...DEFAULT_OPTIONS,
+    ...defaultOptions,
+    ...options,
+    dialogProps,
+    confirmationButtonProps,
+    cancellationButtonProps,
+  }
+};
+
 const ConfirmProvider = ({ children, defaultOptions = {} }) => {
-  const [options, setOptions] = useState({ ..._defaultOptions, ...defaultOptions });
+  const [options, setOptions] = useState({ ...DEFAULT_OPTIONS, ...defaultOptions });
   const [resolveReject, setResolveReject] = useState([]);
   const [resolve, reject] = resolveReject;
 
   const confirm = useCallback((options = {}) => {
     return new Promise((resolve, reject) => {
-      setOptions({ ..._defaultOptions, ...defaultOptions, ...options });
+      setOptions(buildOptions(defaultOptions, options));
       setResolveReject([resolve, reject]);
     });
   }, []);
