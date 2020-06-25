@@ -70,6 +70,7 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
       <ConfirmationDialog
         open={resolveReject.length === 2}
         options={options}
+        onClose={handleClose}
         onCancel={handleCancel}
         onConfirm={handleConfirm}
       />
