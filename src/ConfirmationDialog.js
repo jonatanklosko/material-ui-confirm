@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const ConfirmationDialog = ({ open, options, onCancel, onConfirm }) => {
+const ConfirmationDialog = ({ open, options, onCancel, onConfirm, onClose }) => {
   const {
     title,
     description,
@@ -18,7 +18,7 @@ const ConfirmationDialog = ({ open, options, onCancel, onConfirm }) => {
   } = options;
 
   return (
-    <Dialog fullWidth {...dialogProps} open={open} onClose={onCancel}>
+    <Dialog fullWidth {...dialogProps} open={open} onClose={onClose}>
       {title && (
         <DialogTitle>{title}</DialogTitle>
       )}
