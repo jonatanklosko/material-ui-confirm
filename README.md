@@ -79,8 +79,8 @@ This hook returns the `confirm` function.
 
 #### `confirm([options]) => Promise`
 
-Thi function opens a confirmation dialog and returns a promise
-representing the user choice (resolved on confirmation and rejected otherwise).
+This function opens a confirmation dialog and returns a promise
+representing the user choice (resolved on confirmation and rejected on cancellation).
 
 ##### Options:
 
