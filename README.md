@@ -93,3 +93,43 @@ representing the user choice (resolved on confirmation and rejected on cancellat
 | **`dialogProps`** | `object` | `{}` | Material-UI [Dialog](https://material-ui.com/api/dialog/#props) props. |
 | **`confirmationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/button/#props) props for the confirmation button. |
 | **`cancellationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/dialog/#props) props for the cancellation button. |
+
+## Useful notes
+
+### Confirm by pressing *Enter*
+
+You can get this behavior by adding the `autoFocus` property to the confirmation button.
+This way the button is focused as soon as the dialog opens and hitting *Enter*
+naturally triggers a click.
+
+##### Locally
+
+```jsx
+const MyComponent = () => {
+  // ...
+
+  const handleClick = () => {
+    confirm({ confirmationButtonProps: { autoFocus: true } })
+      .then(() => { /* ... */ })
+      .catch(() => { /* ... */ });
+  };
+
+  // ...
+};
+```
+
+##### Globally
+
+```jsx
+const App = () => {
+  return (
+    <ConfirmProvider
+      defaultOptions={{
+        confirmationButtonProps: { autoFocus: true }
+      }}
+    >
+      {/* ... */}
+    </ConfirmProvider>
+  );
+};
+```
