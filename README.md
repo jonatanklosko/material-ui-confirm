@@ -67,7 +67,7 @@ export default Item;
 
 This component is required in order to render a dialog in the component tree.
 
-##### Props:
+##### Props
 
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
@@ -82,7 +82,7 @@ This hook returns the `confirm` function.
 This function opens a confirmation dialog and returns a promise
 representing the user choice (resolved on confirmation and rejected on cancellation).
 
-##### Options:
+##### Options
 
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
@@ -93,6 +93,7 @@ representing the user choice (resolved on confirmation and rejected on cancellat
 | **`dialogProps`** | `object` | `{}` | Material-UI [Dialog](https://material-ui.com/api/dialog/#props) props. |
 | **`confirmationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/button/#props) props for the confirmation button. |
 | **`cancellationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/dialog/#props) props for the cancellation button. |
+| **`rejectionPayload`** | `(() => any) \| any` | `ConfirmDialogCancellationError` | Custom rejection payload |
 
 ## Useful notes
 
