@@ -1,6 +1,7 @@
 import React, { useState, useCallback, Fragment } from 'react';
 import ConfirmContext from './ConfirmContext';
 import ConfirmationDialog from './ConfirmationDialog';
+import ConfirmDialogCancellationError from './ConfirmDialogCancellationError';
 
 const DEFAULT_OPTIONS = {
   title: 'Are you sure?',
@@ -10,6 +11,7 @@ const DEFAULT_OPTIONS = {
   dialogProps: {},
   confirmationButtonProps: {},
   cancellationButtonProps: {},
+  rejectionPayload: new ConfirmDialogCancellationError(),
 };
 
 const buildOptions = (defaultOptions, options) => {
@@ -26,6 +28,8 @@ const buildOptions = (defaultOptions, options) => {
     ...(options.cancellationButtonProps || {}),
   };
 
+  const rejectionPayload = options.rejectionPayload || defaultOptions.rejectionPayload || DEFAULT_OPTIONS.rejectionPayload;
+
   return {
     ...DEFAULT_OPTIONS,
     ...defaultOptions,
@@ -33,6 +37,7 @@ const buildOptions = (defaultOptions, options) => {
     dialogProps,
     confirmationButtonProps,
     cancellationButtonProps,
+    rejectionPayload,
   }
 };
 
@@ -53,7 +58,10 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   }, []);
 
   const handleCancel = useCallback(() => {
-    reject();
+    const rejectionPayload = typeof options.rejectionPayload === 'function'
+      ? options.rejectionPayload()
+      : options.rejectionPayload;
+    reject(rejectionPayload);
     handleClose();
   }, [reject, handleClose]);
 

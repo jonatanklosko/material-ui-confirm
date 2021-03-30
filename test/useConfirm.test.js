@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitForElementToBeRemoved } from '@testing-library/react'
 
 import { ConfirmProvider, useConfirm } from '../src/index';
+import { ConfirmDialogCancellationError } from '../src';
 
 describe('useConfirm', () => {
   const deleteConfirmed = jest.fn();
@@ -45,6 +46,7 @@ describe('useConfirm', () => {
     await waitForElementToBeRemoved(() => queryByText('Are you sure?'));
     expect(deleteConfirmed).not.toHaveBeenCalled();
     expect(deleteCancelled).toHaveBeenCalled();
+    expect(deleteCancelled).toHaveBeenCalledWith(expect.any(ConfirmDialogCancellationError))
   });
 
   describe('options', () => {
@@ -62,6 +64,36 @@ describe('useConfirm', () => {
       expect(queryByText('This will permanently remove the item.')).toBeTruthy();
       expect(queryByText('No way')).toBeTruthy();
       expect(queryByText('Yessir')).toBeTruthy();
+    });
+
+    test('should accept custom rejectionPayload', async () => {
+      const rejectionPayload = new Error("this is a different error");
+      const { getByText, queryByText } = render(
+        <TestComponent confirmOptions={{
+          rejectionPayload,
+          cancellationText: 'No',
+        }} />
+      );
+      fireEvent.click(getByText('Delete'));
+      fireEvent.click(getByText('No'));
+      await waitForElementToBeRemoved(() => queryByText('Are you sure?'));
+      expect(deleteCancelled).toHaveBeenCalled();
+      expect(deleteCancelled).toHaveBeenCalledWith(rejectionPayload)
+    });
+
+    test('should accept custom rejectionPayload function ', async () => {
+      const rejectionPayload = new Error("this is a different error");
+      const { getByText, queryByText } = render(
+        <TestComponent confirmOptions={{
+          rejectionPayload: () => rejectionPayload,
+          cancellationText: 'No',
+        }} />
+      );
+      fireEvent.click(getByText('Delete'));
+      fireEvent.click(getByText('No'));
+      await waitForElementToBeRemoved(() => queryByText('Are you sure?'));
+      expect(deleteCancelled).toHaveBeenCalled();
+      expect(deleteCancelled).toHaveBeenCalledWith(rejectionPayload)
     });
   });
 
