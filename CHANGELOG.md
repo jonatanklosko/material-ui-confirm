@@ -1,6 +1,10 @@
+## 2.1.2
+
+- Bump `react` and `react-dom` peer dependencies ([#23](https://github.com/jonatanklosko/material-ui-confirm/pull/23)) @Armanio
+
 ## 2.1.1
 
-- Don't reject confirmation promise when neutrally closing the dialog (e.g. when hitting *Esc*) (#18) @tincho
+- Don't reject confirmation promise when neutrally closing the dialog (e.g. when hitting *Esc*) ([#18](https://github.com/jonatanklosko/material-ui-confirm/pull/18)) @tincho
 
 ## 2.1.0
 
