@@ -35,7 +35,8 @@ const App = () => {
 export default App;
 ```
 
-Call the `useConfirm` hook wherever you need the `confirm` function.
+Call the `useConfirm` hook wherever you need the `confirm` function.\
+*Note: A component calling `useConfirm` must be a child of `ConfirmProvider`.*
 
 ```js
 import React from 'react';
