@@ -2,6 +2,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import Button from '@material-ui/core/Button';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
 import { storiesOf, addDecorator } from '@storybook/react';
 import { ConfirmProvider, useConfirm } from '../src/index';
@@ -114,6 +115,25 @@ const WithCustomElements = () => {
   );
 };
 
+const WithCustomContent = () => {
+  const confirm = useConfirm();
+  return (
+    <Button onClick={() => {
+      confirm({
+        content: (
+          <div>
+            <LinearProgress />
+            <Box p={2}>This isn't wrapped in DialogContentText.</Box>
+          </div>
+        )
+      })
+      .then(confirmationAction);
+    }}>
+      Click
+    </Button>
+  );
+};
+
 storiesOf('Confirmation dialog', module)
   .addDecorator(getStory => (
     <ConfirmProvider>{getStory()}</ConfirmProvider>
@@ -124,4 +144,5 @@ storiesOf('Confirmation dialog', module)
   .add('with custom dialog props', () => <WithDialogProps />)
   .add('with custom button props', () => <WithCustomButtonProps />)
   .add('with custom callbacks', () => <WithCustomCallbacks />)
-  .add('with custom elements', () => <WithCustomElements />);
+  .add('with custom elements', () => <WithCustomElements />)
+  .add('with custom dialog content', () => <WithCustomContent />);

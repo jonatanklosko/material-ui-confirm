@@ -5,6 +5,7 @@ import { ButtonProps } from '@material-ui/core/Button';
 export interface ConfirmOptions {
   title?: React.ReactNode;
   description?: React.ReactNode;
+  content?: React.ReactNode | null;
   confirmationText?: React.ReactNode;
   cancellationText?: React.ReactNode;
   dialogProps?: Omit<DialogProps, "open">;

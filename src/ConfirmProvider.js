@@ -5,6 +5,7 @@ import ConfirmationDialog from './ConfirmationDialog';
 const DEFAULT_OPTIONS = {
   title: 'Are you sure?',
   description: '',
+  content: null,
   confirmationText: 'Ok',
   cancellationText: 'Cancel',
   dialogProps: {},

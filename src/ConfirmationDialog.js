@@ -10,6 +10,7 @@ const ConfirmationDialog = ({ open, options, onCancel, onConfirm, onClose }) => 
   const {
     title,
     description,
+    content,
     confirmationText,
     cancellationText,
     dialogProps,
@@ -22,10 +23,16 @@ const ConfirmationDialog = ({ open, options, onCancel, onConfirm, onClose }) => 
       {title && (
         <DialogTitle>{title}</DialogTitle>
       )}
-      {description && (
+      {content ? (
         <DialogContent>
-          <DialogContentText>{description}</DialogContentText>
+          {content}
         </DialogContent>
+      ) : (
+        description && (
+          <DialogContent>
+            <DialogContentText>{description}</DialogContentText>
+          </DialogContent>
+        )
       )}
       <DialogActions>
         <Button {...cancellationButtonProps} onClick={onCancel}>
