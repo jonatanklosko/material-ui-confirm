@@ -1,3 +1,8 @@
+## 2.1.3
+
+- Add `content` option
+- Omit open prop from dialogProps ([#30](https://github.com/jonatanklosko/material-ui-confirm/pull/30)) @gergely-adamku
+
 ## 2.1.2
 
 - Bump `react` and `react-dom` peer dependencies ([#23](https://github.com/jonatanklosko/material-ui-confirm/pull/23)) @Armanio
