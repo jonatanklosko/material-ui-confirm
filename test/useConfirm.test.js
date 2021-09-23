@@ -7,8 +7,6 @@ describe('useConfirm', () => {
   const deleteConfirmed = jest.fn();
   const deleteCancelled = jest.fn();
 
-  beforeEach(() => jest.clearAllMocks());
-
   const DeleteButton = ({ confirmOptions }) => {
     const confirm = useConfirm();
 
@@ -87,7 +85,7 @@ describe('useConfirm', () => {
       </ConfirmProvider>
     );
     fireEvent.click(getByText('Delete'));
-    const button = getByText('Yes').parentElement;
+    const button = getByText('Yes');
     expect(button.disabled).toBe(true);
     expect(button.getAttribute('aria-label')).toEqual('Confirm');
   });

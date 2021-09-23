@@ -40,7 +40,7 @@ Call the `useConfirm` hook wherever you need the `confirm` function.\
 
 ```js
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { useConfirm } from 'material-ui-confirm';
 
 const Item = () => {
