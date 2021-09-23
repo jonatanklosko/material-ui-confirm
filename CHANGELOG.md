@@ -1,3 +1,9 @@
+## 3.0.0
+
+**Breaking changes**
+
+- Require Material-UI 5 ([#36](https://github.com/jonatanklosko/material-ui-confirm/pull/36)) @tifosiblack
+
 ## 2.1.3
 
 - Add `content` option
