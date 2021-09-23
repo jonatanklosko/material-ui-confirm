@@ -1,10 +1,10 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Box from '@material-ui/core/Box';
-import Tooltip from '@material-ui/core/Tooltip';
-import { storiesOf, addDecorator } from '@storybook/react';
+import Button from '@mui/material/Button';
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
+import { storiesOf } from '@storybook/react';
 import { ConfirmProvider, useConfirm } from '../src/index';
 
 const confirmationAction = action('confirmed');
