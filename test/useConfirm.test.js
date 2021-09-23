@@ -61,6 +61,16 @@ describe('useConfirm', () => {
       expect(queryByText('No way')).toBeTruthy();
       expect(queryByText('Yessir')).toBeTruthy();
     });
+
+    test('accepts custom content', () => {
+      const { getByText, queryByText } = render(
+        <TestComponent confirmOptions={{
+          content: <div>Arbitrary content</div>
+        }} />
+      );
+      fireEvent.click(getByText('Delete'));
+      expect(queryByText('Arbitrary content')).toBeTruthy();
+    });
   });
 
   test('honours default options passed to the provider', () => {
