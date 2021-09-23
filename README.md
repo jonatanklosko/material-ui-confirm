@@ -2,7 +2,7 @@
 
 > Confirming user choice is a good thing to do, it should also be easy to do.
 
-This package provides simple confirmation dialogs built on top of [@material-ui/core](https://material-ui.com/)
+This package provides simple confirmation dialogs built on top of [@mui/material](https://mui.com/)
 and straightforward to use thanks to React Hooks.
 
 ## Installation
