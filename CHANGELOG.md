@@ -1,3 +1,7 @@
+## 3.0.1
+
+- Fix multiple clicks on confirm or cancel button ([#37](https://github.com/jonatanklosko/material-ui-confirm/pull/37)) @ypahalajani
+
 ## 3.0.0
 
 **Breaking changes**
