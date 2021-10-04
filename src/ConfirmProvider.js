@@ -54,13 +54,17 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   }, []);
 
   const handleCancel = useCallback(() => {
-    reject();
-    handleClose();
+    if (reject) {
+      reject();
+      handleClose();
+    }
   }, [reject, handleClose]);
 
   const handleConfirm = useCallback(() => {
-    resolve();
-    handleClose();
+    if (resolve) {
+      resolve();
+      handleClose();
+    }
   }, [resolve, handleClose]);
 
   return (
