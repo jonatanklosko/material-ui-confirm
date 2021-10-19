@@ -1,8 +1,8 @@
-# Material-UI confirm [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jonatanklosko/material-ui-confirm/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/material-ui-confirm.svg)](https://www.npmjs.com/package/material-ui-confirm) [![Build Status](https://travis-ci.org/jonatanklosko/material-ui-confirm.svg?branch=master)](https://travis-ci.org/jonatanklosko/material-ui-confirm) [![Coverage Status](https://coveralls.io/repos/github/jonatanklosko/material-ui-confirm/badge.svg?branch=master)](https://coveralls.io/github/jonatanklosko/material-ui-confirm?branch=master)
+# Material-UI confirm [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jonatanklosko/material-ui-confirm/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/material-ui-confirm.svg)](https://www.npmjs.com/package/material-ui-confirm) [![Actions Status](https://github.com/jonatanklosko/material-ui-confirm/workflows/Test/badge.svg)](https://github.com/jonatanklosko/material-ui-confirm/actions) [![Coverage Status](https://coveralls.io/repos/github/jonatanklosko/material-ui-confirm/badge.svg?branch=master)](https://coveralls.io/github/jonatanklosko/material-ui-confirm?branch=master)
 
 > Confirming user choice is a good thing to do, it should also be easy to do.
 
-This package provides simple confirmation dialogs built on top of [@material-ui/core](https://material-ui.com/)
+This package provides simple confirmation dialogs built on top of [@mui/material](https://mui.com/)
 and straightforward to use thanks to React Hooks.
 
 ## Installation
@@ -40,7 +40,7 @@ Call the `useConfirm` hook wherever you need the `confirm` function.\
 
 ```js
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import { useConfirm } from 'material-ui-confirm';
 
 const Item = () => {

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { DialogProps } from '@material-ui/core/Dialog';
-import { DialogTitleProps } from '@material-ui/core/DialogTitle';
-import { DialogContentProps } from '@material-ui/core/DialogContent';
-import { ButtonProps } from '@material-ui/core/Button';
+import { DialogProps } from '@mui/material/Dialog';
+import { DialogTitleProps } from '@mui/material/DialogTitle';
+import { DialogContentProps } from '@mui/material/DialogContent';
+import { ButtonProps } from '@mui/material/Button';
 
 export interface ConfirmOptions {
   title?: React.ReactNode;

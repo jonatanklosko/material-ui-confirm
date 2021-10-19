@@ -1,3 +1,13 @@
+## 3.0.1
+
+- Fix multiple clicks on confirm or cancel button ([#37](https://github.com/jonatanklosko/material-ui-confirm/pull/37)) @ypahalajani
+
+## 3.0.0
+
+**Breaking changes**
+
+- Require Material-UI 5 ([#36](https://github.com/jonatanklosko/material-ui-confirm/pull/36)) @tifosiblack
+
 ## 2.1.3
 
 - Add `content` option

@@ -7,8 +7,6 @@ describe('useConfirm', () => {
   const deleteConfirmed = jest.fn();
   const deleteCancelled = jest.fn();
 
-  beforeEach(() => jest.clearAllMocks());
-
   const DeleteButton = ({ confirmOptions }) => {
     const confirm = useConfirm();
 
@@ -63,6 +61,16 @@ describe('useConfirm', () => {
       expect(queryByText('No way')).toBeTruthy();
       expect(queryByText('Yessir')).toBeTruthy();
     });
+
+    test('accepts custom content', () => {
+      const { getByText, queryByText } = render(
+        <TestComponent confirmOptions={{
+          content: <div>Arbitrary content</div>
+        }} />
+      );
+      fireEvent.click(getByText('Delete'));
+      expect(queryByText('Arbitrary content')).toBeTruthy();
+    });
   });
 
   test('honours default options passed to the provider', () => {
@@ -87,7 +95,7 @@ describe('useConfirm', () => {
       </ConfirmProvider>
     );
     fireEvent.click(getByText('Delete'));
-    const button = getByText('Yes').parentElement;
+    const button = getByText('Yes');
     expect(button.disabled).toBe(true);
     expect(button.getAttribute('aria-label')).toEqual('Confirm');
   });
