@@ -11,6 +11,8 @@ const DEFAULT_OPTIONS = {
   dialogProps: {},
   confirmationButtonProps: {},
   cancellationButtonProps: {},
+  titleProps: {},
+  contentProps: {},
 };
 
 const buildOptions = (defaultOptions, options) => {
@@ -26,6 +28,14 @@ const buildOptions = (defaultOptions, options) => {
     ...(defaultOptions.cancellationButtonProps || DEFAULT_OPTIONS.cancellationButtonProps),
     ...(options.cancellationButtonProps || {}),
   };
+  const titleProps = {
+    ...(defaultOptions.titleProps || DEFAULT_OPTIONS.titleProps),
+    ...(options.titleProps || {}),
+  };
+  const contentProps = {
+    ...(defaultOptions.contentProps || DEFAULT_OPTIONS.contentProps),
+    ...(options.contentProps || {}),
+  };
 
   return {
     ...DEFAULT_OPTIONS,
@@ -34,6 +44,8 @@ const buildOptions = (defaultOptions, options) => {
     dialogProps,
     confirmationButtonProps,
     cancellationButtonProps,
+    titleProps,
+    contentProps,
   }
 };
 
