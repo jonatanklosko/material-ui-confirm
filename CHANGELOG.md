@@ -1,3 +1,7 @@
+## 3.0.2
+
+- Add configurable props for DialogTitle and DialogContent for accessibility ([#38](https://github.com/jonatanklosko/material-ui-confirm/pull/38)) @imjordanxd
+
 ## 3.0.1
 
 - Fix multiple clicks on confirm or cancel button ([#37](https://github.com/jonatanklosko/material-ui-confirm/pull/37)) @ypahalajani
@@ -19,7 +23,7 @@
 
 ## 2.1.1
 
-- Don't reject confirmation promise when neutrally closing the dialog (e.g. when hitting *Esc*) ([#18](https://github.com/jonatanklosko/material-ui-confirm/pull/18)) @tincho
+- Don't reject confirmation promise when neutrally closing the dialog (e.g. when hitting _Esc_) ([#18](https://github.com/jonatanklosko/material-ui-confirm/pull/18)) @tincho
 
 ## 2.1.0
 
