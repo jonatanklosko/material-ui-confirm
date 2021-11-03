@@ -89,7 +89,7 @@ representing the user choice (resolved on confirmation and rejected on cancellat
 | ---- | ---- | ------- | ----------- |
 | **`title`** | `ReactNode` | `'Are you sure?'` | Dialog title. |
 | **`description`** | `ReactNode` | `''` | Dialog content, automatically wrapped in `DialogContentText`. |
-| **`content`** | `ReactNode | null` | `null` | Dialog content, same as `description` but not wrapped in `DialogContentText`. Supersedes `description` if present. |
+| **`content`** | `ReactNode` | `null` | Dialog content, same as `description` but not wrapped in `DialogContentText`. Supersedes `description` if present. |
 | **`confirmationText`** | `ReactNode` | `'Ok'` | Confirmation button caption. |
 | **`cancellationText`** | `ReactNode` | `'Cancel'` | Cancellation button caption. |
 | **`dialogProps`** | `object` | `{}` | Material-UI [Dialog](https://material-ui.com/api/dialog/#props) props. |
