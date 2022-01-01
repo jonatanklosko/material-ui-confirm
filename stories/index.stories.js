@@ -8,6 +8,7 @@ import { storiesOf } from '@storybook/react';
 import { ConfirmProvider, useConfirm } from '../src/index';
 
 const confirmationAction = action('confirmed');
+const cancellationAction = action('cancelled');
 
 const Basic = () => {
   const confirm = useConfirm();
@@ -82,7 +83,7 @@ const WithCustomCallbacks = () => {
     <Button onClick={() => {
       confirm()
         .then(confirmationAction)
-        .catch(action('cancelled'))
+        .catch(cancellationAction)
         .finally(action('closed'));
     }}>
       Click
@@ -134,6 +135,21 @@ const WithCustomContent = () => {
   );
 };
 
+const WithNaturalCloseDisabled = () => {
+  const confirm = useConfirm();
+  return (
+    <Button onClick={() => {
+      confirm({
+        allowClose: false,
+      })
+      .then(confirmationAction)
+      .catch(cancellationAction);
+    }}>
+      Click
+    </Button>
+  );
+};
+
 storiesOf('Confirmation dialog', module)
   .addDecorator(getStory => (
     <ConfirmProvider>{getStory()}</ConfirmProvider>
@@ -145,4 +161,5 @@ storiesOf('Confirmation dialog', module)
   .add('with custom button props', () => <WithCustomButtonProps />)
   .add('with custom callbacks', () => <WithCustomCallbacks />)
   .add('with custom elements', () => <WithCustomElements />)
-  .add('with custom dialog content', () => <WithCustomContent />);
+  .add('with custom dialog content', () => <WithCustomContent />)
+  .add('with natural close disabled', () => <WithNaturalCloseDisabled />);

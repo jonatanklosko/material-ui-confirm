@@ -15,6 +15,7 @@ export interface ConfirmOptions {
   dialogProps?: Omit<DialogProps, "open">;
   confirmationButtonProps?: ButtonProps;
   cancellationButtonProps?: ButtonProps;
+  allowClose?: boolean;
 }
 
 export interface ConfirmProviderProps {

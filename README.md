@@ -97,6 +97,7 @@ representing the user choice (resolved on confirmation and rejected on cancellat
 | **`cancellationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/dialog/#props) props for the cancellation button. |
 | **`titleProps`** | `object` | `{}` | Material-UI [DialogTitle](https://mui.com/api/dialog-title/#props) props for the dialog title. |
 | **`contentProps`** | `object` | `{}` | Material-UI [DialogContent](https://mui.com/api/dialog-content/#props) props for the dialog content. |
+| **`allowClose`** | `boolean` | `true` | Whether natural close (escape or backdrop click) should close the dialog. When set to `false` force the user to either cancel or confirm explicitly. |
 
 ## Useful notes
 

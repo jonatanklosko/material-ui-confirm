@@ -13,6 +13,7 @@ const DEFAULT_OPTIONS = {
   cancellationButtonProps: {},
   titleProps: {},
   contentProps: {},
+  allowClose: true,
 };
 
 const buildOptions = (defaultOptions, options) => {
