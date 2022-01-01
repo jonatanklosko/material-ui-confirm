@@ -1,3 +1,7 @@
+## 3.0.3
+
+- Add `allowClose` option to optionally disable natural close
+
 ## 3.0.2
 
 - Add configurable props for DialogTitle and DialogContent for accessibility ([#38](https://github.com/jonatanklosko/material-ui-confirm/pull/38)) @imjordanxd
