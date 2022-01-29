@@ -1,3 +1,7 @@
+## 2.1.4
+
+- Add configurable props for DialogTitle and DialogContent for accessibility ([#38](https://github.com/jonatanklosko/material-ui-confirm/pull/38)) @imjordanxd
+
 ## 2.1.3
 
 - Add `content` option
