@@ -1,3 +1,7 @@
+## 3.0.4
+
+- Add React 18 to `peerDependencies` ([#51](https://github.com/jonatanklosko/material-ui-confirm/pull/51)) @ProfHercules
+
 ## 3.0.3
 
 - Add `allowClose` option to optionally disable natural close
