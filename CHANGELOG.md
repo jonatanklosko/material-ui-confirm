@@ -1,3 +1,7 @@
+## 3.0.5
+
+- Respect updates to default options
+
 ## 3.0.4
 
 - Add React 18 to `peerDependencies` ([#51](https://github.com/jonatanklosko/material-ui-confirm/pull/51)) @ProfHercules
