@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { render, fireEvent, waitForElementToBeRemoved } from '@testing-library/react'
 
 import { ConfirmProvider, useConfirm } from '../src/index';
@@ -98,5 +98,30 @@ describe('useConfirm', () => {
     const button = getByText('Yes');
     expect(button.disabled).toBe(true);
     expect(button.getAttribute('aria-label')).toEqual('Confirm');
+  });
+
+  test('respects updates to default options', () => {
+    function App() {
+      const [confirmationText, setConfirmationText] = useState("Yes");
+
+      return (
+        <ConfirmProvider defaultOptions={{ confirmationText }}>
+          <DeleteButton />
+          <button onClick={() => setConfirmationText("Ok")}>Change text</button>
+        </ConfirmProvider>
+      )
+    }
+
+    const { getByText, queryByText } = render(<App />);
+
+    fireEvent.click(getByText('Delete'));
+
+    expect(getByText('Yes')).toBeTruthy();
+    expect(queryByText('Ok')).toBeFalsy();
+
+    fireEvent.click(getByText('Change text'));
+
+    expect(queryByText('Yes')).toBeFalsy();
+    expect(getByText('Ok')).toBeTruthy();
   });
 });

@@ -51,13 +51,13 @@ const buildOptions = (defaultOptions, options) => {
 };
 
 const ConfirmProvider = ({ children, defaultOptions = {} }) => {
-  const [options, setOptions] = useState({ ...DEFAULT_OPTIONS, ...defaultOptions });
+  const [options, setOptions] = useState({});
   const [resolveReject, setResolveReject] = useState([]);
   const [resolve, reject] = resolveReject;
 
   const confirm = useCallback((options = {}) => {
     return new Promise((resolve, reject) => {
-      setOptions(buildOptions(defaultOptions, options));
+      setOptions(options);
       setResolveReject([resolve, reject]);
     });
   }, []);
@@ -87,7 +87,7 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
       </ConfirmContext.Provider>
       <ConfirmationDialog
         open={resolveReject.length === 2}
-        options={options}
+        options={buildOptions(defaultOptions, options)}
         onClose={handleClose}
         onCancel={handleCancel}
         onConfirm={handleConfirm}
