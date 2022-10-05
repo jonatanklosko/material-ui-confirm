@@ -62,6 +62,20 @@ const WithDialogProps = () => {
   );
 };
 
+const WithDialogActionsProps = () => {
+  const confirm = useConfirm();
+  return (
+    <Button onClick={() => {
+      confirm({
+        dialogActionsProps: { sx: { justifyContent: "flex-start" } },
+      })
+      .then(confirmationAction);
+    }}>
+      Click
+    </Button>
+  );
+};
+
 const WithCustomButtonProps = () => {
   const confirm = useConfirm();
   return (
@@ -158,6 +172,7 @@ storiesOf('Confirmation dialog', module)
   .add('with description', () => <WithDescription />)
   .add('with custom text', () => <WithCustomText />)
   .add('with custom dialog props', () => <WithDialogProps />)
+  .add('with custom dialog actions props', () => <WithDialogActionsProps />)
   .add('with custom button props', () => <WithCustomButtonProps />)
   .add('with custom callbacks', () => <WithCustomCallbacks />)
   .add('with custom elements', () => <WithCustomElements />)

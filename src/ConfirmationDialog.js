@@ -14,6 +14,7 @@ const ConfirmationDialog = ({ open, options, onCancel, onConfirm, onClose }) => 
     confirmationText,
     cancellationText,
     dialogProps,
+    dialogActionsProps,
     confirmationButtonProps,
     cancellationButtonProps,
     titleProps,
@@ -37,7 +38,7 @@ const ConfirmationDialog = ({ open, options, onCancel, onConfirm, onClose }) => 
           </DialogContent>
         )
       )}
-      <DialogActions>
+      <DialogActions {...dialogActionsProps}>
         <Button {...cancellationButtonProps} onClick={onCancel}>
           {cancellationText}
         </Button>

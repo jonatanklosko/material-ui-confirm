@@ -92,9 +92,10 @@ representing the user choice (resolved on confirmation and rejected on cancellat
 | **`content`** | `ReactNode` | `null` | Dialog content, same as `description` but not wrapped in `DialogContentText`. Supersedes `description` if present. |
 | **`confirmationText`** | `ReactNode` | `'Ok'` | Confirmation button caption. |
 | **`cancellationText`** | `ReactNode` | `'Cancel'` | Cancellation button caption. |
-| **`dialogProps`** | `object` | `{}` | Material-UI [Dialog](https://material-ui.com/api/dialog/#props) props. |
-| **`confirmationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/button/#props) props for the confirmation button. |
-| **`cancellationButtonProps`** | `object` | `{}` | Material-UI [Button](https://material-ui.com/api/dialog/#props) props for the cancellation button. |
+| **`dialogProps`** | `object` | `{}` | Material-UI [Dialog](https://mui.com/material-ui/api/dialog/#props) props. |
+| **`dialogActionsProps`** | `object` | `{}` | Material-UI [DialogActions](https://mui.com/material-ui/api/dialog-actions/#props) props. |
+| **`confirmationButtonProps`** | `object` | `{}` | Material-UI [Button](https://mui.com/material-ui/api/button/#props) props for the confirmation button. |
+| **`cancellationButtonProps`** | `object` | `{}` | Material-UI [Button](https://mui.com/material-ui/api/dialog/#props) props for the cancellation button. |
 | **`titleProps`** | `object` | `{}` | Material-UI [DialogTitle](https://mui.com/api/dialog-title/#props) props for the dialog title. |
 | **`contentProps`** | `object` | `{}` | Material-UI [DialogContent](https://mui.com/api/dialog-content/#props) props for the dialog content. |
 | **`allowClose`** | `boolean` | `true` | Whether natural close (escape or backdrop click) should close the dialog. When set to `false` force the user to either cancel or confirm explicitly. |

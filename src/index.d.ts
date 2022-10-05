@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { DialogProps } from '@mui/material/Dialog';
+import { DialogActionsProps } from '@mui/material/DialogActions';
 import { DialogTitleProps } from '@mui/material/DialogTitle';
 import { DialogContentProps } from '@mui/material/DialogContent';
 import { ButtonProps } from '@mui/material/Button';
@@ -13,6 +14,7 @@ export interface ConfirmOptions {
   confirmationText?: React.ReactNode;
   cancellationText?: React.ReactNode;
   dialogProps?: Omit<DialogProps, "open">;
+  dialogActionsProps?: DialogActionsProps;
   confirmationButtonProps?: ButtonProps;
   cancellationButtonProps?: ButtonProps;
   allowClose?: boolean;

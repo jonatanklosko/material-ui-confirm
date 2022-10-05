@@ -9,6 +9,7 @@ const DEFAULT_OPTIONS = {
   confirmationText: 'Ok',
   cancellationText: 'Cancel',
   dialogProps: {},
+  dialogActionsProps: {},
   confirmationButtonProps: {},
   cancellationButtonProps: {},
   titleProps: {},
@@ -20,6 +21,10 @@ const buildOptions = (defaultOptions, options) => {
   const dialogProps = {
     ...(defaultOptions.dialogProps || DEFAULT_OPTIONS.dialogProps),
     ...(options.dialogProps || {}),
+  };
+  const dialogActionsProps = {
+    ...(defaultOptions.dialogActionsProps || DEFAULT_OPTIONS.dialogActionsProps),
+    ...(options.dialogActionsProps || {}),
   };
   const confirmationButtonProps = {
     ...(defaultOptions.confirmationButtonProps || DEFAULT_OPTIONS.confirmationButtonProps),
@@ -43,6 +48,7 @@ const buildOptions = (defaultOptions, options) => {
     ...defaultOptions,
     ...options,
     dialogProps,
+    dialogActionsProps,
     confirmationButtonProps,
     cancellationButtonProps,
     titleProps,
