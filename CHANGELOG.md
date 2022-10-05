@@ -1,3 +1,7 @@
+## 3.0.6
+
+- Make `DialogActions` props configurable
+
 ## 3.0.5
 
 - Respect updates to default options
