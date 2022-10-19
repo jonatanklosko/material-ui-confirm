@@ -1,20 +1,18 @@
-import pkg from './package.json';
-import babel from 'rollup-plugin-babel';
-import copy from 'rollup-plugin-copy';
+import pkg from "./package.json";
+import babel from "rollup-plugin-babel";
+import copy from "rollup-plugin-copy";
 
 export default {
-  input: 'src/index.js',
+  input: "src/index.js",
   output: [
-    { file: pkg.main, format: 'cjs' },
-    { file: pkg.module, format: 'esm' },
+    { file: pkg.main, format: "cjs" },
+    { file: pkg.module, format: "esm" },
   ],
-  external: ['react', '@mui/material'],
+  external: ["react", "@mui/material"],
   plugins: [
-    babel({ exclude: 'node_modules/**' }),
+    babel({ exclude: "node_modules/**" }),
     copy({
-      targets: [
-        { src: 'src/index.d.ts', dest: 'dist' }
-      ],
+      targets: [{ src: "src/index.d.ts", dest: "dist" }],
     }),
-  ]
+  ],
 };

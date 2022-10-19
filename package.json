@@ -31,7 +31,8 @@
     "postversion": "git push && git push --tags",
     "prepublishOnly": "npm run build",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "format": "prettier --write **/*.{js,md,yml}"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
@@ -49,6 +50,7 @@
     "babel-loader": "^8.2.4",
     "coveralls": "^3.1.1",
     "jest": "^27.5.1",
+    "prettier": "2.7.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "rollup": "^2.70.1",
@@ -56,8 +58,8 @@
     "rollup-plugin-copy": "^3.4.0"
   },
   "peerDependencies": {
+    "@mui/material": ">= 5.0.0",
     "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0",
-    "@mui/material": ">= 5.0.0"
+    "react-dom": "^17.0.0 || ^18.0.0"
   }
 }
