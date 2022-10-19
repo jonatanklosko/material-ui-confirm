@@ -5,6 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
 
 const ConfirmationDialog = ({ open, options, onCancel, onConfirm, onClose }) => {
   const {
@@ -20,7 +21,26 @@ const ConfirmationDialog = ({ open, options, onCancel, onConfirm, onClose }) => 
     titleProps,
     contentProps,
     allowClose,
+    confirmationKeyword,
+    getConfirmationKeywordPlaceholder,
+    confirmationKeywordTextFieldProps,
   } = options;
+
+  const [confirmationKeywordValue, setConfirmationKeywordValue] = React.useState('');
+
+  const confirmationButtonDisabled = confirmationKeyword && confirmationKeywordValue !== confirmationKeyword;
+
+  const confirmationContent =
+      <>
+        {confirmationKeyword && (
+            <TextField
+                onChange={e => setConfirmationKeywordValue(e.target.value)}
+                value={confirmationKeywordValue}
+                fullWidth
+                placeholder={getConfirmationKeywordPlaceholder(confirmationKeyword)}
+                {...confirmationKeywordTextFieldProps}
+            />)}
+      </>
 
   return (
     <Dialog fullWidth {...dialogProps} open={open} onClose={allowClose ? onClose : null}>
@@ -30,19 +50,25 @@ const ConfirmationDialog = ({ open, options, onCancel, onConfirm, onClose }) => 
       {content ? (
         <DialogContent {...contentProps}>
           {content}
+          {confirmationContent}
         </DialogContent>
       ) : (
-        description && (
+        description ? (
           <DialogContent {...contentProps}>
             <DialogContentText>{description}</DialogContentText>
+            {confirmationContent}
           </DialogContent>
+        ) : confirmationKeyword && (
+            <DialogContent {...contentProps}>
+              {confirmationContent}
+            </DialogContent>
         )
       )}
       <DialogActions {...dialogActionsProps}>
         <Button {...cancellationButtonProps} onClick={onCancel}>
           {cancellationText}
         </Button>
-        <Button color="primary" {...confirmationButtonProps} onClick={onConfirm}>
+        <Button color="primary" disabled={confirmationButtonDisabled} {...confirmationButtonProps} onClick={onConfirm}>
           {confirmationText}
         </Button>
       </DialogActions>

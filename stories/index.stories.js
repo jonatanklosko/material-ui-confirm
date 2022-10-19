@@ -164,6 +164,32 @@ const WithNaturalCloseDisabled = () => {
   );
 };
 
+const WithConfirmationKeyword = () => {
+    const confirm = useConfirm();
+    return (
+        <Button onClick={() => confirm({
+            confirmationKeyword: 'DELETE',
+        }).then(confirmationAction)}>
+            Click
+        </Button>
+    );
+}
+
+const WithConfirmationKeywordAndCustomTextFieldProps = () => {
+    const confirm = useConfirm();
+    return (
+        <Button onClick={() => confirm({
+            getConfirmationKeywordPlaceholder: () => 'Enter DELETE',
+            confirmationKeyword: 'DELETE',
+            confirmationKeywordTextFieldProps: {
+                variant: 'standard',
+            }
+        }).then(confirmationAction)}>
+            Click
+        </Button>
+    );
+}
+
 storiesOf('Confirmation dialog', module)
   .addDecorator(getStory => (
     <ConfirmProvider>{getStory()}</ConfirmProvider>
@@ -177,4 +203,7 @@ storiesOf('Confirmation dialog', module)
   .add('with custom callbacks', () => <WithCustomCallbacks />)
   .add('with custom elements', () => <WithCustomElements />)
   .add('with custom dialog content', () => <WithCustomContent />)
-  .add('with natural close disabled', () => <WithNaturalCloseDisabled />);
+  .add('with natural close disabled', () => <WithNaturalCloseDisabled />)
+  .add('with confirmation keyword', () => <WithConfirmationKeyword />)
+    .add('with confirmation keyword and custom textfield props', () => <WithConfirmationKeywordAndCustomTextFieldProps />)
+;

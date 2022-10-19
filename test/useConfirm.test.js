@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render, fireEvent, waitForElementToBeRemoved } from '@testing-library/react'
+import {render, fireEvent, waitForElementToBeRemoved, getByPlaceholderText} from '@testing-library/react'
 
 import { ConfirmProvider, useConfirm } from '../src/index';
 
@@ -124,4 +124,54 @@ describe('useConfirm', () => {
     expect(queryByText('Yes')).toBeFalsy();
     expect(getByText('Ok')).toBeTruthy();
   });
+
+  describe('confirmation keyword', () => {
+    test('renders textfield when confirmation keyword is set', () => {
+      const { getByText, queryByPlaceholderText } = render(
+          <TestComponent confirmOptions={{
+            confirmationKeyword: 'DELETE'
+          }} />);
+
+      fireEvent.click(getByText('Delete'));
+
+      const textfield = queryByPlaceholderText('Please type "DELETE" to confirm');
+      const confirmationButton = getByText('Ok');
+
+      expect(textfield).toBeTruthy();
+
+      expect(confirmationButton.disabled).toBe(true);
+
+      fireEvent.change(textfield, { target: { value: 'DELETE' } });
+
+      expect(confirmationButton.disabled).toBe(false);
+    })
+  })
+  test('renders textfield with custom props', () => {
+    const { getByText, queryByPlaceholderText } = render(
+        <TestComponent confirmOptions={{
+          confirmationKeyword: 'DELETE',
+          confirmationKeywordTextFieldProps: {
+            placeholder: 'Custom placeholder',
+          }
+        }} />);
+
+    fireEvent.click(getByText('Delete'));
+
+    const textfield = queryByPlaceholderText('Custom placeholder');
+
+    expect(textfield).toBeTruthy();
+  })
+  test('renders textfield with custom placeholder function', () => {
+    const { getByText, queryByPlaceholderText } = render(
+        <TestComponent confirmOptions={{
+          confirmationKeyword: 'DELETE',
+          getConfirmationKeywordPlaceholder: (keyword) => keyword,
+        }} />);
+
+    fireEvent.click(getByText('Delete'));
+
+    const textfield = queryByPlaceholderText('DELETE');
+
+    expect(textfield).toBeTruthy();
+  })
 });

@@ -15,6 +15,8 @@ const DEFAULT_OPTIONS = {
   titleProps: {},
   contentProps: {},
   allowClose: true,
+  getConfirmationKeywordPlaceholder: (keyword) => 'Please type "' + keyword + '" to confirm',
+  confirmationKeywordTextFieldProps: {},
 };
 
 const buildOptions = (defaultOptions, options) => {
@@ -42,6 +44,10 @@ const buildOptions = (defaultOptions, options) => {
     ...(defaultOptions.contentProps || DEFAULT_OPTIONS.contentProps),
     ...(options.contentProps || {}),
   };
+  const confirmationKeywordTextFieldProps = {
+    ...(defaultOptions.confirmationKeywordTextFieldProps || DEFAULT_OPTIONS.confirmationKeywordTextFieldProps),
+    ...(options.confirmationKeywordTextFieldProps || {}),
+  };
 
   return {
     ...DEFAULT_OPTIONS,
@@ -53,6 +59,7 @@ const buildOptions = (defaultOptions, options) => {
     cancellationButtonProps,
     titleProps,
     contentProps,
+    confirmationKeywordTextFieldProps,
   }
 };
 
