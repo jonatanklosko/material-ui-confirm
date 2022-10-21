@@ -1,3 +1,7 @@
+## 3.0.7
+
+- Add support for confirmation keyword ([#60](https://github.com/jonatanklosko/material-ui-confirm/pull/60)) @TimMikeladze
+
 ## 3.0.6
 
 - Make `DialogActions` props configurable
