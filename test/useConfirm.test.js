@@ -152,7 +152,7 @@ describe("useConfirm", () => {
 
   describe("confirmation keyword", () => {
     test("renders textfield when confirmation keyword is set", () => {
-      const { getByText, queryByPlaceholderText } = render(
+      const { getByText, getAllByText } = render(
         <TestComponent
           confirmOptions={{
             confirmationKeyword: "DELETE",
@@ -162,9 +162,10 @@ describe("useConfirm", () => {
 
       fireEvent.click(getByText("Delete"));
 
-      const textfield = queryByPlaceholderText(
-        'Please type "DELETE" to confirm'
-      );
+      const textfield = getAllByText(
+        (content, element) => element.tagName.toLowerCase() === "input"
+      )[0];
+
       const confirmationButton = getByText("Ok");
 
       expect(textfield).toBeTruthy();
@@ -191,22 +192,6 @@ describe("useConfirm", () => {
     fireEvent.click(getByText("Delete"));
 
     const textfield = queryByPlaceholderText("Custom placeholder");
-
-    expect(textfield).toBeTruthy();
-  });
-  test("renders textfield with custom placeholder function", () => {
-    const { getByText, queryByPlaceholderText } = render(
-      <TestComponent
-        confirmOptions={{
-          confirmationKeyword: "DELETE",
-          getConfirmationKeywordPlaceholder: (keyword) => keyword,
-        }}
-      />
-    );
-
-    fireEvent.click(getByText("Delete"));
-
-    const textfield = queryByPlaceholderText("DELETE");
 
     expect(textfield).toBeTruthy();
   });

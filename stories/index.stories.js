@@ -192,9 +192,9 @@ const WithConfirmationKeywordAndCustomTextFieldProps = () => {
     <Button
       onClick={() =>
         confirm({
-          getConfirmationKeywordPlaceholder: () => "Enter DELETE",
           confirmationKeyword: "DELETE",
           confirmationKeywordTextFieldProps: {
+            label: "Enter DELETE",
             variant: "standard",
           },
         }).then(confirmationAction)

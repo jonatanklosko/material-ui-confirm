@@ -28,7 +28,6 @@ const ConfirmationDialog = ({
     contentProps,
     allowClose,
     confirmationKeyword,
-    getConfirmationKeywordPlaceholder,
     confirmationKeywordTextFieldProps,
   } = options;
 
@@ -45,7 +44,6 @@ const ConfirmationDialog = ({
           onChange={(e) => setConfirmationKeywordValue(e.target.value)}
           value={confirmationKeywordValue}
           fullWidth
-          placeholder={getConfirmationKeywordPlaceholder(confirmationKeyword)}
           {...confirmationKeywordTextFieldProps}
         />
       )}

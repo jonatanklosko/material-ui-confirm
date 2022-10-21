@@ -19,7 +19,6 @@ export interface ConfirmOptions {
   confirmationButtonProps?: ButtonProps;
   cancellationButtonProps?: ButtonProps;
   allowClose?: boolean;
-  getConfirmationKeywordPlaceholder?: (keyword: string) => string;
   confirmationKeyword?: string;
   confirmationKeywordTextFieldProps?: TextFieldProps;
 }

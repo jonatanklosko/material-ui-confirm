@@ -15,8 +15,6 @@ const DEFAULT_OPTIONS = {
   titleProps: {},
   contentProps: {},
   allowClose: true,
-  getConfirmationKeywordPlaceholder: (keyword) =>
-    'Please type "' + keyword + '" to confirm',
   confirmationKeywordTextFieldProps: {},
 };
 

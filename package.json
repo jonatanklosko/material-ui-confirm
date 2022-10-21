@@ -32,7 +32,7 @@
     "prepublishOnly": "npm run build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "format": "prettier --write **/*.{js,md,yml}"
+    "format": "prettier --write **/*.{js,md,yml,json}"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
