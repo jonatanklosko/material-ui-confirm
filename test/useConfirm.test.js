@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
-import { render, fireEvent, waitForElementToBeRemoved } from '@testing-library/react'
+import React, { useState } from "react";
+import {
+  render,
+  fireEvent,
+  waitForElementToBeRemoved,
+  getByPlaceholderText,
+} from "@testing-library/react";
 
-import { ConfirmProvider, useConfirm } from '../src/index';
+import { ConfirmProvider, useConfirm } from "../src/index";
 
-describe('useConfirm', () => {
+describe("useConfirm", () => {
   const deleteConfirmed = jest.fn();
   const deleteCancelled = jest.fn();
 
@@ -11,7 +16,11 @@ describe('useConfirm', () => {
     const confirm = useConfirm();
 
     return (
-      <button onClick={() => confirm(confirmOptions).then(deleteConfirmed).catch(deleteCancelled)}>
+      <button
+        onClick={() =>
+          confirm(confirmOptions).then(deleteConfirmed).catch(deleteCancelled)
+        }
+      >
         Delete
       </button>
     );
@@ -23,84 +32,100 @@ describe('useConfirm', () => {
     </ConfirmProvider>
   );
 
-  test('resolves the promise on confirm', async () => {
+  test("resolves the promise on confirm", async () => {
     const { getByText, queryByText } = render(<TestComponent />);
-    expect(queryByText('Are you sure?')).toBeFalsy();
-    fireEvent.click(getByText('Delete'));
-    expect(queryByText('Are you sure?')).toBeTruthy();
-    fireEvent.click(getByText('Ok'));
-    await waitForElementToBeRemoved(() => queryByText('Are you sure?'));
+    expect(queryByText("Are you sure?")).toBeFalsy();
+    fireEvent.click(getByText("Delete"));
+    expect(queryByText("Are you sure?")).toBeTruthy();
+    fireEvent.click(getByText("Ok"));
+    await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
     expect(deleteConfirmed).toHaveBeenCalled();
     expect(deleteCancelled).not.toHaveBeenCalled();
   });
 
-  test('rejects the promise on cancel', async () => {
+  test("rejects the promise on cancel", async () => {
     const { getByText, queryByText } = render(<TestComponent />);
-    expect(queryByText('Are you sure?')).toBeFalsy();
-    fireEvent.click(getByText('Delete'));
-    expect(queryByText('Are you sure?')).toBeTruthy();
-    fireEvent.click(getByText('Cancel'));
-    await waitForElementToBeRemoved(() => queryByText('Are you sure?'));
+    expect(queryByText("Are you sure?")).toBeFalsy();
+    fireEvent.click(getByText("Delete"));
+    expect(queryByText("Are you sure?")).toBeTruthy();
+    fireEvent.click(getByText("Cancel"));
+    await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
     expect(deleteConfirmed).not.toHaveBeenCalled();
     expect(deleteCancelled).toHaveBeenCalled();
   });
 
-  describe('options', () => {
-    test('accepts custom text', () => {
+  describe("options", () => {
+    test("accepts custom text", () => {
       const { getByText, queryByText } = render(
-        <TestComponent confirmOptions={{
-          title: 'Remove this item?',
-          description: 'This will permanently remove the item.',
-          cancellationText: 'No way',
-          confirmationText: 'Yessir',
-        }} />
+        <TestComponent
+          confirmOptions={{
+            title: "Remove this item?",
+            description: "This will permanently remove the item.",
+            cancellationText: "No way",
+            confirmationText: "Yessir",
+          }}
+        />
       );
-      fireEvent.click(getByText('Delete'));
-      expect(queryByText('Remove this item?')).toBeTruthy();
-      expect(queryByText('This will permanently remove the item.')).toBeTruthy();
-      expect(queryByText('No way')).toBeTruthy();
-      expect(queryByText('Yessir')).toBeTruthy();
+      fireEvent.click(getByText("Delete"));
+      expect(queryByText("Remove this item?")).toBeTruthy();
+      expect(
+        queryByText("This will permanently remove the item.")
+      ).toBeTruthy();
+      expect(queryByText("No way")).toBeTruthy();
+      expect(queryByText("Yessir")).toBeTruthy();
     });
 
-    test('accepts custom content', () => {
+    test("accepts custom content", () => {
       const { getByText, queryByText } = render(
-        <TestComponent confirmOptions={{
-          content: <div>Arbitrary content</div>
-        }} />
+        <TestComponent
+          confirmOptions={{
+            content: <div>Arbitrary content</div>,
+          }}
+        />
       );
-      fireEvent.click(getByText('Delete'));
-      expect(queryByText('Arbitrary content')).toBeTruthy();
+      fireEvent.click(getByText("Delete"));
+      expect(queryByText("Arbitrary content")).toBeTruthy();
     });
   });
 
-  test('honours default options passed to the provider', () => {
+  test("honours default options passed to the provider", () => {
     const { getByText, queryByText } = render(
       <ConfirmProvider
-        defaultOptions={{ confirmationText: 'Yessir', cancellationText: 'No way' }}
+        defaultOptions={{
+          confirmationText: "Yessir",
+          cancellationText: "No way",
+        }}
       >
-        <DeleteButton confirmOptions={{ cancellationText: 'Nope' }} />
+        <DeleteButton confirmOptions={{ cancellationText: "Nope" }} />
       </ConfirmProvider>
     );
-    fireEvent.click(getByText('Delete'));
-    expect(queryByText('Yessir')).toBeTruthy();
-    expect(queryByText('Nope')).toBeTruthy();
+    fireEvent.click(getByText("Delete"));
+    expect(queryByText("Yessir")).toBeTruthy();
+    expect(queryByText("Nope")).toBeTruthy();
   });
 
-  test('merges default options with local options in a deep manner', () => {
+  test("merges default options with local options in a deep manner", () => {
     const { getByText } = render(
       <ConfirmProvider
-        defaultOptions={{ confirmationButtonProps: { 'aria-label': 'Confirm' } }}
+        defaultOptions={{
+          confirmationButtonProps: { "aria-label": "Confirm" },
+        }}
       >
-        <DeleteButton confirmOptions={{ confirmationText: 'Yes', confirmationButtonProps: { disabled: true } }} />
+        <DeleteButton
+          confirmOptions={{
+            confirmationText: "Yes",
+            confirmationButtonProps: { disabled: true },
+          }}
+        />
       </ConfirmProvider>
     );
-    fireEvent.click(getByText('Delete'));
-    const button = getByText('Yes');
+    fireEvent.click(getByText("Delete"));
+    const button = getByText("Yes");
     expect(button.disabled).toBe(true);
-    expect(button.getAttribute('aria-label')).toEqual('Confirm');
+    expect(button.getAttribute("aria-label")).toEqual("Confirm");
   });
 
-  test('respects updates to default options', () => {
+  test("respects updates to default options", () => {
     function App() {
       const [confirmationText, setConfirmationText] = useState("Yes");
 
@@ -109,19 +134,65 @@ describe('useConfirm', () => {
           <DeleteButton />
           <button onClick={() => setConfirmationText("Ok")}>Change text</button>
         </ConfirmProvider>
-      )
+      );
     }
 
     const { getByText, queryByText } = render(<App />);
 
-    fireEvent.click(getByText('Delete'));
+    fireEvent.click(getByText("Delete"));
 
-    expect(getByText('Yes')).toBeTruthy();
-    expect(queryByText('Ok')).toBeFalsy();
+    expect(getByText("Yes")).toBeTruthy();
+    expect(queryByText("Ok")).toBeFalsy();
 
-    fireEvent.click(getByText('Change text'));
+    fireEvent.click(getByText("Change text"));
 
-    expect(queryByText('Yes')).toBeFalsy();
-    expect(getByText('Ok')).toBeTruthy();
+    expect(queryByText("Yes")).toBeFalsy();
+    expect(getByText("Ok")).toBeTruthy();
+  });
+
+  describe("confirmation keyword", () => {
+    test("renders textfield when confirmation keyword is set", () => {
+      const { getByText, getAllByText } = render(
+        <TestComponent
+          confirmOptions={{
+            confirmationKeyword: "DELETE",
+          }}
+        />
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      const textfield = getAllByText(
+        (content, element) => element.tagName.toLowerCase() === "input"
+      )[0];
+
+      const confirmationButton = getByText("Ok");
+
+      expect(textfield).toBeTruthy();
+
+      expect(confirmationButton.disabled).toBe(true);
+
+      fireEvent.change(textfield, { target: { value: "DELETE" } });
+
+      expect(confirmationButton.disabled).toBe(false);
+    });
+  });
+  test("renders textfield with custom props", () => {
+    const { getByText, queryByPlaceholderText } = render(
+      <TestComponent
+        confirmOptions={{
+          confirmationKeyword: "DELETE",
+          confirmationKeywordTextFieldProps: {
+            placeholder: "Custom placeholder",
+          },
+        }}
+      />
+    );
+
+    fireEvent.click(getByText("Delete"));
+
+    const textfield = queryByPlaceholderText("Custom placeholder");
+
+    expect(textfield).toBeTruthy();
   });
 });

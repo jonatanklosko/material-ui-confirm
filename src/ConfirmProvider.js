@@ -1,13 +1,13 @@
-import React, { useState, useCallback, Fragment } from 'react';
-import ConfirmContext from './ConfirmContext';
-import ConfirmationDialog from './ConfirmationDialog';
+import React, { useState, useCallback, Fragment } from "react";
+import ConfirmContext from "./ConfirmContext";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 const DEFAULT_OPTIONS = {
-  title: 'Are you sure?',
-  description: '',
+  title: "Are you sure?",
+  description: "",
   content: null,
-  confirmationText: 'Ok',
-  cancellationText: 'Cancel',
+  confirmationText: "Ok",
+  cancellationText: "Cancel",
   dialogProps: {},
   dialogActionsProps: {},
   confirmationButtonProps: {},
@@ -15,6 +15,7 @@ const DEFAULT_OPTIONS = {
   titleProps: {},
   contentProps: {},
   allowClose: true,
+  confirmationKeywordTextFieldProps: {},
 };
 
 const buildOptions = (defaultOptions, options) => {
@@ -23,15 +24,18 @@ const buildOptions = (defaultOptions, options) => {
     ...(options.dialogProps || {}),
   };
   const dialogActionsProps = {
-    ...(defaultOptions.dialogActionsProps || DEFAULT_OPTIONS.dialogActionsProps),
+    ...(defaultOptions.dialogActionsProps ||
+      DEFAULT_OPTIONS.dialogActionsProps),
     ...(options.dialogActionsProps || {}),
   };
   const confirmationButtonProps = {
-    ...(defaultOptions.confirmationButtonProps || DEFAULT_OPTIONS.confirmationButtonProps),
+    ...(defaultOptions.confirmationButtonProps ||
+      DEFAULT_OPTIONS.confirmationButtonProps),
     ...(options.confirmationButtonProps || {}),
   };
   const cancellationButtonProps = {
-    ...(defaultOptions.cancellationButtonProps || DEFAULT_OPTIONS.cancellationButtonProps),
+    ...(defaultOptions.cancellationButtonProps ||
+      DEFAULT_OPTIONS.cancellationButtonProps),
     ...(options.cancellationButtonProps || {}),
   };
   const titleProps = {
@@ -41,6 +45,11 @@ const buildOptions = (defaultOptions, options) => {
   const contentProps = {
     ...(defaultOptions.contentProps || DEFAULT_OPTIONS.contentProps),
     ...(options.contentProps || {}),
+  };
+  const confirmationKeywordTextFieldProps = {
+    ...(defaultOptions.confirmationKeywordTextFieldProps ||
+      DEFAULT_OPTIONS.confirmationKeywordTextFieldProps),
+    ...(options.confirmationKeywordTextFieldProps || {}),
   };
 
   return {
@@ -53,7 +62,8 @@ const buildOptions = (defaultOptions, options) => {
     cancellationButtonProps,
     titleProps,
     contentProps,
-  }
+    confirmationKeywordTextFieldProps,
+  };
 };
 
 const ConfirmProvider = ({ children, defaultOptions = {} }) => {

@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { DialogProps } from '@mui/material/Dialog';
-import { DialogActionsProps } from '@mui/material/DialogActions';
-import { DialogTitleProps } from '@mui/material/DialogTitle';
-import { DialogContentProps } from '@mui/material/DialogContent';
-import { ButtonProps } from '@mui/material/Button';
+import * as React from "react";
+import { DialogProps } from "@mui/material/Dialog";
+import { DialogActionsProps } from "@mui/material/DialogActions";
+import { DialogTitleProps } from "@mui/material/DialogTitle";
+import { DialogContentProps } from "@mui/material/DialogContent";
+import { ButtonProps } from "@mui/material/Button";
+import { TextFieldProps } from "@mui/material/TextField";
 
 export interface ConfirmOptions {
   title?: React.ReactNode;
@@ -18,6 +19,8 @@ export interface ConfirmOptions {
   confirmationButtonProps?: ButtonProps;
   cancellationButtonProps?: ButtonProps;
   allowClose?: boolean;
+  confirmationKeyword?: string;
+  confirmationKeywordTextFieldProps?: TextFieldProps;
 }
 
 export interface ConfirmProviderProps {
