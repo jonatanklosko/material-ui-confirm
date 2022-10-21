@@ -177,6 +177,8 @@ const WithConfirmationKeyword = () => {
     <Button
       onClick={() =>
         confirm({
+          description:
+            'This action is permanent. Please enter "DELETE" to confirm the action.',
           confirmationKeyword: "DELETE",
         }).then(confirmationAction)
       }
