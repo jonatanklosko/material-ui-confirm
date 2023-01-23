@@ -29,6 +29,7 @@ const ConfirmationDialog = ({
     allowClose,
     confirmationKeyword,
     confirmationKeywordTextFieldProps,
+    disableCancelButton,
   } = options;
 
   const [confirmationKeywordValue, setConfirmationKeywordValue] =
@@ -74,9 +75,11 @@ const ConfirmationDialog = ({
         )
       )}
       <DialogActions {...dialogActionsProps}>
-        <Button {...cancellationButtonProps} onClick={onCancel}>
-          {cancellationText}
-        </Button>
+        {!disableCancelButton && (
+          <Button {...cancellationButtonProps} onClick={onCancel}>
+            {cancellationText}
+          </Button>
+        )}
         <Button
           color="primary"
           disabled={confirmationButtonDisabled}

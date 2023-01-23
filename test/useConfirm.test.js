@@ -3,7 +3,6 @@ import {
   render,
   fireEvent,
   waitForElementToBeRemoved,
-  getByPlaceholderText,
 } from "@testing-library/react";
 
 import { ConfirmProvider, useConfirm } from "../src/index";
@@ -194,5 +193,39 @@ describe("useConfirm", () => {
     const textfield = queryByPlaceholderText("Custom placeholder");
 
     expect(textfield).toBeTruthy();
+  });
+
+  describe("disable cancel button", () => {
+    test("renders cancel button when disableCancelButton is false", () => {
+      const { getByText } = render(
+        <TestComponent
+          confirmOptions={{
+            disableCancelButton: false,
+          }}
+        />
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      const cancelButton = getByText("Cancel");
+
+      expect(cancelButton).toBeTruthy();
+    });
+
+    test("does not render cancel button when disableCancelButton is true", () => {
+      const { getByText, queryByText } = render(
+        <TestComponent
+          confirmOptions={{
+            disableCancelButton: true,
+          }}
+        />
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      const cancelButton = queryByText("Cancel");
+
+      expect(cancelButton).toBeFalsy();
+    });
   });
 });
