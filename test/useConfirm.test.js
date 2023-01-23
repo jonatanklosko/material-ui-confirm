@@ -195,12 +195,12 @@ describe("useConfirm", () => {
     expect(textfield).toBeTruthy();
   });
 
-  describe("disable cancel button", () => {
-    test("renders cancel button when disableCancelButton is false", () => {
+  describe("hide cancel button", () => {
+    test("renders cancel button when hideCancelButton is false", () => {
       const { getByText } = render(
         <TestComponent
           confirmOptions={{
-            disableCancelButton: false,
+            hideCancelButton: false,
           }}
         />
       );
@@ -212,11 +212,11 @@ describe("useConfirm", () => {
       expect(cancelButton).toBeTruthy();
     });
 
-    test("does not render cancel button when disableCancelButton is true", () => {
+    test("does not render cancel button when hideCancelButton is true", () => {
       const { getByText, queryByText } = render(
         <TestComponent
           confirmOptions={{
-            disableCancelButton: true,
+            hideCancelButton: true,
           }}
         />
       );

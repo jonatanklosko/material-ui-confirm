@@ -82,7 +82,7 @@ representing the user choice (resolved on confirmation and rejected on cancellat
 ##### Options
 
 | Name                                    | Type        | Default           | Description                                                                                                                                                                                                                            |
-| --------------------------------------- | ----------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|-----------------------------------------| ----------- | ----------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **`title`**                             | `ReactNode` | `'Are you sure?'` | Dialog title.                                                                                                                                                                                                                          |
 | **`description`**                       | `ReactNode` | `''`              | Dialog content, automatically wrapped in `DialogContentText`.                                                                                                                                                                          |
 | **`content`**                           | `ReactNode` | `null`            | Dialog content, same as `description` but not wrapped in `DialogContentText`. Supersedes `description` if present.                                                                                                                     |
@@ -97,6 +97,8 @@ representing the user choice (resolved on confirmation and rejected on cancellat
 | **`allowClose`**                        | `boolean`   | `true`            | Whether natural close (escape or backdrop click) should close the dialog. When set to `false` force the user to either cancel or confirm explicitly.                                                                                   |
 | **`confirmationKeyword`**               | `string`    | `undefined`       | If provided the confirmation button will be disabled by default and an additional textfield will be rendered. The confirmation button will only be enabled when the contents of the textfield match the value of `confirmationKeyword` |
 | **`confirmationKeywordTextFieldProps`** | `object`    | `{}`              | Material-UI [TextField](https://mui.com/material-ui/api/text-field/) props for the confirmation keyword textfield.                                                                                                                     |
+| **`hideCancelButton`**                  | `boolean`   | `false`           | Whether to hide the cancel button.                                                                                                                                                                                                     |
+
 
 ## Useful notes
 
