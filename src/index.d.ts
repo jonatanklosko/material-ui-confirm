@@ -21,6 +21,7 @@ export interface ConfirmOptions {
   allowClose?: boolean;
   confirmationKeyword?: string;
   confirmationKeywordTextFieldProps?: TextFieldProps;
+  hideCancelButton?: boolean;
 }
 
 export interface ConfirmProviderProps {
