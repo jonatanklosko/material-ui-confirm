@@ -17,6 +17,7 @@ const DEFAULT_OPTIONS = {
   allowClose: true,
   confirmationKeywordTextFieldProps: {},
   hideCancelButton: false,
+  buttonOrder: ['cancel','confirm'],
 };
 
 const buildOptions = (defaultOptions, options) => {

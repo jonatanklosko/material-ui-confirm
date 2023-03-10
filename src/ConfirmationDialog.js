@@ -30,6 +30,7 @@ const ConfirmationDialog = ({
     confirmationKeyword,
     confirmationKeywordTextFieldProps,
     hideCancelButton,
+    buttonOrder,
   } = options;
 
   const [confirmationKeywordValue, setConfirmationKeywordValue] =
@@ -50,6 +51,28 @@ const ConfirmationDialog = ({
       )}
     </>
   );
+
+  const dialogActions = buttonOrder.map(o => {
+    switch (o) {
+      case 'cancel':
+        if (!hideCancelButton) {
+          return (
+            <Button {...cancellationButtonProps} onClick={onCancel}>
+              {cancellationText}
+            </Button>
+          )
+        }
+      case 'confirm': 
+        return (<Button
+          color="primary"
+          disabled={confirmationButtonDisabled}
+          {...confirmationButtonProps}
+          onClick={onConfirm}
+        >
+          {confirmationText}
+        </Button>)
+    }
+  });
 
   return (
     <Dialog
@@ -75,19 +98,7 @@ const ConfirmationDialog = ({
         )
       )}
       <DialogActions {...dialogActionsProps}>
-        {!hideCancelButton && (
-          <Button {...cancellationButtonProps} onClick={onCancel}>
-            {cancellationText}
-          </Button>
-        )}
-        <Button
-          color="primary"
-          disabled={confirmationButtonDisabled}
-          {...confirmationButtonProps}
-          onClick={onConfirm}
-        >
-          {confirmationText}
-        </Button>
+        {dialogActions}
       </DialogActions>
     </Dialog>
   );
