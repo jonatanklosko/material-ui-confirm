@@ -212,7 +212,7 @@ const WithReversedButtons = () => {
   return (
     <Button
       onClick={() => {
-        confirm({ buttonOrder: ['confirm','cancel'] }).then(
+        confirm({ buttonOrder: ["confirm", "cancel"] }).then(
           confirmationAction
         );
       }}

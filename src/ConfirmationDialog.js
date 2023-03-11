@@ -52,23 +52,34 @@ const ConfirmationDialog = ({
     </>
   );
 
-  const dialogActions = buttonOrder.map(buttonType => {
-    if (buttonType === 'cancel') {
-      return !hideCancelButton && <Button {...cancellationButtonProps} onClick={onCancel}>
-        {cancellationText}
-      </Button>
-    } else if (buttonType === 'confirm') {
-        return (<Button
-            color="primary"
-            disabled={confirmationButtonDisabled}
-            {...confirmationButtonProps}
-            onClick={onConfirm}
-          >
-            {confirmationText}
-          </Button>)
-    } else {
-      throw new Error('Supported button types are only `confirm` and `cancel`')
+  const dialogActions = buttonOrder.map((buttonType) => {
+    if (buttonType === "cancel") {
+      return (
+        !hideCancelButton && (
+          <Button key="cancel" {...cancellationButtonProps} onClick={onCancel}>
+            {cancellationText}
+          </Button>
+        )
+      );
     }
+
+    if (buttonType === "confirm") {
+      return (
+        <Button
+          key="confirm"
+          color="primary"
+          disabled={confirmationButtonDisabled}
+          {...confirmationButtonProps}
+          onClick={onConfirm}
+        >
+          {confirmationText}
+        </Button>
+      );
+    }
+
+    throw new Error(
+      `Supported button types are only "confirm" and "cancel", got: ${buttonType}`
+    );
   });
 
   return (
@@ -94,9 +105,7 @@ const ConfirmationDialog = ({
           <DialogContent {...contentProps}>{confirmationContent}</DialogContent>
         )
       )}
-      <DialogActions {...dialogActionsProps}>
-        {dialogActions}
-      </DialogActions>
+      <DialogActions {...dialogActionsProps}>{dialogActions}</DialogActions>
     </Dialog>
   );
 };
