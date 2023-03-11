@@ -98,6 +98,7 @@ representing the user choice (resolved on confirmation and rejected on cancellat
 | **`confirmationKeyword`**               | `string`    | `undefined`       | If provided the confirmation button will be disabled by default and an additional textfield will be rendered. The confirmation button will only be enabled when the contents of the textfield match the value of `confirmationKeyword` |
 | **`confirmationKeywordTextFieldProps`** | `object`    | `{}`              | Material-UI [TextField](https://mui.com/material-ui/api/text-field/) props for the confirmation keyword textfield.                                                                                                                     |
 | **`hideCancelButton`**                  | `boolean`   | `false`           | Whether to hide the cancel button.                                                                                                                                                                                                     |
+| **`buttonOrder`**                  | `string[]`   | `['cancel','confirm']`           | Specify the order of confirm and cancel buttons.                                                                                                                                                                                                     |
 
 
 ## Useful notes

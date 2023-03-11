@@ -207,6 +207,21 @@ const WithConfirmationKeywordAndCustomTextFieldProps = () => {
   );
 };
 
+const WithReversedButtons = () => {
+  const confirm = useConfirm();
+  return (
+    <Button
+      onClick={() => {
+        confirm({ buttonOrder: ['confirm','cancel'] }).then(
+          confirmationAction
+        );
+      }}
+    >
+      Click
+    </Button>
+  );
+};
+
 storiesOf("Confirmation dialog", module)
   .addDecorator((getStory) => <ConfirmProvider>{getStory()}</ConfirmProvider>)
   .add("basic", () => <Basic />)
@@ -222,4 +237,5 @@ storiesOf("Confirmation dialog", module)
   .add("with confirmation keyword", () => <WithConfirmationKeyword />)
   .add("with confirmation keyword and custom textfield props", () => (
     <WithConfirmationKeywordAndCustomTextFieldProps />
-  ));
+  ))
+  .add("with reversed buttons keyword", () => <WithReversedButtons />);

@@ -22,6 +22,7 @@ export interface ConfirmOptions {
   confirmationKeyword?: string;
   confirmationKeywordTextFieldProps?: TextFieldProps;
   hideCancelButton?: boolean;
+  buttonOrder?: string[];
 }
 
 export interface ConfirmProviderProps {
