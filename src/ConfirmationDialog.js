@@ -57,8 +57,7 @@ const ConfirmationDialog = ({
       return !hideCancelButton && <Button {...cancellationButtonProps} onClick={onCancel}>
         {cancellationText}
       </Button>
-    }
-    if (buttonType === 'confirm') {
+    } else if (buttonType === 'confirm') {
         return (<Button
             color="primary"
             disabled={confirmationButtonDisabled}
@@ -67,6 +66,8 @@ const ConfirmationDialog = ({
           >
             {confirmationText}
           </Button>)
+    } else {
+      throw new Error('Supported button types are only `confirm` and `cancel`')
     }
   });
 
