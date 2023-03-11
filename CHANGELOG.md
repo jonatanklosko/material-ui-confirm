@@ -1,3 +1,7 @@
+## 3.0.9
+
+- Allow specifying the order of confirm & cancel buttons ([#70](https://github.com/jonatanklosko/material-ui-confirm/pull/70)) @MattFellows
+
 ## 3.0.8
 
 - Add `hideCancelButton` option ([#68](https://github.com/jonatanklosko/material-ui-confirm/pull/68)) @btmluiz
