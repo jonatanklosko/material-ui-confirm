@@ -52,25 +52,21 @@ const ConfirmationDialog = ({
     </>
   );
 
-  const dialogActions = buttonOrder.map(o => {
-    switch (o) {
-      case 'cancel':
-        if (!hideCancelButton) {
-          return (
-            <Button {...cancellationButtonProps} onClick={onCancel}>
-              {cancellationText}
-            </Button>
-          )
-        }
-      case 'confirm': 
+  const dialogActions = buttonOrder.map(buttonType => {
+    if (buttonType === 'cancel') {
+      return !hideCancelButton && <Button {...cancellationButtonProps} onClick={onCancel}>
+        {cancellationText}
+      </Button>
+    }
+    if (buttonType === 'confirm') {
         return (<Button
-          color="primary"
-          disabled={confirmationButtonDisabled}
-          {...confirmationButtonProps}
-          onClick={onConfirm}
-        >
-          {confirmationText}
-        </Button>)
+            color="primary"
+            disabled={confirmationButtonDisabled}
+            {...confirmationButtonProps}
+            onClick={onConfirm}
+          >
+            {confirmationText}
+          </Button>)
     }
   });
 
