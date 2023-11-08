@@ -105,7 +105,10 @@ const ConfirmationDialog = ({
           <DialogContent {...contentProps}>{confirmationContent}</DialogContent>
         )
       )}
-      <DialogActions {...dialogActionsProps}>{dialogActions}</DialogActions>
+      <DialogActions {...dialogActionsProps}>
+        {dialogActionsProps.children}
+        {dialogActions}
+      </DialogActions>
     </Dialog>
   );
 };

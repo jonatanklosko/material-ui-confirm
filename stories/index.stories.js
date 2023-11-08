@@ -80,6 +80,21 @@ const WithDialogActionsProps = () => {
   );
 };
 
+const WithDialogActionsChildren = () => {
+  const confirm = useConfirm();
+  return (
+    <Button
+      onClick={() => {
+        confirm({
+          dialogActionsProps: { children: <Button>Extra Button</Button> },
+        }).then(confirmationAction);
+      }}
+    >
+      Click
+    </Button>
+  );
+};
+
 const WithCustomButtonProps = () => {
   const confirm = useConfirm();
   return (
@@ -229,6 +244,9 @@ storiesOf("Confirmation dialog", module)
   .add("with custom text", () => <WithCustomText />)
   .add("with custom dialog props", () => <WithDialogProps />)
   .add("with custom dialog actions props", () => <WithDialogActionsProps />)
+  .add("with custom dialog actions children", () => (
+    <WithDialogActionsChildren />
+  ))
   .add("with custom button props", () => <WithCustomButtonProps />)
   .add("with custom callbacks", () => <WithCustomCallbacks />)
   .add("with custom elements", () => <WithCustomElements />)
