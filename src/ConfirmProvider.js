@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Fragment } from "react";
+import React, {useState, useCallback, Fragment, useEffect} from "react";
 import ConfirmContext from "./ConfirmContext";
 import ConfirmationDialog from "./ConfirmationDialog";
 
@@ -68,6 +68,13 @@ const buildOptions = (defaultOptions, options) => {
   };
 };
 
+let _confirm
+const confirm = async (options) => {
+    if(_confirm){
+      return await _confirm(options)
+    }
+}
+
 const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   const [options, setOptions] = useState({});
   const [resolveReject, setResolveReject] = useState([]);
@@ -98,6 +105,12 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
     }
   }, [resolve, handleClose]);
 
+  useEffect(() => {
+      if(confirm){
+        _confirm = confirm
+      }
+  }, [confirm])
+
   return (
     <Fragment>
       <ConfirmContext.Provider value={confirm}>
@@ -115,3 +128,4 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
 };
 
 export default ConfirmProvider;
+export {confirm}
