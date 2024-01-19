@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import { storiesOf } from "@storybook/react";
 import { ConfirmProvider, useConfirm } from "../src/index";
+import { confirm as staticConfirm } from "../src/index";
 
 const confirmationAction = action("confirmed");
 const cancellationAction = action("cancelled");
@@ -14,6 +15,14 @@ const Basic = () => {
   const confirm = useConfirm();
   return (
     <Button onClick={() => confirm().then(confirmationAction)}>Click</Button>
+  );
+};
+
+const StaticMethod = () => {
+  return (
+    <Button onClick={() => staticConfirm().then(confirmationAction)}>
+      Click
+    </Button>
   );
 };
 
@@ -225,6 +234,7 @@ const WithReversedButtons = () => {
 storiesOf("Confirmation dialog", module)
   .addDecorator((getStory) => <ConfirmProvider>{getStory()}</ConfirmProvider>)
   .add("basic", () => <Basic />)
+  .add("static method", () => <StaticMethod />)
   .add("with description", () => <WithDescription />)
   .add("with custom text", () => <WithCustomText />)
   .add("with custom dialog props", () => <WithDialogProps />)

@@ -33,3 +33,4 @@ export interface ConfirmProviderProps {
 export const ConfirmProvider: React.ComponentType<ConfirmProviderProps>;
 
 export const useConfirm: () => (options?: ConfirmOptions) => Promise<void>;
+export const confirm: (options?: ConfirmOptions) => Promise<void>;
