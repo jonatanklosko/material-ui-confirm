@@ -119,4 +119,4 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
 };
 
 export default ConfirmProvider;
-export {confirm}
+export { confirmGlobal as confirm };
