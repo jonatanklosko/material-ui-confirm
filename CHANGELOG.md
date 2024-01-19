@@ -1,3 +1,7 @@
+## 3.0.10
+
+- Add a global `confirm` method for use with class components ([#86](https://github.com/jonatanklosko/material-ui-confirm/pull/86)) @liaokaime
+
 ## 3.0.9
 
 - Allow specifying the order of confirm & cancel buttons ([#70](https://github.com/jonatanklosko/material-ui-confirm/pull/70)) @MattFellows
