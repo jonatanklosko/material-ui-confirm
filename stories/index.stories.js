@@ -19,11 +19,12 @@ const Basic = () => {
 };
 
 const StaticMethod = () => {
-    return (
-        <Button onClick={() => staticConfirm().then(confirmationAction)}>Click</Button>
-    );
+  return (
+    <Button onClick={() => staticConfirm().then(confirmationAction)}>
+      Click
+    </Button>
+  );
 };
-
 
 const WithDescription = () => {
   const confirm = useConfirm();

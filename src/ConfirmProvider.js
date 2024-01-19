@@ -1,4 +1,4 @@
-import React, {useState, useCallback, Fragment, useEffect} from "react";
+import React, { useState, useCallback, Fragment, useEffect } from "react";
 import ConfirmContext from "./ConfirmContext";
 import ConfirmationDialog from "./ConfirmationDialog";
 
