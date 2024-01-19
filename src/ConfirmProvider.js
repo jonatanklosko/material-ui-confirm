@@ -68,12 +68,7 @@ const buildOptions = (defaultOptions, options) => {
   };
 };
 
-let _confirm
-const confirm = async (options) => {
-    if(_confirm){
-      return await _confirm(options)
-    }
-}
+let confirmGlobal;
 
 const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   const [options, setOptions] = useState({});
