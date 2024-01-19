@@ -100,11 +100,7 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
     }
   }, [resolve, handleClose]);
 
-  useEffect(() => {
-      if(confirm){
-        _confirm = confirm
-      }
-  }, [confirm])
+  confirmGlobal = confirm;
 
   return (
     <Fragment>
