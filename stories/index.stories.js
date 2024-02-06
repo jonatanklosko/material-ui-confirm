@@ -32,7 +32,7 @@ const WithDescription = () => {
     <Button
       onClick={() => {
         confirm({ description: "This action is permanent!" }).then(
-          confirmationAction
+          confirmationAction,
         );
       }}
     >
@@ -222,7 +222,7 @@ const WithReversedButtons = () => {
     <Button
       onClick={() => {
         confirm({ buttonOrder: ["confirm", "cancel"] }).then(
-          confirmationAction
+          confirmationAction,
         );
       }}
     >

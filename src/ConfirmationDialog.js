@@ -78,7 +78,7 @@ const ConfirmationDialog = ({
     }
 
     throw new Error(
-      `Supported button types are only "confirm" and "cancel", got: ${buttonType}`
+      `Supported button types are only "confirm" and "cancel", got: ${buttonType}`,
     );
   });
 

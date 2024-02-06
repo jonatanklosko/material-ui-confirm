@@ -63,12 +63,12 @@ describe("useConfirm", () => {
             cancellationText: "No way",
             confirmationText: "Yessir",
           }}
-        />
+        />,
       );
       fireEvent.click(getByText("Delete"));
       expect(queryByText("Remove this item?")).toBeTruthy();
       expect(
-        queryByText("This will permanently remove the item.")
+        queryByText("This will permanently remove the item."),
       ).toBeTruthy();
       expect(queryByText("No way")).toBeTruthy();
       expect(queryByText("Yessir")).toBeTruthy();
@@ -80,7 +80,7 @@ describe("useConfirm", () => {
           confirmOptions={{
             content: <div>Arbitrary content</div>,
           }}
-        />
+        />,
       );
       fireEvent.click(getByText("Delete"));
       expect(queryByText("Arbitrary content")).toBeTruthy();
@@ -96,7 +96,7 @@ describe("useConfirm", () => {
         }}
       >
         <DeleteButton confirmOptions={{ cancellationText: "Nope" }} />
-      </ConfirmProvider>
+      </ConfirmProvider>,
     );
     fireEvent.click(getByText("Delete"));
     expect(queryByText("Yessir")).toBeTruthy();
@@ -116,7 +116,7 @@ describe("useConfirm", () => {
             confirmationButtonProps: { disabled: true },
           }}
         />
-      </ConfirmProvider>
+      </ConfirmProvider>,
     );
     fireEvent.click(getByText("Delete"));
     const button = getByText("Yes");
@@ -156,13 +156,13 @@ describe("useConfirm", () => {
           confirmOptions={{
             confirmationKeyword: "DELETE",
           }}
-        />
+        />,
       );
 
       fireEvent.click(getByText("Delete"));
 
       const textfield = getAllByText(
-        (content, element) => element.tagName.toLowerCase() === "input"
+        (content, element) => element.tagName.toLowerCase() === "input",
       )[0];
 
       const confirmationButton = getByText("Ok");
@@ -182,13 +182,13 @@ describe("useConfirm", () => {
           confirmOptions={{
             confirmationKeyword: "DELETE",
           }}
-        />
+        />,
       );
 
       fireEvent.click(getByText("Delete"));
 
       let textfield = getAllByText(
-        (content, element) => element.tagName.toLowerCase() === "input"
+        (content, element) => element.tagName.toLowerCase() === "input",
       )[0];
 
       expect(textfield).toBeTruthy();
@@ -199,7 +199,7 @@ describe("useConfirm", () => {
       fireEvent.click(getByText("Delete"));
 
       textfield = getAllByText(
-        (content, element) => element.tagName.toLowerCase() === "input"
+        (content, element) => element.tagName.toLowerCase() === "input",
       )[0];
 
       expect(textfield.value).toEqual("");
@@ -215,7 +215,7 @@ describe("useConfirm", () => {
             placeholder: "Custom placeholder",
           },
         }}
-      />
+      />,
     );
 
     fireEvent.click(getByText("Delete"));
@@ -232,7 +232,7 @@ describe("useConfirm", () => {
           confirmOptions={{
             hideCancelButton: false,
           }}
-        />
+        />,
       );
 
       fireEvent.click(getByText("Delete"));
@@ -248,7 +248,7 @@ describe("useConfirm", () => {
           confirmOptions={{
             hideCancelButton: true,
           }}
-        />
+        />,
       );
 
       fireEvent.click(getByText("Delete"));
