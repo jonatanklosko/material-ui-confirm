@@ -1,3 +1,7 @@
+## 3.0.11
+
+- Fixed confirmation keyword field to reset whenever the dialog is open
+
 ## 3.0.10
 
 - Add a global `confirm` method for use with class components ([#86](https://github.com/jonatanklosko/material-ui-confirm/pull/86)) @liaokaime
