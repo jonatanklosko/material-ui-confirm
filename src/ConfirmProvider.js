@@ -73,10 +73,12 @@ let confirmGlobal;
 const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   const [options, setOptions] = useState({});
   const [resolveReject, setResolveReject] = useState([]);
+  const [key, setKey] = useState(0);
   const [resolve, reject] = resolveReject;
 
   const confirm = useCallback((options = {}) => {
     return new Promise((resolve, reject) => {
+      setKey((key) => key + 1);
       setOptions(options);
       setResolveReject([resolve, reject]);
     });
@@ -108,6 +110,7 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
         {children}
       </ConfirmContext.Provider>
       <ConfirmationDialog
+        key={key}
         open={resolveReject.length === 2}
         options={buildOptions(defaultOptions, options)}
         onClose={handleClose}

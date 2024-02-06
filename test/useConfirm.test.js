@@ -175,7 +175,37 @@ describe("useConfirm", () => {
 
       expect(confirmationButton.disabled).toBe(false);
     });
+
+    test("resets the input value on every open", () => {
+      const { getByText, getAllByText } = render(
+        <TestComponent
+          confirmOptions={{
+            confirmationKeyword: "DELETE",
+          }}
+        />
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      let textfield = getAllByText(
+        (content, element) => element.tagName.toLowerCase() === "input"
+      )[0];
+
+      expect(textfield).toBeTruthy();
+      fireEvent.change(textfield, { target: { value: "DELETE" } });
+
+      fireEvent.click(getByText("Ok"));
+
+      fireEvent.click(getByText("Delete"));
+
+      textfield = getAllByText(
+        (content, element) => element.tagName.toLowerCase() === "input"
+      )[0];
+
+      expect(textfield.value).toEqual("");
+    });
   });
+
   test("renders textfield with custom props", () => {
     const { getByText, queryByPlaceholderText } = render(
       <TestComponent
