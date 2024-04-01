@@ -45,7 +45,7 @@ const ConfirmationDialog = ({
 
   const confirmationButtonDisabled = Boolean(
     (confirmationKeyword && confirmationKeywordValue !== confirmationKeyword) ||
-      (isAcknowledgeCheckbox && !acknowledgeAccept)
+      (isAcknowledgeCheckbox && !acknowledgeAccept),
   );
 
   const acknowledgeCheckbox = (
@@ -105,7 +105,7 @@ const ConfirmationDialog = ({
     }
 
     throw new Error(
-      `Supported button types are only "confirm" and "cancel", got: ${buttonType}`
+      `Supported button types are only "confirm" and "cancel", got: ${buttonType}`,
     );
   });
 
