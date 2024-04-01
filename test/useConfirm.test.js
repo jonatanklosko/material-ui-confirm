@@ -63,12 +63,12 @@ describe("useConfirm", () => {
             cancellationText: "No way",
             confirmationText: "Yessir",
           }}
-        />,
+        />
       );
       fireEvent.click(getByText("Delete"));
       expect(queryByText("Remove this item?")).toBeTruthy();
       expect(
-        queryByText("This will permanently remove the item."),
+        queryByText("This will permanently remove the item.")
       ).toBeTruthy();
       expect(queryByText("No way")).toBeTruthy();
       expect(queryByText("Yessir")).toBeTruthy();
@@ -80,7 +80,7 @@ describe("useConfirm", () => {
           confirmOptions={{
             content: <div>Arbitrary content</div>,
           }}
-        />,
+        />
       );
       fireEvent.click(getByText("Delete"));
       expect(queryByText("Arbitrary content")).toBeTruthy();
@@ -96,7 +96,7 @@ describe("useConfirm", () => {
         }}
       >
         <DeleteButton confirmOptions={{ cancellationText: "Nope" }} />
-      </ConfirmProvider>,
+      </ConfirmProvider>
     );
     fireEvent.click(getByText("Delete"));
     expect(queryByText("Yessir")).toBeTruthy();
@@ -116,7 +116,7 @@ describe("useConfirm", () => {
             confirmationButtonProps: { disabled: true },
           }}
         />
-      </ConfirmProvider>,
+      </ConfirmProvider>
     );
     fireEvent.click(getByText("Delete"));
     const button = getByText("Yes");
@@ -156,13 +156,13 @@ describe("useConfirm", () => {
           confirmOptions={{
             confirmationKeyword: "DELETE",
           }}
-        />,
+        />
       );
 
       fireEvent.click(getByText("Delete"));
 
       const textfield = getAllByText(
-        (content, element) => element.tagName.toLowerCase() === "input",
+        (content, element) => element.tagName.toLowerCase() === "input"
       )[0];
 
       const confirmationButton = getByText("Ok");
@@ -182,13 +182,13 @@ describe("useConfirm", () => {
           confirmOptions={{
             confirmationKeyword: "DELETE",
           }}
-        />,
+        />
       );
 
       fireEvent.click(getByText("Delete"));
 
       let textfield = getAllByText(
-        (content, element) => element.tagName.toLowerCase() === "input",
+        (content, element) => element.tagName.toLowerCase() === "input"
       )[0];
 
       expect(textfield).toBeTruthy();
@@ -199,7 +199,7 @@ describe("useConfirm", () => {
       fireEvent.click(getByText("Delete"));
 
       textfield = getAllByText(
-        (content, element) => element.tagName.toLowerCase() === "input",
+        (content, element) => element.tagName.toLowerCase() === "input"
       )[0];
 
       expect(textfield.value).toEqual("");
@@ -215,7 +215,7 @@ describe("useConfirm", () => {
             placeholder: "Custom placeholder",
           },
         }}
-      />,
+      />
     );
 
     fireEvent.click(getByText("Delete"));
@@ -232,7 +232,7 @@ describe("useConfirm", () => {
           confirmOptions={{
             hideCancelButton: false,
           }}
-        />,
+        />
       );
 
       fireEvent.click(getByText("Delete"));
@@ -248,7 +248,7 @@ describe("useConfirm", () => {
           confirmOptions={{
             hideCancelButton: true,
           }}
-        />,
+        />
       );
 
       fireEvent.click(getByText("Delete"));
@@ -256,6 +256,146 @@ describe("useConfirm", () => {
       const cancelButton = queryByText("Cancel");
 
       expect(cancelButton).toBeFalsy();
+    });
+  });
+
+  describe("acknowledge checkbox", () => {
+    test("renders acknowledge checkbox when acknowledge checkbox is enabled", () => {
+      const { getByText, getAllByRole } = render(
+        <TestComponent
+          confirmOptions={{
+            isAcknowledgeCheckbox: true,
+          }}
+        />
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      const checkboxes = getAllByRole("checkbox");
+      expect(checkboxes.length).toBe(1);
+
+      const acknowledgeCheckbox = checkboxes[0];
+      expect(acknowledgeCheckbox).toBeTruthy();
+      expect(acknowledgeCheckbox.checked).toEqual(false);
+
+      const confirmationButton = getByText("Ok");
+      expect(confirmationButton.disabled).toBe(true);
+
+      fireEvent.click(acknowledgeCheckbox);
+
+      expect(acknowledgeCheckbox.checked).toEqual(true);
+
+      expect(confirmationButton.disabled).toBe(false);
+    });
+
+    test("resets acknowledge checkbox state on every open", () => {
+      const { getByText, getAllByRole } = render(
+        <TestComponent
+          confirmOptions={{
+            isAcknowledgeCheckbox: true,
+          }}
+        />
+      );
+
+      for (let i = 0; i <= 5; i++) {
+        fireEvent.click(getByText("Delete"));
+
+        const checkboxes = getAllByRole("checkbox");
+        expect(checkboxes.length).toBe(1);
+
+        const acknowledgeCheckbox = checkboxes[0];
+        expect(acknowledgeCheckbox).toBeTruthy();
+        expect(acknowledgeCheckbox.checked).toEqual(false);
+
+        const confirmationButton = getByText("Ok");
+        expect(confirmationButton.disabled).toBe(true);
+
+        fireEvent.click(acknowledgeCheckbox);
+
+        expect(acknowledgeCheckbox.checked).toEqual(true);
+        expect(confirmationButton.disabled).toBe(false);
+
+        fireEvent.click(confirmationButton);
+      }
+    });
+
+    test("renders acknowledge checkbox with custom label", () => {
+      const { getByText, getAllByText } = render(
+        <TestComponent
+          confirmOptions={{
+            isAcknowledgeCheckbox: true,
+            acknowledgeCheckboxLabel: "I confirm and understand the risk",
+          }}
+        />
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      const checkboxLabels = getAllByText(
+        (content, element) =>
+          element.tagName.toLowerCase() === "span" &&
+          element.classList.contains("MuiFormControlLabel-label")
+      );
+
+      expect(checkboxLabels).toBeTruthy();
+
+      const checkboxLabel = checkboxLabels[0];
+      expect(checkboxLabel).toBeTruthy();
+      expect(checkboxLabel.textContent).toBe(
+        "I confirm and understand the risk"
+      );
+    });
+
+    test("renders acknowledge checkbox with FormControlLabel custom props", () => {
+      const { getByText, getAllByText } = render(
+        <TestComponent
+          confirmOptions={{
+            isAcknowledgeCheckbox: true,
+            acknowledgeFormControlLabelProps: {
+              style: { marginTop: "12px" },
+            },
+          }}
+        />
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      const formLabelElement = getAllByText(
+        (content, element) => element.tagName.toLowerCase() === "label"
+      )[0];
+
+      expect(formLabelElement).toBeTruthy();
+      const formLabelStyles = window.getComputedStyle(formLabelElement);
+      expect(formLabelStyles.marginTop).toBe("12px");
+    });
+
+    test("renders acknowledge checkbox with checkbox custom props", () => {
+      const { getByText, getAllByText } = render(
+        <TestComponent
+          confirmOptions={{
+            isAcknowledgeCheckbox: true,
+            acknowledgeCheckboxProps: {
+              style: { marginRight: "15px" },
+            },
+          }}
+        />
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      const checkboxWrappers = getAllByText(
+        (content, element) =>
+          element.tagName.toLowerCase() === "span" &&
+          element.classList.contains("MuiCheckbox-root")
+      );
+
+      expect(checkboxWrappers.length).toBe(1);
+
+      const checkboxWrapper = checkboxWrappers[0];
+      expect(checkboxWrapper).toBeTruthy();
+
+      const wrapperStyles = window.getComputedStyle(checkboxWrapper);
+      expect(wrapperStyles.marginRight).toBe("15px");
     });
   });
 });

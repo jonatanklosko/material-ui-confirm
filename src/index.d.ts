@@ -5,6 +5,7 @@ import { DialogTitleProps } from "@mui/material/DialogTitle";
 import { DialogContentProps } from "@mui/material/DialogContent";
 import { ButtonProps } from "@mui/material/Button";
 import { TextFieldProps } from "@mui/material/TextField";
+import { CheckboxProps, FormControlLabelProps } from "@mui/material";
 
 export interface ConfirmOptions {
   title?: React.ReactNode;
@@ -23,6 +24,10 @@ export interface ConfirmOptions {
   confirmationKeywordTextFieldProps?: TextFieldProps;
   hideCancelButton?: boolean;
   buttonOrder?: string[];
+  isAcknowledgeCheckbox?: boolean;
+  acknowledgeCheckboxLabel?: string | null;
+  acknowledgeFormControlLabelProps?: FormControlLabelProps;
+  acknowledgeCheckboxProps?: CheckboxProps;
 }
 
 export interface ConfirmProviderProps {
