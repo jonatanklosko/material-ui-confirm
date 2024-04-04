@@ -231,6 +231,57 @@ const WithReversedButtons = () => {
   );
 };
 
+const WithCustomLabelAcknowledgeCheckbox = () => {
+  const confirm = useConfirm();
+  return (
+    <Button
+      onClick={() => {
+        confirm({
+          acknowledgement: "I confirm and understand the risk",
+        }).then(confirmationAction);
+      }}
+    >
+      Click
+    </Button>
+  );
+};
+
+const WithEnabledAcknowledgeCheckboxAndCustomFormControlLabelProps = () => {
+  const confirm = useConfirm();
+  return (
+    <Button
+      onClick={() => {
+        confirm({
+          acknowledgement: "I confirm and understand the risk",
+          acknowledgementFormControlLabelProps: {
+            color: "warning",
+          },
+        }).then(confirmationAction);
+      }}
+    >
+      Click
+    </Button>
+  );
+};
+
+const WithEnabledAcknowledgeCheckboxAndCustomCheckboxProps = () => {
+  const confirm = useConfirm();
+  return (
+    <Button
+      onClick={() => {
+        confirm({
+          acknowledgement: "I confirm and understand the risk",
+          acknowledgementCheckboxProps: {
+            disableRipple: true,
+          },
+        }).then(confirmationAction);
+      }}
+    >
+      Click
+    </Button>
+  );
+};
+
 storiesOf("Confirmation dialog", module)
   .addDecorator((getStory) => <ConfirmProvider>{getStory()}</ConfirmProvider>)
   .add("basic", () => <Basic />)
@@ -248,4 +299,14 @@ storiesOf("Confirmation dialog", module)
   .add("with confirmation keyword and custom textfield props", () => (
     <WithConfirmationKeywordAndCustomTextFieldProps />
   ))
-  .add("with reversed buttons keyword", () => <WithReversedButtons />);
+  .add("with reversed buttons keyword", () => <WithReversedButtons />)
+  .add("with enabled acknowledge checkbox and label ", () => (
+    <WithCustomLabelAcknowledgeCheckbox />
+  ))
+  .add(
+    "with enabled acknowledge checkbox and custom form control label props",
+    () => <WithEnabledAcknowledgeCheckboxAndCustomFormControlLabelProps />,
+  )
+  .add("with enabled acknowledge checkbox and custom checkbox props", () => (
+    <WithEnabledAcknowledgeCheckboxAndCustomCheckboxProps />
+  ));

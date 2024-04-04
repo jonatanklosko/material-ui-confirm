@@ -6,6 +6,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const ConfirmationDialog = ({
   open,
@@ -31,13 +33,37 @@ const ConfirmationDialog = ({
     confirmationKeywordTextFieldProps,
     hideCancelButton,
     buttonOrder,
+    acknowledgement,
+    acknowledgementFormControlLabelProps,
+    acknowledgementCheckboxProps,
   } = options;
 
   const [confirmationKeywordValue, setConfirmationKeywordValue] =
     React.useState("");
+  const [isAcknowledged, setIsAcknowledged] = React.useState(false);
 
-  const confirmationButtonDisabled =
-    confirmationKeyword && confirmationKeywordValue !== confirmationKeyword;
+  const confirmationButtonDisabled = Boolean(
+    (confirmationKeyword && confirmationKeywordValue !== confirmationKeyword) ||
+      (acknowledgement && !isAcknowledged),
+  );
+
+  const acknowledgeCheckbox = (
+    <>
+      {acknowledgement && (
+        <FormControlLabel
+          {...acknowledgementFormControlLabelProps}
+          control={
+            <Checkbox
+              {...acknowledgementCheckboxProps}
+              value={isAcknowledged}
+              onChange={(_, value) => setIsAcknowledged(value)}
+            />
+          }
+          label={acknowledgement}
+        />
+      )}
+    </>
+  );
 
   const confirmationContent = (
     <>
@@ -94,15 +120,20 @@ const ConfirmationDialog = ({
         <DialogContent {...contentProps}>
           {content}
           {confirmationContent}
+          {acknowledgeCheckbox}
         </DialogContent>
       ) : description ? (
         <DialogContent {...contentProps}>
           <DialogContentText>{description}</DialogContentText>
           {confirmationContent}
+          {acknowledgeCheckbox}
         </DialogContent>
       ) : (
-        confirmationKeyword && (
-          <DialogContent {...contentProps}>{confirmationContent}</DialogContent>
+        (confirmationKeyword || acknowledgeCheckbox) && (
+          <DialogContent {...contentProps}>
+            {confirmationContent}
+            {acknowledgeCheckbox}
+          </DialogContent>
         )
       )}
       <DialogActions {...dialogActionsProps}>{dialogActions}</DialogActions>

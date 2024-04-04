@@ -258,4 +258,113 @@ describe("useConfirm", () => {
       expect(cancelButton).toBeFalsy();
     });
   });
+
+  test("renders acknowledge checkbox with label", () => {
+    const { getByText, getAllByText } = render(
+      <TestComponent
+        confirmOptions={{
+          acknowledgement: "I confirm and understand the risk",
+        }}
+      />,
+    );
+
+    fireEvent.click(getByText("Delete"));
+
+    const checkboxLabels = getAllByText(
+      (content, element) =>
+        element.tagName.toLowerCase() === "span" &&
+        element.classList.contains("MuiFormControlLabel-label"),
+    );
+
+    expect(checkboxLabels).toBeTruthy();
+
+    const checkboxLabel = checkboxLabels[0];
+    expect(checkboxLabel).toBeTruthy();
+    expect(checkboxLabel.textContent).toBe("I confirm and understand the risk");
+  });
+
+  describe("acknowledge checkbox", () => {
+    test("resets acknowledge checkbox state on every open", () => {
+      const { getByText, getAllByRole } = render(
+        <TestComponent
+          confirmOptions={{
+            acknowledgement: "I confirm and understand the risk",
+          }}
+        />,
+      );
+
+      for (let i = 0; i <= 1; i++) {
+        fireEvent.click(getByText("Delete"));
+
+        const checkboxes = getAllByRole("checkbox");
+        expect(checkboxes.length).toBe(1);
+
+        const acknowledgeCheckbox = checkboxes[0];
+        expect(acknowledgeCheckbox).toBeTruthy();
+        expect(acknowledgeCheckbox.checked).toEqual(false);
+
+        const confirmationButton = getByText("Ok");
+        expect(confirmationButton.disabled).toBe(true);
+
+        fireEvent.click(acknowledgeCheckbox);
+
+        expect(acknowledgeCheckbox.checked).toEqual(true);
+        expect(confirmationButton.disabled).toBe(false);
+
+        fireEvent.click(confirmationButton);
+      }
+    });
+
+    test("renders acknowledge checkbox with FormControlLabel custom props", () => {
+      const { getByText, getAllByText } = render(
+        <TestComponent
+          confirmOptions={{
+            acknowledgement: "I confirm and understand the risk",
+            acknowledgementFormControlLabelProps: {
+              style: { marginTop: "12px" },
+            },
+          }}
+        />,
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      const formLabelElement = getAllByText(
+        (content, element) => element.tagName.toLowerCase() === "label",
+      )[0];
+
+      expect(formLabelElement).toBeTruthy();
+      const formLabelStyles = window.getComputedStyle(formLabelElement);
+      expect(formLabelStyles.marginTop).toBe("12px");
+    });
+
+    test("renders acknowledge checkbox with checkbox custom props", () => {
+      const { getByText, getAllByText } = render(
+        <TestComponent
+          confirmOptions={{
+            acknowledgement: "I confirm and understand the risk",
+            acknowledgementCheckboxProps: {
+              style: { marginRight: "15px" },
+            },
+          }}
+        />,
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      const checkboxWrappers = getAllByText(
+        (content, element) =>
+          element.tagName.toLowerCase() === "span" &&
+          element.classList.contains("MuiCheckbox-root"),
+      );
+
+      expect(checkboxWrappers.length).toBe(1);
+
+      const checkboxWrapper = checkboxWrappers[0];
+      expect(checkboxWrapper).toBeTruthy();
+
+      const wrapperStyles = window.getComputedStyle(checkboxWrapper);
+      expect(wrapperStyles.marginRight).toBe("15px");
+    });
+  });
 });
