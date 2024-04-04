@@ -1,3 +1,7 @@
+## 3.0.12
+
+- Add acknowledgement checkbox option ([#94](https://github.com/jonatanklosko/material-ui-confirm/pull/94)) @MuscularSloth
+
 ## 3.0.11
 
 - Fixed confirmation keyword field to reset whenever the dialog is open
