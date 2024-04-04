@@ -40,11 +40,11 @@ const ConfirmationDialog = ({
 
   const [confirmationKeywordValue, setConfirmationKeywordValue] =
     React.useState("");
-  const [acknowledgeAccept, setAcknowledgeAccept] = React.useState(false);
+  const [isAcknowledged, setIsAcknowledged] = React.useState(false);
 
   const confirmationButtonDisabled = Boolean(
     (confirmationKeyword && confirmationKeywordValue !== confirmationKeyword) ||
-      (acknowledgement && !acknowledgeAccept),
+      (acknowledgement && !isAcknowledged),
   );
 
   const acknowledgeCheckbox = (
@@ -55,8 +55,8 @@ const ConfirmationDialog = ({
           control={
             <Checkbox
               {...acknowledgementCheckboxProps}
-              value={acknowledgeAccept}
-              onChange={(_, val) => setAcknowledgeAccept(val)}
+              value={isAcknowledged}
+              onChange={(_, value) => setIsAcknowledged(value)}
             />
           }
           label={acknowledgement}
