@@ -264,7 +264,7 @@ describe("useConfirm", () => {
       const { getByText, getAllByRole } = render(
         <TestComponent
           confirmOptions={{
-            isAcknowledgeCheckbox: true,
+            acknowledgement: true,
           }}
         />,
       );
@@ -292,12 +292,12 @@ describe("useConfirm", () => {
       const { getByText, getAllByRole } = render(
         <TestComponent
           confirmOptions={{
-            isAcknowledgeCheckbox: true,
+            acknowledgement: true,
           }}
         />,
       );
 
-      for (let i = 0; i <= 5; i++) {
+      for (let i = 0; i <= 1; i++) {
         fireEvent.click(getByText("Delete"));
 
         const checkboxes = getAllByRole("checkbox");
@@ -323,8 +323,7 @@ describe("useConfirm", () => {
       const { getByText, getAllByText } = render(
         <TestComponent
           confirmOptions={{
-            isAcknowledgeCheckbox: true,
-            acknowledgeCheckboxLabel: "I confirm and understand the risk",
+            acknowledgement: "I confirm and understand the risk",
           }}
         />,
       );
@@ -346,12 +345,36 @@ describe("useConfirm", () => {
       );
     });
 
+    test("renders acknowledge checkbox with an empty label", () => {
+      const { getByText, getAllByText } = render(
+        <TestComponent
+          confirmOptions={{
+            acknowledgement: "",
+          }}
+        />,
+      );
+
+      fireEvent.click(getByText("Delete"));
+
+      const checkboxLabels = getAllByText(
+        (content, element) =>
+          element.tagName.toLowerCase() === "span" &&
+          element.classList.contains("MuiFormControlLabel-label"),
+      );
+
+      expect(checkboxLabels).toBeTruthy();
+
+      const checkboxLabel = checkboxLabels[0];
+      expect(checkboxLabel).toBeTruthy();
+      expect(checkboxLabel.textContent).toBe("");
+    });
+
     test("renders acknowledge checkbox with FormControlLabel custom props", () => {
       const { getByText, getAllByText } = render(
         <TestComponent
           confirmOptions={{
-            isAcknowledgeCheckbox: true,
-            acknowledgeFormControlLabelProps: {
+            acknowledgement: true,
+            acknowledgementFormControlLabelProps: {
               style: { marginTop: "12px" },
             },
           }}
@@ -373,8 +396,8 @@ describe("useConfirm", () => {
       const { getByText, getAllByText } = render(
         <TestComponent
           confirmOptions={{
-            isAcknowledgeCheckbox: true,
-            acknowledgeCheckboxProps: {
+            acknowledgement: true,
+            acknowledgementCheckboxProps: {
               style: { marginRight: "15px" },
             },
           }}

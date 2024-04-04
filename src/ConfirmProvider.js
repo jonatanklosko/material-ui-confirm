@@ -18,10 +18,9 @@ const DEFAULT_OPTIONS = {
   confirmationKeywordTextFieldProps: {},
   hideCancelButton: false,
   buttonOrder: ["cancel", "confirm"],
-  isAcknowledgeCheckbox: false,
-  acknowledgeCheckboxLabel: "Please confirm",
-  acknowledgeFormControlLabelProps: {},
-  acknowledgeCheckboxProps: {},
+  acknowledgement: false,
+  acknowledgementFormControlLabelProps: {},
+  acknowledgementCheckboxProps: {},
 };
 
 const buildOptions = (defaultOptions, options) => {
@@ -57,15 +56,15 @@ const buildOptions = (defaultOptions, options) => {
       DEFAULT_OPTIONS.confirmationKeywordTextFieldProps),
     ...(options.confirmationKeywordTextFieldProps || {}),
   };
-  const acknowledgeFormControlLabelProps = {
-    ...(defaultOptions.acknowledgeFormControlLabelProps ||
-      DEFAULT_OPTIONS.acknowledgeFormControlLabelProps),
-    ...(options.acknowledgeFormControlLabelProps || {}),
+  const acknowledgementFormControlLabelProps = {
+    ...(defaultOptions.acknowledgementFormControlLabelProps ||
+      DEFAULT_OPTIONS.acknowledgementFormControlLabelProps),
+    ...(options.acknowledgementFormControlLabelProps || {}),
   };
-  const acknowledgeCheckboxProps = {
-    ...(defaultOptions.acknowledgeCheckboxProps ||
-      DEFAULT_OPTIONS.acknowledgeCheckboxProps),
-    ...(options.acknowledgeCheckboxProps || {}),
+  const acknowledgementCheckboxProps = {
+    ...(defaultOptions.acknowledgementCheckboxProps ||
+      DEFAULT_OPTIONS.acknowledgementCheckboxProps),
+    ...(options.acknowledgementCheckboxProps || {}),
   };
 
   return {
@@ -79,8 +78,8 @@ const buildOptions = (defaultOptions, options) => {
     titleProps,
     contentProps,
     confirmationKeywordTextFieldProps,
-    acknowledgeFormControlLabelProps,
-    acknowledgeCheckboxProps,
+    acknowledgementFormControlLabelProps,
+    acknowledgementCheckboxProps,
   };
 };
 

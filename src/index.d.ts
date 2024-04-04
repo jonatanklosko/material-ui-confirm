@@ -24,10 +24,9 @@ export interface ConfirmOptions {
   confirmationKeywordTextFieldProps?: TextFieldProps;
   hideCancelButton?: boolean;
   buttonOrder?: string[];
-  isAcknowledgeCheckbox?: boolean;
-  acknowledgeCheckboxLabel?: string | null;
-  acknowledgeFormControlLabelProps?: FormControlLabelProps;
-  acknowledgeCheckboxProps?: CheckboxProps;
+  acknowledgement?: boolean | string;
+  acknowledgementFormControlLabelProps?: FormControlLabelProps;
+  acknowledgementCheckboxProps?: CheckboxProps;
 }
 
 export interface ConfirmProviderProps {

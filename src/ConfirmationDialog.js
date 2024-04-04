@@ -33,29 +33,34 @@ const ConfirmationDialog = ({
     confirmationKeywordTextFieldProps,
     hideCancelButton,
     buttonOrder,
-    isAcknowledgeCheckbox,
-    acknowledgeCheckboxLabel,
-    acknowledgeFormControlLabelProps,
-    acknowledgeCheckboxProps,
+    acknowledgement,
+    acknowledgementFormControlLabelProps,
+    acknowledgementCheckboxProps,
   } = options;
 
   const [confirmationKeywordValue, setConfirmationKeywordValue] =
     React.useState("");
   const [acknowledgeAccept, setAcknowledgeAccept] = React.useState(false);
 
+  const isAcknowledgeCheckboxEnabled =
+    (typeof acknowledgement === "boolean" && acknowledgement) ||
+    typeof acknowledgement === "string";
+  const acknowledgeCheckboxLabel =
+    typeof acknowledgement === "string" ? acknowledgement : "Please confirm";
+
   const confirmationButtonDisabled = Boolean(
     (confirmationKeyword && confirmationKeywordValue !== confirmationKeyword) ||
-      (isAcknowledgeCheckbox && !acknowledgeAccept),
+      (isAcknowledgeCheckboxEnabled && !acknowledgeAccept),
   );
 
   const acknowledgeCheckbox = (
     <>
-      {isAcknowledgeCheckbox && (
+      {isAcknowledgeCheckboxEnabled && (
         <FormControlLabel
-          {...acknowledgeFormControlLabelProps}
+          {...acknowledgementFormControlLabelProps}
           control={
             <Checkbox
-              {...acknowledgeCheckboxProps}
+              {...acknowledgementCheckboxProps}
               value={acknowledgeAccept}
               onChange={(_, val) => setAcknowledgeAccept(val)}
             />
@@ -129,11 +134,12 @@ const ConfirmationDialog = ({
           {confirmationContent}
           {acknowledgeCheckbox}
         </DialogContent>
-      ) : confirmationKeyword ? (
-        <DialogContent {...contentProps}>{confirmationContent}</DialogContent>
       ) : (
-        acknowledgeCheckbox && (
-          <DialogContent {...contentProps}>{acknowledgeCheckbox}</DialogContent>
+        (confirmationKeyword || acknowledgeCheckbox) && (
+          <DialogContent {...contentProps}>
+            {confirmationContent}
+            {acknowledgeCheckbox}
+          </DialogContent>
         )
       )}
       <DialogActions {...dialogActionsProps}>{dialogActions}</DialogActions>

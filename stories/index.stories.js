@@ -236,7 +236,7 @@ const WithEnabledAcknowledgeCheckbox = () => {
   return (
     <Button
       onClick={() => {
-        confirm({ isAcknowledgeCheckbox: true }).then(confirmationAction);
+        confirm({ acknowledgement: true }).then(confirmationAction);
       }}
     >
       Click
@@ -250,8 +250,7 @@ const WithCustomLabelAcknowledgeCheckbox = () => {
     <Button
       onClick={() => {
         confirm({
-          isAcknowledgeCheckbox: true,
-          acknowledgeCheckboxLabel: "I confirm and understand the risk",
+          acknowledgement: "I confirm and understand the risk",
         }).then(confirmationAction);
       }}
     >
@@ -266,8 +265,8 @@ const WithEnabledAcknowledgeCheckboxAndCustomFormControlLabelProps = () => {
     <Button
       onClick={() => {
         confirm({
-          isAcknowledgeCheckbox: true,
-          acknowledgeFormControlLabelProps: {
+          acknowledgement: true,
+          acknowledgementFormControlLabelProps: {
             color: "warning",
           },
         }).then(confirmationAction);
@@ -284,8 +283,8 @@ const WithEnabledAcknowledgeCheckboxAndCustomCheckboxProps = () => {
     <Button
       onClick={() => {
         confirm({
-          isAcknowledgeCheckbox: true,
-          acknowledgeCheckboxProps: {
+          acknowledgement: true,
+          acknowledgementCheckboxProps: {
             disableRipple: true,
           },
         }).then(confirmationAction);
