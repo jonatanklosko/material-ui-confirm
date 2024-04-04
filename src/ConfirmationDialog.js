@@ -42,20 +42,14 @@ const ConfirmationDialog = ({
     React.useState("");
   const [acknowledgeAccept, setAcknowledgeAccept] = React.useState(false);
 
-  const isAcknowledgeCheckboxEnabled =
-    (typeof acknowledgement === "boolean" && acknowledgement) ||
-    typeof acknowledgement === "string";
-  const acknowledgeCheckboxLabel =
-    typeof acknowledgement === "string" ? acknowledgement : "Please confirm";
-
   const confirmationButtonDisabled = Boolean(
     (confirmationKeyword && confirmationKeywordValue !== confirmationKeyword) ||
-      (isAcknowledgeCheckboxEnabled && !acknowledgeAccept),
+      (acknowledgement && !acknowledgeAccept),
   );
 
   const acknowledgeCheckbox = (
     <>
-      {isAcknowledgeCheckboxEnabled && (
+      {acknowledgement && (
         <FormControlLabel
           {...acknowledgementFormControlLabelProps}
           control={
@@ -65,7 +59,7 @@ const ConfirmationDialog = ({
               onChange={(_, val) => setAcknowledgeAccept(val)}
             />
           }
-          label={acknowledgeCheckboxLabel}
+          label={acknowledgement}
         />
       )}
     </>

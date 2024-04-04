@@ -231,19 +231,6 @@ const WithReversedButtons = () => {
   );
 };
 
-const WithEnabledAcknowledgeCheckbox = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({ acknowledgement: true }).then(confirmationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
-};
-
 const WithCustomLabelAcknowledgeCheckbox = () => {
   const confirm = useConfirm();
   return (
@@ -265,7 +252,7 @@ const WithEnabledAcknowledgeCheckboxAndCustomFormControlLabelProps = () => {
     <Button
       onClick={() => {
         confirm({
-          acknowledgement: true,
+          acknowledgement: "I confirm and understand the risk",
           acknowledgementFormControlLabelProps: {
             color: "warning",
           },
@@ -283,7 +270,7 @@ const WithEnabledAcknowledgeCheckboxAndCustomCheckboxProps = () => {
     <Button
       onClick={() => {
         confirm({
-          acknowledgement: true,
+          acknowledgement: "I confirm and understand the risk",
           acknowledgementCheckboxProps: {
             disableRipple: true,
           },
@@ -313,10 +300,7 @@ storiesOf("Confirmation dialog", module)
     <WithConfirmationKeywordAndCustomTextFieldProps />
   ))
   .add("with reversed buttons keyword", () => <WithReversedButtons />)
-  .add("with enabled acknowledge checkbox", () => (
-    <WithEnabledAcknowledgeCheckbox />
-  ))
-  .add("with enabled acknowledge checkbox and custom label ", () => (
+  .add("with enabled acknowledge checkbox and label ", () => (
     <WithCustomLabelAcknowledgeCheckbox />
   ))
   .add(
