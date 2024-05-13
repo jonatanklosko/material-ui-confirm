@@ -1,3 +1,7 @@
+## 3.0.13
+
+- Automatically close the dialog when the calling component is unmounted (for example, router navigation)
+
 ## 3.0.12
 
 - Add acknowledgement checkbox option ([#94](https://github.com/jonatanklosko/material-ui-confirm/pull/94)) @MuscularSloth
