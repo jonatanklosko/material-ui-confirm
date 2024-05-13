@@ -89,18 +89,30 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   const [options, setOptions] = useState({});
   const [resolveReject, setResolveReject] = useState([]);
   const [key, setKey] = useState(0);
+  const [currentParentId, setCurrentParentId] = useState(null);
   const [resolve, reject] = resolveReject;
 
-  const confirm = useCallback((options = {}) => {
+  const confirmBase = useCallback((parentId, options = {}) => {
     return new Promise((resolve, reject) => {
       setKey((key) => key + 1);
+      setCurrentParentId(parentId);
       setOptions(options);
       setResolveReject([resolve, reject]);
     });
   }, []);
 
+  const closeBase = useCallback((parentId) => {
+    setCurrentParentId(currentParentId => {
+      if (currentParentId === parentId) {
+        return null;
+      } else {
+        return currentParentId;
+      }
+    });
+  }, []);
+
   const handleClose = useCallback(() => {
-    setResolveReject([]);
+    setCurrentParentId(null);
   }, []);
 
   const handleCancel = useCallback(() => {
@@ -117,16 +129,18 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
     }
   }, [resolve, handleClose]);
 
-  confirmGlobal = confirm;
+  confirmGlobal = useCallback(options => {
+    return confirmBase("global", options)
+  });
 
   return (
     <Fragment>
-      <ConfirmContext.Provider value={confirm}>
+      <ConfirmContext.Provider value={{ confirmBase, closeBase }}>
         {children}
       </ConfirmContext.Provider>
       <ConfirmationDialog
         key={key}
-        open={resolveReject.length === 2}
+        open={!!currentParentId}
         options={buildOptions(defaultOptions, options)}
         onClose={handleClose}
         onCancel={handleCancel}

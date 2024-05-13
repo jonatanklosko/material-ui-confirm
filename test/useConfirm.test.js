@@ -11,7 +11,7 @@ describe("useConfirm", () => {
   const deleteConfirmed = jest.fn();
   const deleteCancelled = jest.fn();
 
-  const DeleteButton = ({ confirmOptions }) => {
+  const DeleteButton = ({ confirmOptions, text = "Delete" }) => {
     const confirm = useConfirm();
 
     return (
@@ -20,7 +20,7 @@ describe("useConfirm", () => {
           confirm(confirmOptions).then(deleteConfirmed).catch(deleteCancelled)
         }
       >
-        Delete
+        {text}
       </button>
     );
   };
@@ -365,6 +365,58 @@ describe("useConfirm", () => {
 
       const wrapperStyles = window.getComputedStyle(checkboxWrapper);
       expect(wrapperStyles.marginRight).toBe("15px");
+    });
+
+    test("closes the modal when the opening component is unmounted", async () => {
+      const ParentComponent = ({}) => {
+        const [alive, setAlive] = useState(true);
+
+        return (
+          <ConfirmProvider>
+            {alive && <DeleteButton confirmOptions={{}} />}
+            <button onClick={() => setAlive(false)}>Unmount child</button>
+          </ConfirmProvider>
+        );
+      };
+
+      const { getByText, queryByText } = render(<ParentComponent />);
+
+      fireEvent.click(getByText("Delete"));
+      expect(queryByText("Are you sure?")).toBeTruthy();
+
+      // Remove <DeleteButton /> from the tree
+      fireEvent.click(getByText("Unmount child"));
+
+      await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
+
+      expect(deleteConfirmed).not.toHaveBeenCalled();
+      expect(deleteCancelled).not.toHaveBeenCalled();
+    });
+
+    test("does not close the modal when another component with useConfirm is unmounted", async () => {
+      const ParentComponent = ({}) => {
+        const [alive, setAlive] = useState(true);
+
+        return (
+          <ConfirmProvider>
+            {alive && <DeleteButton confirmOptions={{}} text="Delete 1" />}
+            <DeleteButton confirmOptions={{}} text="Delete 2" />
+            <button onClick={() => setAlive(false)}>Unmount child</button>
+          </ConfirmProvider>
+        );
+      };
+
+      const { getByText, queryByText } = render(<ParentComponent />);
+
+      fireEvent.click(getByText("Delete 2"));
+      expect(queryByText("Are you sure?")).toBeTruthy();
+
+      // Remove the first <DeleteButton /> from the tree
+      fireEvent.click(getByText("Unmount child"));
+
+      fireEvent.click(getByText("Ok"));
+      await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
+      expect(deleteConfirmed).toHaveBeenCalled();
     });
   });
 });
