@@ -1,8 +1,18 @@
-import { useCallback, useContext, useEffect, useId } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import ConfirmContext from "./ConfirmContext";
 
+let idCounter = 0;
+
+const useConfirmId = () => {
+  const id = useMemo(() => {
+    return idCounter++;
+  }, []);
+
+  return `confirm-${id}`;
+};
+
 const useConfirm = () => {
-  const parentId = useId();
+  const parentId = useConfirmId();
   const { confirmBase, closeOnParentUnmount } = useContext(ConfirmContext);
 
   const confirm = useCallback(
