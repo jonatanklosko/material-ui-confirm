@@ -3,19 +3,22 @@ import ConfirmContext from "./ConfirmContext";
 
 const useConfirm = () => {
   const parentId = useId();
-  const { confirmBase, closeBase } = useContext(ConfirmContext);
+  const { confirmBase, closeOnParentUnmount } = useContext(ConfirmContext);
 
-  const confirm = useCallback((options) => {
-    return confirmBase(parentId, options)
-  }, [parentId]);
+  const confirm = useCallback(
+    (options) => {
+      return confirmBase(parentId, options);
+    },
+    [parentId],
+  );
 
   // When the component calling useConfirm is unmounted, we automatically
-  // close the confirmation dialog that it opened. Note that we use a
+  // close the associated confirmation dialog. Note that we use a
   // unique id per each useConfirm usage, so that we don't close the
-  // dialog when unrelated components unmount
+  // dialog when an unrelated component unmounts
   useEffect(() => {
     return () => {
-      closeBase(parentId);
+      closeOnParentUnmount(parentId);
     };
   }, [parentId]);
 

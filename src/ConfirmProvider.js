@@ -86,62 +86,57 @@ const buildOptions = (defaultOptions, options) => {
 let confirmGlobal;
 
 const ConfirmProvider = ({ children, defaultOptions = {} }) => {
-  const [options, setOptions] = useState({});
-  const [resolveReject, setResolveReject] = useState([]);
+  const [state, setState] = useState(null);
   const [key, setKey] = useState(0);
-  const [currentParentId, setCurrentParentId] = useState(null);
-  const [resolve, reject] = resolveReject;
 
   const confirmBase = useCallback((parentId, options = {}) => {
     return new Promise((resolve, reject) => {
       setKey((key) => key + 1);
-      setCurrentParentId(parentId);
-      setOptions(options);
-      setResolveReject([resolve, reject]);
+      setState({ options, resolve, reject, parentId });
     });
   }, []);
 
-  const closeBase = useCallback((parentId) => {
-    setCurrentParentId(currentParentId => {
-      if (currentParentId === parentId) {
+  const closeOnParentUnmount = useCallback((parentId) => {
+    setState((state) => {
+      if (state && state.parentId === parentId) {
         return null;
       } else {
-        return currentParentId;
+        return state;
       }
     });
   }, []);
 
   const handleClose = useCallback(() => {
-    setCurrentParentId(null);
+    setState(null);
   }, []);
 
   const handleCancel = useCallback(() => {
-    if (reject) {
-      reject();
-      handleClose();
-    }
-  }, [reject, handleClose]);
+    setState((state) => {
+      state && state.reject();
+      return null;
+    });
+  }, []);
 
   const handleConfirm = useCallback(() => {
-    if (resolve) {
-      resolve();
-      handleClose();
-    }
-  }, [resolve, handleClose]);
+    setState((state) => {
+      state && state.resolve();
+      return null;
+    });
+  }, []);
 
-  confirmGlobal = useCallback(options => {
-    return confirmBase("global", options)
+  confirmGlobal = useCallback((options) => {
+    return confirmBase("global", options);
   });
 
   return (
     <Fragment>
-      <ConfirmContext.Provider value={{ confirmBase, closeBase }}>
+      <ConfirmContext.Provider value={{ confirmBase, closeOnParentUnmount }}>
         {children}
       </ConfirmContext.Provider>
       <ConfirmationDialog
         key={key}
-        open={!!currentParentId}
-        options={buildOptions(defaultOptions, options)}
+        open={state !== null}
+        options={buildOptions(defaultOptions, state ? state.options : {})}
         onClose={handleClose}
         onCancel={handleCancel}
         onConfirm={handleConfirm}
