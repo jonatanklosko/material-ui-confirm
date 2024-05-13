@@ -1,3 +1,7 @@
+## 3.0.14
+
+- Fix compatibility with React 17 (regression from 3.0.13)
+
 ## 3.0.13
 
 - Automatically close the dialog when the calling component is unmounted (for example, router navigation)
