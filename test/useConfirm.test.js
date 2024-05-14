@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   render,
   fireEvent,
+  renderHook,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 
@@ -417,6 +418,17 @@ describe("useConfirm", () => {
       fireEvent.click(getByText("Ok"));
       await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
       expect(deleteConfirmed).toHaveBeenCalled();
+    });
+  });
+
+  describe("missing ConfirmProvider", () => {
+    test("throws an error when ConfirmProvider is missing", () => {
+      const { result } = renderHook(() => useConfirm());
+      expect(() => result.current()).toThrowError("Missing ConfirmProvider");
+    });
+
+    test("does not throw an error if it's not used", () => {
+      expect(() => render(<DeleteButton />)).not.toThrow();
     });
   });
 });
