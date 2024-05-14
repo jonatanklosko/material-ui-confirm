@@ -1,3 +1,7 @@
+## 3.0.15
+
+- Improved the behaviour with missing `ConfirmProvider` ([#98](https://github.com/jonatanklosko/material-ui-confirm/pull/98)) @joshkel
+
 ## 3.0.14
 
 - Fix compatibility with React 17 (regression from 3.0.13)
