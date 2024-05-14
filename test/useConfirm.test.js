@@ -7,7 +7,6 @@ import {
 } from "@testing-library/react";
 
 import { ConfirmProvider, useConfirm } from "../src/index";
-import { ErrorBoundary } from "react-error-boundary";
 
 describe("useConfirm", () => {
   const deleteConfirmed = jest.fn();
