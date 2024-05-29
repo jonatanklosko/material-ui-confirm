@@ -1,3 +1,7 @@
+## 3.0.16
+
+- Fix modal resetting to the default state during close animation (regression from 3.0.13) ([#100](https://github.com/jonatanklosko/material-ui-confirm/pull/100)) @DuncanMackintosh
+
 ## 3.0.15
 
 - Improved the behaviour with missing `ConfirmProvider` ([#98](https://github.com/jonatanklosko/material-ui-confirm/pull/98)) @joshkel
