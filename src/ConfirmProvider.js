@@ -86,20 +86,26 @@ const buildOptions = (defaultOptions, options) => {
 let confirmGlobal;
 
 const ConfirmProvider = ({ children, defaultOptions = {} }) => {
+  // State that we clear on close (to avoid dangling references to resolve and
+  // reject). If this is null, the dialog is closed.
   const [state, setState] = useState(null);
+  // Options for rendering the dialog, which aren't reset on close so that we
+  // keep rendering the same modal during close animation
+  const [options, setOptions] = useState({});
   const [key, setKey] = useState(0);
 
   const confirmBase = useCallback((parentId, options = {}) => {
     return new Promise((resolve, reject) => {
       setKey((key) => key + 1);
-      setState({ options, resolve, reject, parentId, open: true });
+      setOptions(options);
+      setState({resolve, reject, parentId});
     });
   }, []);
 
   const closeOnParentUnmount = useCallback((parentId) => {
     setState((state) => {
       if (state && state.parentId === parentId) {
-        return {...state, open: false};
+        return null;
       } else {
         return state;
       }
@@ -107,20 +113,20 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   }, []);
 
   const handleClose = useCallback(() => {
-    setState((state) => ({...state, open: false}));
+    setState(null);
   }, []);
 
   const handleCancel = useCallback(() => {
     setState((state) => {
       state && state.reject();
-      return {...state, open: false};
+      return null;
     });
   }, []);
 
   const handleConfirm = useCallback(() => {
     setState((state) => {
       state && state.resolve();
-      return {...state, open: false};
+      return null;
     });
   }, []);
 
@@ -135,8 +141,8 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
       </ConfirmContext.Provider>
       <ConfirmationDialog
         key={key}
-        open={state?.open ?? false}
-        options={buildOptions(defaultOptions, state ? state.options : {})}
+        open={state !== null}
+        options={buildOptions(defaultOptions, options ?? {})}
         onClose={handleClose}
         onCancel={handleCancel}
         onConfirm={handleConfirm}
