@@ -1,111 +1,85 @@
-import React from "react";
+import React, { Fragment, useEffect } from "react";
 import { action } from "@storybook/addon-actions";
 import Button from "@mui/material/Button";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
-import { storiesOf } from "@storybook/react";
 import { ConfirmProvider, useConfirm } from "../src/index";
 import { confirm as staticConfirm } from "../src/index";
 
 const confirmationAction = action("confirmed");
 const cancellationAction = action("cancelled");
 
-const Basic = () => {
-  const confirm = useConfirm();
-  return (
-    <Button onClick={() => confirm().then(confirmationAction)}>Click</Button>
-  );
-};
-
-const StaticMethod = () => {
-  return (
-    <Button onClick={() => staticConfirm().then(confirmationAction)}>
-      Click
-    </Button>
-  );
-};
-
-const WithDescription = () => {
+const ConfirmationDialog = (options) => {
   const confirm = useConfirm();
   return (
     <Button
       onClick={() => {
-        confirm({ description: "This action is permanent!" }).then(
-          confirmationAction,
-        );
+        confirm(options)
+          .then(confirmationAction)
+          .catch(cancellationAction);
       }}
     >
       Click
     </Button>
-  );
+  );  
+}
+
+export default {
+  title: "Confirmation dialog",
+  decorators: [(getStory) => <ConfirmProvider>{getStory()}</ConfirmProvider>],
+  component: ConfirmationDialog
 };
 
-const WithCustomText = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({
-          title: "Reset setting?",
-          description: "This will reset your device to its factory settings.",
-          confirmationText: "Accept",
-          cancellationText: "Cancel",
-        }).then(confirmationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
+export const Basic = {
+  args: {}
+}
+
+export const StaticMethod = {
+  render: () => {
+    return (
+      <Button onClick={() => staticConfirm().then(confirmationAction)}>
+          Click
+      </Button>
+    )
+  }
+}
+
+export const WithDescription = {
+  args: { description: "This action is permanent!" }
+}
+
+export const WithCustomText = {
+  args: {
+    title: "Reset setting?",
+    description: "This will reset your device to its factory settings.",
+    confirmationText: "Accept",
+    cancellationText: "Cancel",
+  }
 };
 
-const WithDialogProps = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({
-          dialogProps: { fullWidth: false, disableEscapeKeyDown: true },
-        }).then(confirmationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
+export const WithDialogProps = {
+  args: {
+    dialogProps: { fullWidth: false, disableEscapeKeyDown: true },
+  }
 };
 
-const WithDialogActionsProps = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({
-          dialogActionsProps: { sx: { justifyContent: "flex-start" } },
-        }).then(confirmationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
+export const WithDialogActionsProps = {
+  args: {
+    dialogActionsProps: { sx: { justifyContent: "flex-start" } },
+  }
 };
 
-const WithCustomButtonProps = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({
-          confirmationButtonProps: { color: "secondary", variant: "outlined" },
-          cancellationButtonProps: { variant: "outlined" },
-        }).then(confirmationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
+export const WithCustomButtonProps = {
+  args: {
+    confirmationButtonProps: { color: "secondary", variant: "outlined" },
+    cancellationButtonProps: { variant: "outlined" },
+  }
 };
 
-const WithCustomCallbacks = () => {
+// You can't just inline this into the render proeprty, it needs to be a JSX
+// component to pick up the context
+function CustomCallbacksComponent() {
   const confirm = useConfirm();
   return (
     <Button
@@ -119,194 +93,112 @@ const WithCustomCallbacks = () => {
       Click
     </Button>
   );
+}
+
+export const WithCustomCallbacks = {
+  render: () => <CustomCallbacksComponent/>
 };
 
-const WithCustomElements = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({
-          title: (
-            <Tooltip title="Fancy tooltip here!">
-              <span>Reset setting?</span>
-            </Tooltip>
-          ),
-          description: <LinearProgress />,
-          confirmationText: "Accept",
-          cancellationText: "Cancel",
-        }).then(confirmationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
+export const WithCustomElements = {
+  args: {
+    title: (
+      <Tooltip title="Fancy tooltip here!">
+        <span>Reset setting?</span>
+      </Tooltip>
+    ),
+    description: <LinearProgress />,
+    confirmationText: "Accept",
+    cancellationText: "Cancel",
+  }
 };
 
-const WithCustomContent = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({
-          content: (
-            <div>
-              <LinearProgress />
-              <Box p={2}>This isn't wrapped in DialogContentText.</Box>
-            </div>
-          ),
-        }).then(confirmationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
+export const WithCustomContent = {
+  args: {
+    content: (
+      <div>
+        <LinearProgress />
+        <Box p={2}>This isn't wrapped in DialogContentText.</Box>
+      </div>
+    ),
+  }
 };
 
-const WithNaturalCloseDisabled = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({
-          allowClose: false,
-        })
-          .then(confirmationAction)
-          .catch(cancellationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
+export const WithNaturalCloseDisabled = {
+  args: {
+    allowClose: false,
+  }
 };
 
-const WithConfirmationKeyword = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() =>
-        confirm({
-          description:
-            'This action is permanent. Please enter "DELETE" to confirm the action.',
-          confirmationKeyword: "DELETE",
-        }).then(confirmationAction)
+export const WithConfirmationKeyword = {
+  args: {
+    description:
+      'This action is permanent. Please enter "DELETE" to confirm the action.',
+    confirmationKeyword: "DELETE",
+  }
+};
+
+export const WithConfirmationKeywordAndCustomTextFieldProps = {
+  args: {
+    confirmationKeyword: "DELETE",
+    confirmationKeywordTextFieldProps: {
+      label: "Enter DELETE",
+      variant: "standard",
+    },
+  }
+};
+
+export const WithReversedButtons = {
+  args: {
+    buttonOrder: ["confirm", "cancel"]
+  }
+};
+
+export const WithCustomLabelAcknowledgeCheckbox = {
+  args: {
+    acknowledgement: "I confirm and understand the risk",
+  }
+};
+
+export const WithEnabledAcknowledgeCheckboxAndCustomFormControlLabelProps = {
+  args: {
+    acknowledgement: "I confirm and understand the risk",
+    acknowledgementFormControlLabelProps: {
+      color: "warning",
+    },
+  }
+};
+
+export const WithEnabledAcknowledgeCheckboxAndCustomCheckboxProps = {
+  args: {
+    acknowledgement: "I confirm and understand the risk",
+    acknowledgementCheckboxProps: {
+      disableRipple: true,
+    },
+  }
+};
+
+
+function ParentUnmountComponent() {
+  const [flip, setFlip] = React.useState(false);
+  React.useEffect(() =>
+    {
+      const interval = setInterval(
+        () => setFlip((flip) => !flip),
+        2000
+      );
+      return () => {
+        clearInterval(interval);
       }
-    >
-      Click
-    </Button>
+    }
   );
-};
-
-const WithConfirmationKeywordAndCustomTextFieldProps = () => {
-  const confirm = useConfirm();
   return (
-    <Button
-      onClick={() =>
-        confirm({
-          confirmationKeyword: "DELETE",
-          confirmationKeywordTextFieldProps: {
-            label: "Enter DELETE",
-            variant: "standard",
-          },
-        }).then(confirmationAction)
-      }
-    >
-      Click
-    </Button>
-  );
-};
-
-const WithReversedButtons = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({ buttonOrder: ["confirm", "cancel"] }).then(
-          confirmationAction,
-        );
-      }}
-    >
-      Click
-    </Button>
-  );
-};
-
-const WithCustomLabelAcknowledgeCheckbox = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({
-          acknowledgement: "I confirm and understand the risk",
-        }).then(confirmationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
-};
-
-const WithEnabledAcknowledgeCheckboxAndCustomFormControlLabelProps = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({
-          acknowledgement: "I confirm and understand the risk",
-          acknowledgementFormControlLabelProps: {
-            color: "warning",
-          },
-        }).then(confirmationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
-};
-
-const WithEnabledAcknowledgeCheckboxAndCustomCheckboxProps = () => {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm({
-          acknowledgement: "I confirm and understand the risk",
-          acknowledgementCheckboxProps: {
-            disableRipple: true,
-          },
-        }).then(confirmationAction);
-      }}
-    >
-      Click
-    </Button>
-  );
-};
-
-storiesOf("Confirmation dialog", module)
-  .addDecorator((getStory) => <ConfirmProvider>{getStory()}</ConfirmProvider>)
-  .add("basic", () => <Basic />)
-  .add("static method", () => <StaticMethod />)
-  .add("with description", () => <WithDescription />)
-  .add("with custom text", () => <WithCustomText />)
-  .add("with custom dialog props", () => <WithDialogProps />)
-  .add("with custom dialog actions props", () => <WithDialogActionsProps />)
-  .add("with custom button props", () => <WithCustomButtonProps />)
-  .add("with custom callbacks", () => <WithCustomCallbacks />)
-  .add("with custom elements", () => <WithCustomElements />)
-  .add("with custom dialog content", () => <WithCustomContent />)
-  .add("with natural close disabled", () => <WithNaturalCloseDisabled />)
-  .add("with confirmation keyword", () => <WithConfirmationKeyword />)
-  .add("with confirmation keyword and custom textfield props", () => (
-    <WithConfirmationKeywordAndCustomTextFieldProps />
-  ))
-  .add("with reversed buttons keyword", () => <WithReversedButtons />)
-  .add("with enabled acknowledge checkbox and label ", () => (
-    <WithCustomLabelAcknowledgeCheckbox />
-  ))
-  .add(
-    "with enabled acknowledge checkbox and custom form control label props",
-    () => <WithEnabledAcknowledgeCheckboxAndCustomFormControlLabelProps />,
+    <Fragment>
+      {flip && <ConfirmationDialog title="Dialog A"/>}
+      {!flip && <ConfirmationDialog title="Dialog B"/>}
+    </Fragment>
   )
-  .add("with enabled acknowledge checkbox and custom checkbox props", () => (
-    <WithEnabledAcknowledgeCheckboxAndCustomCheckboxProps />
-  ));
+}
+
+export const WithParentUnmount = {
+  render: () => <ParentUnmountComponent/>
+}
