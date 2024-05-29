@@ -86,6 +86,20 @@ describe("useConfirm", () => {
       fireEvent.click(getByText("Delete"));
       expect(queryByText("Arbitrary content")).toBeTruthy();
     });
+
+    test("keeps custom text during close", () => {
+      const { getByText, queryByText } = render(
+        <TestComponent
+          confirmOptions={{
+            title: "Remove this item?",
+          }}
+        />,
+      );
+      fireEvent.click(getByText("Delete"));
+      expect(queryByText("Remove this item?")).toBeTruthy();
+      fireEvent.click(getByText("Ok"));
+      expect(queryByText("Remove this item?")).toBeTruthy();
+    });    
   });
 
   test("honours default options passed to the provider", () => {

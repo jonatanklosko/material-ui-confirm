@@ -92,14 +92,14 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   const confirmBase = useCallback((parentId, options = {}) => {
     return new Promise((resolve, reject) => {
       setKey((key) => key + 1);
-      setState({ options, resolve, reject, parentId });
+      setState({ options, resolve, reject, parentId, open: true });
     });
   }, []);
 
   const closeOnParentUnmount = useCallback((parentId) => {
     setState((state) => {
       if (state && state.parentId === parentId) {
-        return null;
+        return {...state, open: false};
       } else {
         return state;
       }
@@ -107,20 +107,20 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   }, []);
 
   const handleClose = useCallback(() => {
-    setState(null);
+    setState((state) => ({...state, open: false}));
   }, []);
 
   const handleCancel = useCallback(() => {
     setState((state) => {
       state && state.reject();
-      return null;
+      return {...state, open: false};
     });
   }, []);
 
   const handleConfirm = useCallback(() => {
     setState((state) => {
       state && state.resolve();
-      return null;
+      return {...state, open: false};
     });
   }, []);
 
@@ -135,7 +135,7 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
       </ConfirmContext.Provider>
       <ConfirmationDialog
         key={key}
-        open={state !== null}
+        open={state?.open ?? false}
         options={buildOptions(defaultOptions, state ? state.options : {})}
         onClose={handleClose}
         onCancel={handleCancel}
