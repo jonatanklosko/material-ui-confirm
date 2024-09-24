@@ -62,7 +62,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "rollup": "^2.70.1",
+    "rollup": "^3.29.5",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-copy": "^3.4.0",
     "storybook": "^8.1.4"
