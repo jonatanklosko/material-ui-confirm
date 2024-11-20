@@ -26,10 +26,30 @@ describe("useConfirm", () => {
     );
   };
 
+  const DeleteButtonWithoutAutoDismiss = ({ confirmOptions, text = "Delete" }) => {
+    const confirm = useConfirm(false);
+
+    return (
+      <button
+        onClick={() =>
+          confirm(confirmOptions).then(deleteConfirmed).catch(deleteCancelled)
+        }
+      >
+        {text}
+      </button>
+    );
+  };
+
   const TestComponent = ({ confirmOptions }) => (
     <ConfirmProvider>
       <DeleteButton confirmOptions={confirmOptions} />
     </ConfirmProvider>
+  );
+
+  const TestComponentWithoutAutoDismiss = ({ confirmOptions }) => (
+      <ConfirmProvider>
+        <DeleteButtonWithoutAutoDismiss confirmOptions={confirmOptions} />
+      </ConfirmProvider>
   );
 
   test("resolves the promise on confirm", async () => {
@@ -408,7 +428,7 @@ describe("useConfirm", () => {
       expect(deleteCancelled).not.toHaveBeenCalled();
     });
 
-    test("does not close the modal when another component with useConfirm is unmounted", async () => {
+    test("does not close the modal when another component with useConfirm is unmounted and shouldCloseOnParentUnmount is true", async () => {
       const ParentComponent = ({}) => {
         const [alive, setAlive] = useState(true);
 
@@ -433,6 +453,31 @@ describe("useConfirm", () => {
       await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
       expect(deleteConfirmed).toHaveBeenCalled();
     });
+  });
+
+  test("does not close the modal when another component with useConfirm is unmounted and shouldCloseOnParentUnmount is false", async () => {
+    const ParentComponent = ({}) => {
+      const [alive, setAlive] = useState(true);
+
+      return (
+        <ConfirmProvider>
+          {alive && <DeleteButtonWithoutAutoDismiss confirmOptions={{}} text="Delete 1" />}
+          <DeleteButtonWithoutAutoDismiss confirmOptions={{}} text="Delete 2" />
+          <button onClick={() => setAlive(false)}>Unmount child</button>
+        </ConfirmProvider>
+      );
+    };
+
+    const { getByText, queryByText } = render(<ParentComponent />);
+
+    fireEvent.click(getByText("Delete 2"));
+    expect(queryByText("Are you sure?")).toBeTruthy();
+
+    // Remove the first <DeleteButton /> from the tree
+    fireEvent.click(getByText("Unmount child"));
+
+    fireEvent.click(getByText("Ok"));
+    expect(deleteConfirmed).not.toHaveBeenCalled();
   });
 
   describe("missing ConfirmProvider", () => {
