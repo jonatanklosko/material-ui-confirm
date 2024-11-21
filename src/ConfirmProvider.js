@@ -21,6 +21,7 @@ const DEFAULT_OPTIONS = {
   acknowledgement: false,
   acknowledgementFormControlLabelProps: {},
   acknowledgementCheckboxProps: {},
+  closeOnParentUnmount: true,
 };
 
 const buildOptions = (defaultOptions, options) => {
@@ -66,6 +67,12 @@ const buildOptions = (defaultOptions, options) => {
       DEFAULT_OPTIONS.acknowledgementCheckboxProps),
     ...(options.acknowledgementCheckboxProps || {}),
   };
+  // We must accept 'false' values, if present.
+  const closeOnParentUnmount = typeof options.closeOnParentUnmount !== 'undefined' ?
+    options.closeOnParentUnmount :
+    typeof defaultOptions.closeOnParentUnmount !== 'undefined' ?
+      defaultOptions.closeOnParentUnmount :
+      DEFAULT_OPTIONS.closeOnParentUnmount;
 
   return {
     ...DEFAULT_OPTIONS,
@@ -80,6 +87,7 @@ const buildOptions = (defaultOptions, options) => {
     confirmationKeywordTextFieldProps,
     acknowledgementFormControlLabelProps,
     acknowledgementCheckboxProps,
+    closeOnParentUnmount,
   };
 };
 
@@ -94,6 +102,8 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   const [options, setOptions] = useState({});
   const [key, setKey] = useState(0);
 
+  const dialogOptions = buildOptions(defaultOptions, options ?? {});
+
   const confirmBase = useCallback((parentId, options = {}) => {
     return new Promise((resolve, reject) => {
       setKey((key) => key + 1);
@@ -104,7 +114,7 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
 
   const closeOnParentUnmount = useCallback((parentId) => {
     setState((state) => {
-      if (state && state.parentId === parentId) {
+      if (dialogOptions.closeOnParentUnmount && state && state.parentId === parentId) {
         return null;
       } else {
         return state;
@@ -142,7 +152,7 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
       <ConfirmationDialog
         key={key}
         open={state !== null}
-        options={buildOptions(defaultOptions, options ?? {})}
+        options={dialogOptions}
         onClose={handleClose}
         onCancel={handleCancel}
         onConfirm={handleConfirm}
