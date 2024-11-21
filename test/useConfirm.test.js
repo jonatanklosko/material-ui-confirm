@@ -26,30 +26,10 @@ describe("useConfirm", () => {
     );
   };
 
-  const DeleteButtonWithoutAutoDismiss = ({ confirmOptions, text = "Delete" }) => {
-    const confirm = useConfirm(false);
-
-    return (
-      <button
-        onClick={() =>
-          confirm(confirmOptions).then(deleteConfirmed).catch(deleteCancelled)
-        }
-      >
-        {text}
-      </button>
-    );
-  };
-
   const TestComponent = ({ confirmOptions }) => (
     <ConfirmProvider>
       <DeleteButton confirmOptions={confirmOptions} />
     </ConfirmProvider>
-  );
-
-  const TestComponentWithoutAutoDismiss = ({ confirmOptions }) => (
-      <ConfirmProvider>
-        <DeleteButtonWithoutAutoDismiss confirmOptions={confirmOptions} />
-      </ConfirmProvider>
   );
 
   test("resolves the promise on confirm", async () => {
@@ -428,7 +408,7 @@ describe("useConfirm", () => {
       expect(deleteCancelled).not.toHaveBeenCalled();
     });
 
-    test("does not close the modal when another component with useConfirm is unmounted and shouldCloseOnParentUnmount is true", async () => {
+    test("does not close the modal when another component with useConfirm is unmounted and closeOnParentUnmount is true", async () => {
       const ParentComponent = ({}) => {
         const [alive, setAlive] = useState(true);
 
@@ -455,14 +435,14 @@ describe("useConfirm", () => {
     });
   });
 
-  test("does not close the modal when another component with useConfirm is unmounted and shouldCloseOnParentUnmount is false", async () => {
+  test("does not close the modal when another component with useConfirm is unmounted and closeOnParentUnmount is false", async () => {
     const ParentComponent = ({}) => {
       const [alive, setAlive] = useState(true);
 
       return (
         <ConfirmProvider>
-          {alive && <DeleteButtonWithoutAutoDismiss confirmOptions={{}} text="Delete 1" />}
-          <DeleteButtonWithoutAutoDismiss confirmOptions={{}} text="Delete 2" />
+          {alive && <DeleteButton confirmOptions={{ closeOnParentUnmount: false }} text="Delete 1" />}
+          <DeleteButton confirmOptions={{ closeOnParentUnmount: false }} text="Delete 2" />
           <button onClick={() => setAlive(false)}>Unmount child</button>
         </ConfirmProvider>
       );
