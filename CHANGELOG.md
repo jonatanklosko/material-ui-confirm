@@ -1,3 +1,7 @@
+## 3.0.18
+
+- Fix regression in CJS build imports ([#122](https://github.com/jonatanklosko/material-ui-confirm/pull/122)) @joshkel
+
 ## 3.0.17
 
 - Update peerDependencies to include MUI v6 and React 19
