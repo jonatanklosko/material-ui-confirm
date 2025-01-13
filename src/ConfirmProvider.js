@@ -98,7 +98,7 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
     return new Promise((resolve, reject) => {
       setKey((key) => key + 1);
       setOptions(options);
-      setState({resolve, reject, parentId});
+      setState({ resolve, reject, parentId });
     });
   }, []);
 

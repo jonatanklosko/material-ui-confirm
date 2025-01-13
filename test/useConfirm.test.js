@@ -99,7 +99,7 @@ describe("useConfirm", () => {
       expect(queryByText("Remove this item?")).toBeTruthy();
       fireEvent.click(getByText("Ok"));
       expect(queryByText("Remove this item?")).toBeTruthy();
-    });    
+    });
   });
 
   test("honours default options passed to the provider", () => {

@@ -15,39 +15,37 @@ const ConfirmationDialog = (options) => {
   return (
     <Button
       onClick={() => {
-        confirm(options)
-          .then(confirmationAction)
-          .catch(cancellationAction);
+        confirm(options).then(confirmationAction).catch(cancellationAction);
       }}
     >
       Click
     </Button>
-  );  
-}
+  );
+};
 
 export default {
   title: "Confirmation dialog",
   decorators: [(getStory) => <ConfirmProvider>{getStory()}</ConfirmProvider>],
-  component: ConfirmationDialog
+  component: ConfirmationDialog,
 };
 
 export const Basic = {
-  args: {}
-}
+  args: {},
+};
 
 export const StaticMethod = {
   render: () => {
     return (
       <Button onClick={() => staticConfirm().then(confirmationAction)}>
-          Click
+        Click
       </Button>
-    )
-  }
-}
+    );
+  },
+};
 
 export const WithDescription = {
-  args: { description: "This action is permanent!" }
-}
+  args: { description: "This action is permanent!" },
+};
 
 export const WithCustomText = {
   args: {
@@ -55,26 +53,26 @@ export const WithCustomText = {
     description: "This will reset your device to its factory settings.",
     confirmationText: "Accept",
     cancellationText: "Cancel",
-  }
+  },
 };
 
 export const WithDialogProps = {
   args: {
     dialogProps: { fullWidth: false, disableEscapeKeyDown: true },
-  }
+  },
 };
 
 export const WithDialogActionsProps = {
   args: {
     dialogActionsProps: { sx: { justifyContent: "flex-start" } },
-  }
+  },
 };
 
 export const WithCustomButtonProps = {
   args: {
     confirmationButtonProps: { color: "secondary", variant: "outlined" },
     cancellationButtonProps: { variant: "outlined" },
-  }
+  },
 };
 
 // You can't just inline this into the render proeprty, it needs to be a JSX
@@ -96,7 +94,7 @@ function CustomCallbacksComponent() {
 }
 
 export const WithCustomCallbacks = {
-  render: () => <CustomCallbacksComponent/>
+  render: () => <CustomCallbacksComponent />,
 };
 
 export const WithCustomElements = {
@@ -109,7 +107,7 @@ export const WithCustomElements = {
     description: <LinearProgress />,
     confirmationText: "Accept",
     cancellationText: "Cancel",
-  }
+  },
 };
 
 export const WithCustomContent = {
@@ -120,13 +118,13 @@ export const WithCustomContent = {
         <Box p={2}>This isn't wrapped in DialogContentText.</Box>
       </div>
     ),
-  }
+  },
 };
 
 export const WithNaturalCloseDisabled = {
   args: {
     allowClose: false,
-  }
+  },
 };
 
 export const WithConfirmationKeyword = {
@@ -134,7 +132,7 @@ export const WithConfirmationKeyword = {
     description:
       'This action is permanent. Please enter "DELETE" to confirm the action.',
     confirmationKeyword: "DELETE",
-  }
+  },
 };
 
 export const WithConfirmationKeywordAndCustomTextFieldProps = {
@@ -144,19 +142,19 @@ export const WithConfirmationKeywordAndCustomTextFieldProps = {
       label: "Enter DELETE",
       variant: "standard",
     },
-  }
+  },
 };
 
 export const WithReversedButtons = {
   args: {
-    buttonOrder: ["confirm", "cancel"]
-  }
+    buttonOrder: ["confirm", "cancel"],
+  },
 };
 
 export const WithCustomLabelAcknowledgeCheckbox = {
   args: {
     acknowledgement: "I confirm and understand the risk",
-  }
+  },
 };
 
 export const WithEnabledAcknowledgeCheckboxAndCustomFormControlLabelProps = {
@@ -165,7 +163,7 @@ export const WithEnabledAcknowledgeCheckboxAndCustomFormControlLabelProps = {
     acknowledgementFormControlLabelProps: {
       color: "warning",
     },
-  }
+  },
 };
 
 export const WithEnabledAcknowledgeCheckboxAndCustomCheckboxProps = {
@@ -174,31 +172,25 @@ export const WithEnabledAcknowledgeCheckboxAndCustomCheckboxProps = {
     acknowledgementCheckboxProps: {
       disableRipple: true,
     },
-  }
+  },
 };
-
 
 function ParentUnmountComponent() {
   const [flip, setFlip] = React.useState(false);
-  React.useEffect(() =>
-    {
-      const interval = setInterval(
-        () => setFlip((flip) => !flip),
-        2000
-      );
-      return () => {
-        clearInterval(interval);
-      }
-    }
-  );
+  React.useEffect(() => {
+    const interval = setInterval(() => setFlip((flip) => !flip), 2000);
+    return () => {
+      clearInterval(interval);
+    };
+  });
   return (
     <Fragment>
-      {flip && <ConfirmationDialog title="Dialog A"/>}
-      {!flip && <ConfirmationDialog title="Dialog B"/>}
+      {flip && <ConfirmationDialog title="Dialog A" />}
+      {!flip && <ConfirmationDialog title="Dialog B" />}
     </Fragment>
-  )
+  );
 }
 
 export const WithParentUnmount = {
-  render: () => <ParentUnmountComponent/>
-}
+  render: () => <ParentUnmountComponent />,
+};
