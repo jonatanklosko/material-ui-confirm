@@ -5,7 +5,7 @@ import copy from "rollup-plugin-copy";
 export default {
   input: "src/index.js",
   output: [
-    { file: pkg.main, format: "cjs" },
+    { file: pkg.main, format: "cjs", interop: "compat" },
     { file: pkg.module, format: "esm" },
   ],
   external: ["react", /^@mui\/material*/],
