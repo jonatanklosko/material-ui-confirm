@@ -1,3 +1,7 @@
+## 3.0.17
+
+- Update peerDependencies to include MUI v6 and React 19
+
 ## 3.0.16
 
 - Fix modal resetting to the default state during close animation (regression from 3.0.13) ([#100](https://github.com/jonatanklosko/material-ui-confirm/pull/100)) @DuncanMackintosh
