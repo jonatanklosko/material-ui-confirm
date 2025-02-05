@@ -56,12 +56,10 @@ describe("useConfirm", () => {
   });
 
   test("does not reject the promise on escape key press (natural cancel)", async () => {
-    const foo = render(<TestComponent />);
-    const { getByText, queryByText } = foo
+    const { getByText, queryByText } = render(<TestComponent />);
     expect(queryByText("Are you sure?")).toBeFalsy();
     fireEvent.click(getByText("Delete"));
-    const inputNode = queryByText("Are you sure?")
-    expect(inputNode).toBeTruthy();
+    expect(queryByText("Are you sure?")).toBeTruthy();
     await userEvent.keyboard('{Escape}');
     await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
     expect(deleteConfirmed).not.toHaveBeenCalled();
@@ -69,6 +67,16 @@ describe("useConfirm", () => {
   });
 
   describe("options", () => {
+    test("rejects the promise on escape key (natural cancel) when option provided.", async () => {
+      const { getByText, queryByText } = render(<TestComponent confirmOptions={{enforceNaturalClose: true}} />);
+      expect(queryByText("Are you sure?")).toBeFalsy();
+      fireEvent.click(getByText("Delete"));
+      expect(queryByText("Are you sure?")).toBeTruthy();
+      await userEvent.keyboard('{Escape}');
+      await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
+      expect(deleteConfirmed).not.toHaveBeenCalled();
+      expect(deleteCancelled).toHaveBeenCalled();
+    });
     test("accepts custom text", () => {
       const { getByText, queryByText } = render(
         <TestComponent

@@ -21,6 +21,7 @@ const DEFAULT_OPTIONS = {
   acknowledgement: false,
   acknowledgementFormControlLabelProps: {},
   acknowledgementCheckboxProps: {},
+  enforceNaturalClose: false,
 };
 
 const buildOptions = (defaultOptions, options) => {
@@ -113,8 +114,11 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   }, []);
 
   const handleClose = useCallback(() => {
-    setState(null);
-  }, []);
+    setState((state) => {
+      options.enforceNaturalClose && state && state.reject();
+      return null;
+    });
+  }, [options]);
 
   const handleCancel = useCallback(() => {
     setState((state) => {
