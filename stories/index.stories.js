@@ -7,15 +7,14 @@ import Tooltip from "@mui/material/Tooltip";
 import { ConfirmProvider, useConfirm } from "../src/index";
 import { confirm as staticConfirm } from "../src/index";
 
-const confirmationAction = action("confirmed");
-const cancellationAction = action("cancelled");
+const closeAction = action("closed");
 
 const ConfirmationDialog = (options) => {
   const confirm = useConfirm();
   return (
     <Button
       onClick={() => {
-        confirm(options).then(confirmationAction).catch(cancellationAction);
+        confirm(options).then(closeAction);
       }}
     >
       Click
@@ -36,9 +35,7 @@ export const Basic = {
 export const StaticMethod = {
   render: () => {
     return (
-      <Button onClick={() => staticConfirm().then(confirmationAction)}>
-        Click
-      </Button>
+      <Button onClick={() => staticConfirm().then(closeAction)}>Click</Button>
     );
   },
 };
@@ -73,28 +70,6 @@ export const WithCustomButtonProps = {
     confirmationButtonProps: { color: "secondary", variant: "outlined" },
     cancellationButtonProps: { variant: "outlined" },
   },
-};
-
-// You can't just inline this into the render proeprty, it needs to be a JSX
-// component to pick up the context
-function CustomCallbacksComponent() {
-  const confirm = useConfirm();
-  return (
-    <Button
-      onClick={() => {
-        confirm()
-          .then(confirmationAction)
-          .catch(cancellationAction)
-          .finally(action("closed"));
-      }}
-    >
-      Click
-    </Button>
-  );
-}
-
-export const WithCustomCallbacks = {
-  render: () => <CustomCallbacksComponent />,
 };
 
 export const WithCustomElements = {
