@@ -1,3 +1,54 @@
+## 4.0.0
+
+This release changes the API, affecting all usages of `confirm` function. Previously the promise returned by `confirm` would be resolved on confirm and rejected on cancel. This has changed and the promise is now **always resolved** ⚠️.
+
+You can upgrade to the new version and maintain the previous behaviour by setting a provider attribute:
+
+```jsx
+<ConfirmProvider useLegacyReturn>
+  {/* ... */}
+</ConfirmProvider>
+```
+
+### Migrating
+
+Given this code from v3:
+
+```js
+confirm({ ... })
+  .then(() => console.log("confirm"))
+  .catch(() => console.log("cancel"));
+```
+
+You can achieve the same behaviour in v4, like so:
+
+```js
+confirm({ ... })
+  .then(({ confirmed, reason }) => {
+    if (confirmed) {
+      console.log("confirm")
+    } else if (reason === "cancel") {
+      console.log("cancel")
+    }
+  });
+```
+
+The promise is also resolved on natural close (backdrop click, escape) or when the parent unmounts, in both cases with a distinct `reason`. In most cases you may only be interested in the confirmed code path, in which case you would only check `confirmed` and ignore the `reason`.
+
+With this new API, it is guaranteed the callback eventually runs, which helps to avoid leaks if the callback is supposed to free certain resources. It is also more suitable for use with `async`/`await` (which required a `try`/`catch`):
+
+```js
+const { confirmed } = await confirm({ description: "This action is permanent!" });
+
+if (confirmed) {
+  /* ... */
+}
+```
+
+**Breaking changes**
+
+- Always resolve the promise with confirmation status and close reason ([#124](https://github.com/jonatanklosko/material-ui-confirm/pull/124))
+
 ## 3.0.18
 
 - Fix regression in CJS build imports ([#122](https://github.com/jonatanklosko/material-ui-confirm/pull/122)) @joshkel
