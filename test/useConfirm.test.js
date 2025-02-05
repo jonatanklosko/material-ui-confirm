@@ -5,6 +5,7 @@ import {
   renderHook,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
+import userEvent from '@testing-library/user-event';
 
 import { ConfirmProvider, useConfirm } from "../src/index";
 
@@ -52,6 +53,19 @@ describe("useConfirm", () => {
     await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
     expect(deleteConfirmed).not.toHaveBeenCalled();
     expect(deleteCancelled).toHaveBeenCalled();
+  });
+
+  test("does not reject the promise on escape key press (natural cancel)", async () => {
+    const foo = render(<TestComponent />);
+    const { getByText, queryByText } = foo
+    expect(queryByText("Are you sure?")).toBeFalsy();
+    fireEvent.click(getByText("Delete"));
+    const inputNode = queryByText("Are you sure?")
+    expect(inputNode).toBeTruthy();
+    await userEvent.keyboard('{Escape}');
+    await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
+    expect(deleteConfirmed).not.toHaveBeenCalled();
+    expect(deleteCancelled).not.toHaveBeenCalled();
   });
 
   describe("options", () => {
