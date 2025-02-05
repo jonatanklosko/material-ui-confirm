@@ -85,7 +85,11 @@ const buildOptions = (defaultOptions, options) => {
 
 let confirmGlobal;
 
-const ConfirmProvider = ({ children, defaultOptions = {} }) => {
+const ConfirmProvider = ({
+  children,
+  defaultOptions = {},
+  useLegacyReturn = false,
+}) => {
   // State that we clear on close (to avoid dangling references to resolve and
   // reject). If this is null, the dialog is closed.
   const [state, setState] = useState(null);
@@ -94,17 +98,38 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   const [options, setOptions] = useState({});
   const [key, setKey] = useState(0);
 
-  const confirmBase = useCallback((parentId, options = {}) => {
-    return new Promise((resolve, reject) => {
-      setKey((key) => key + 1);
-      setOptions(options);
-      setState({ resolve, reject, parentId });
-    });
-  }, []);
+  const confirmBase = useCallback(
+    (parentId, options = {}) => {
+      const promise = new Promise((resolve, _reject) => {
+        setKey((key) => key + 1);
+        setOptions(options);
+        setState({ resolve, parentId });
+      });
+
+      // Converts the promise into the legacy promise from v3
+      if (useLegacyReturn) {
+        return new Promise((resolve, reject) => {
+          promise.then(({ confirmed, reason }) => {
+            if (confirmed === true && reason === "confirm") {
+              resolve();
+            }
+
+            if (confirmed === false && reason === "cancel") {
+              reject();
+            }
+          });
+        });
+      }
+
+      return promise;
+    },
+    [useLegacyReturn],
+  );
 
   const closeOnParentUnmount = useCallback((parentId) => {
     setState((state) => {
       if (state && state.parentId === parentId) {
+        state && state.resolve({ confirmed: false, reason: "unmount" });
         return null;
       } else {
         return state;
@@ -113,26 +138,29 @@ const ConfirmProvider = ({ children, defaultOptions = {} }) => {
   }, []);
 
   const handleClose = useCallback(() => {
-    setState(null);
+    setState((state) => {
+      state && state.resolve({ confirmed: false, reason: "natural" });
+      return null;
+    });
   }, []);
 
   const handleCancel = useCallback(() => {
     setState((state) => {
-      state && state.reject();
+      state && state.resolve({ confirmed: false, reason: "cancel" });
       return null;
     });
   }, []);
 
   const handleConfirm = useCallback(() => {
     setState((state) => {
-      state && state.resolve();
+      state && state.resolve({ confirmed: true, reason: "confirm" });
       return null;
     });
   }, []);
 
   confirmGlobal = useCallback((options) => {
     return confirmBase("global", options);
-  });
+  }, []);
 
   return (
     <Fragment>

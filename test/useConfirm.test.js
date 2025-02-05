@@ -9,8 +9,8 @@ import {
 import { ConfirmProvider, useConfirm } from "../src/index";
 
 describe("useConfirm", () => {
-  const deleteConfirmed = jest.fn();
-  const deleteCancelled = jest.fn();
+  const thenCallback = jest.fn();
+  const catchCallback = jest.fn();
 
   const DeleteButton = ({ confirmOptions, text = "Delete" }) => {
     const confirm = useConfirm();
@@ -18,7 +18,7 @@ describe("useConfirm", () => {
     return (
       <button
         onClick={() =>
-          confirm(confirmOptions).then(deleteConfirmed).catch(deleteCancelled)
+          confirm(confirmOptions).then(thenCallback).catch(catchCallback)
         }
       >
         {text}
@@ -26,8 +26,8 @@ describe("useConfirm", () => {
     );
   };
 
-  const TestComponent = ({ confirmOptions }) => (
-    <ConfirmProvider>
+  const TestComponent = ({ confirmOptions, confirmProviderProps = {} }) => (
+    <ConfirmProvider {...confirmProviderProps}>
       <DeleteButton confirmOptions={confirmOptions} />
     </ConfirmProvider>
   );
@@ -39,19 +39,93 @@ describe("useConfirm", () => {
     expect(queryByText("Are you sure?")).toBeTruthy();
     fireEvent.click(getByText("Ok"));
     await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
-    expect(deleteConfirmed).toHaveBeenCalled();
-    expect(deleteCancelled).not.toHaveBeenCalled();
+    expect(thenCallback).toHaveBeenCalledWith({
+      confirmed: true,
+      reason: "confirm",
+    });
   });
 
-  test("rejects the promise on cancel", async () => {
+  test("resolves the promise on cancel", async () => {
     const { getByText, queryByText } = render(<TestComponent />);
     expect(queryByText("Are you sure?")).toBeFalsy();
     fireEvent.click(getByText("Delete"));
     expect(queryByText("Are you sure?")).toBeTruthy();
     fireEvent.click(getByText("Cancel"));
     await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
-    expect(deleteConfirmed).not.toHaveBeenCalled();
-    expect(deleteCancelled).toHaveBeenCalled();
+    expect(thenCallback).toHaveBeenCalledWith({
+      confirmed: false,
+      reason: "cancel",
+    });
+  });
+
+  test("resolves the promise on natural close", async () => {
+    const { getByText, queryByText } = render(<TestComponent />);
+    expect(queryByText("Are you sure?")).toBeFalsy();
+    fireEvent.click(getByText("Delete"));
+    expect(queryByText("Are you sure?")).toBeTruthy();
+    fireEvent.keyDown(queryByText("Are you sure?"), { key: "Escape" });
+    await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
+    expect(thenCallback).toHaveBeenCalledWith({
+      confirmed: false,
+      reason: "natural",
+    });
+  });
+
+  test("closes the modal when the opening component is unmounted", async () => {
+    const ParentComponent = ({}) => {
+      const [alive, setAlive] = useState(true);
+
+      return (
+        <ConfirmProvider>
+          {alive && <DeleteButton confirmOptions={{}} />}
+          <button onClick={() => setAlive(false)}>Unmount child</button>
+        </ConfirmProvider>
+      );
+    };
+
+    const { getByText, queryByText } = render(<ParentComponent />);
+
+    fireEvent.click(getByText("Delete"));
+    expect(queryByText("Are you sure?")).toBeTruthy();
+
+    // Remove <DeleteButton /> from the tree
+    fireEvent.click(getByText("Unmount child"));
+
+    await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
+
+    expect(thenCallback).toHaveBeenCalledWith({
+      confirmed: false,
+      reason: "unmount",
+    });
+  });
+
+  test("does not close the modal when another component with useConfirm is unmounted", async () => {
+    const ParentComponent = ({}) => {
+      const [alive, setAlive] = useState(true);
+
+      return (
+        <ConfirmProvider>
+          {alive && <DeleteButton confirmOptions={{}} text="Delete 1" />}
+          <DeleteButton confirmOptions={{}} text="Delete 2" />
+          <button onClick={() => setAlive(false)}>Unmount child</button>
+        </ConfirmProvider>
+      );
+    };
+
+    const { getByText, queryByText } = render(<ParentComponent />);
+
+    fireEvent.click(getByText("Delete 2"));
+    expect(queryByText("Are you sure?")).toBeTruthy();
+
+    // Remove the first <DeleteButton /> from the tree
+    fireEvent.click(getByText("Unmount child"));
+
+    fireEvent.click(getByText("Ok"));
+    await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
+    expect(thenCallback).toHaveBeenCalledWith({
+      confirmed: true,
+      reason: "confirm",
+    });
   });
 
   describe("options", () => {
@@ -381,58 +455,6 @@ describe("useConfirm", () => {
       const wrapperStyles = window.getComputedStyle(checkboxWrapper);
       expect(wrapperStyles.marginRight).toBe("15px");
     });
-
-    test("closes the modal when the opening component is unmounted", async () => {
-      const ParentComponent = ({}) => {
-        const [alive, setAlive] = useState(true);
-
-        return (
-          <ConfirmProvider>
-            {alive && <DeleteButton confirmOptions={{}} />}
-            <button onClick={() => setAlive(false)}>Unmount child</button>
-          </ConfirmProvider>
-        );
-      };
-
-      const { getByText, queryByText } = render(<ParentComponent />);
-
-      fireEvent.click(getByText("Delete"));
-      expect(queryByText("Are you sure?")).toBeTruthy();
-
-      // Remove <DeleteButton /> from the tree
-      fireEvent.click(getByText("Unmount child"));
-
-      await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
-
-      expect(deleteConfirmed).not.toHaveBeenCalled();
-      expect(deleteCancelled).not.toHaveBeenCalled();
-    });
-
-    test("does not close the modal when another component with useConfirm is unmounted", async () => {
-      const ParentComponent = ({}) => {
-        const [alive, setAlive] = useState(true);
-
-        return (
-          <ConfirmProvider>
-            {alive && <DeleteButton confirmOptions={{}} text="Delete 1" />}
-            <DeleteButton confirmOptions={{}} text="Delete 2" />
-            <button onClick={() => setAlive(false)}>Unmount child</button>
-          </ConfirmProvider>
-        );
-      };
-
-      const { getByText, queryByText } = render(<ParentComponent />);
-
-      fireEvent.click(getByText("Delete 2"));
-      expect(queryByText("Are you sure?")).toBeTruthy();
-
-      // Remove the first <DeleteButton /> from the tree
-      fireEvent.click(getByText("Unmount child"));
-
-      fireEvent.click(getByText("Ok"));
-      await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
-      expect(deleteConfirmed).toHaveBeenCalled();
-    });
   });
 
   describe("missing ConfirmProvider", () => {
@@ -443,6 +465,59 @@ describe("useConfirm", () => {
 
     test("does not throw an error if it's not used", () => {
       expect(() => render(<DeleteButton />)).not.toThrow();
+    });
+  });
+
+  describe("legacy return", () => {
+    test("resolves the promise on confirm", async () => {
+      const { getByText, queryByText } = render(
+        <TestComponent
+          confirmProviderProps={{
+            useLegacyReturn: true,
+          }}
+        />,
+      );
+      expect(queryByText("Are you sure?")).toBeFalsy();
+      fireEvent.click(getByText("Delete"));
+      expect(queryByText("Are you sure?")).toBeTruthy();
+      fireEvent.click(getByText("Ok"));
+      await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
+      expect(thenCallback).toHaveBeenCalled();
+      expect(catchCallback).not.toHaveBeenCalled();
+    });
+
+    test("rejects the promise on cancel", async () => {
+      const { getByText, queryByText } = render(
+        <TestComponent
+          confirmProviderProps={{
+            useLegacyReturn: true,
+          }}
+        />,
+      );
+      expect(queryByText("Are you sure?")).toBeFalsy();
+      fireEvent.click(getByText("Delete"));
+      expect(queryByText("Are you sure?")).toBeTruthy();
+      fireEvent.click(getByText("Cancel"));
+      await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
+      expect(thenCallback).not.toHaveBeenCalled();
+      expect(catchCallback).toHaveBeenCalled();
+    });
+
+    test("keeps the promise pending on natural close", async () => {
+      const { getByText, queryByText } = render(
+        <TestComponent
+          confirmProviderProps={{
+            useLegacyReturn: true,
+          }}
+        />,
+      );
+      expect(queryByText("Are you sure?")).toBeFalsy();
+      fireEvent.click(getByText("Delete"));
+      expect(queryByText("Are you sure?")).toBeTruthy();
+      fireEvent.keyDown(queryByText("Are you sure?"), { key: "Escape" });
+      await waitForElementToBeRemoved(() => queryByText("Are you sure?"));
+      expect(thenCallback).not.toHaveBeenCalled();
+      expect(catchCallback).not.toHaveBeenCalled();
     });
   });
 });

@@ -32,9 +32,17 @@ export interface ConfirmOptions {
 export interface ConfirmProviderProps {
   children: React.ReactNode;
   defaultOptions?: ConfirmOptions;
+  useLegacyReturn?: boolean;
+}
+
+export interface ConfirmResult {
+  confirmed: boolean;
+  reason: "confirm" | "cancel" | "natural" | "unmount";
 }
 
 export const ConfirmProvider: React.ComponentType<ConfirmProviderProps>;
 
-export const useConfirm: () => (options?: ConfirmOptions) => Promise<void>;
-export const confirm: (options?: ConfirmOptions) => Promise<void>;
+export const useConfirm: () => (
+  options?: ConfirmOptions,
+) => Promise<ConfirmResult>;
+export const confirm: (options?: ConfirmOptions) => Promise<ConfirmResult>;
